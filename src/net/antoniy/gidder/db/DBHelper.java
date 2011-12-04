@@ -2,6 +2,7 @@ package net.antoniy.gidder.db;
 
 import java.sql.SQLException;
 
+import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,6 +36,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
 		try {
 			TableUtils.createTable(connectionSource, User.class);
+			TableUtils.createTable(connectionSource, Repository.class);
 		} catch (SQLException e) {
 			Log.e(TAG, "Unable to create datbases", e);
 		}
@@ -44,6 +46,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 		try {
 			TableUtils.dropTable(connectionSource, User.class, true);
+			TableUtils.dropTable(connectionSource, Repository.class, true);
 			onCreate(database, connectionSource);
 		} catch (SQLException e) {
 			Log.e(TAG, "Unable to upgrade database from version " + oldVersion + " to new " + newVersion, e);

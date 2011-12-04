@@ -1,52 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/menu_bg"
     android:orientation="vertical" >
 
     <EditText
         android:id="@+id/addUserFullname"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName" android:hint="@string/add_user_fullname">
+        android:layout_marginTop="10dp"
+        android:inputType="textCapWords" 
+        android:hint="@string/add_user_fullname">
 
         <requestFocus />
     </EditText>
 
     <EditText
         android:id="@+id/addUserEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress" android:hint="@string/add_user_email"/>
+        android:inputType="textEmailAddress" 
+        android:hint="@string/add_user_email"/>
 
     <EditText
         android:id="@+id/addUserUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:hint="@string/add_user_username"/>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:inputType="text"
+        android:hint="@string/add_user_username"/>
 
     <EditText
         android:id="@+id/addUserPassword"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword" android:hint="@string/add_user_password"/>
+        android:inputType="textPassword" 
+        android:hint="@string/add_user_password"/>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        android:orientation="vertical"
+        android:background="@android:color/transparent"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/addUserBtnAdd"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:text="@string/add_user_btn_add" />
 
         <Button
             android:id="@+id/addUserBtnCancel"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/add_user_btn_cancel" android:gravity="center"/>
+            android:text="@string/add_user_btn_cancel"/>
 
     </LinearLayout>
 

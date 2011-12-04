@@ -27,14 +27,12 @@
 	        android:id="@+id/usersAddButton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
 	        android:text="Add" />
 	    
 	    <Button
 	        android:id="@+id/usersDoneButton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
 	        android:text="Done" />
 	    
 	</LinearLayout>

@@ -1,14 +1,17 @@
 package net.antoniy.gidder.db.entity;
 
+import java.io.Serializable;
+
 import net.antoniy.gidder.db.DBC;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = DBC.users.table_name)
-public class User {
-	
-	@DatabaseField(columnName = DBC.users.column_id, generatedId = true)
+public class User implements Serializable {
+	private static final long serialVersionUID = 20111204L;
+
+	@DatabaseField(columnName = DBC.users.column_id, generatedId = true, canBeNull = false)
 	private int id;
 	
 	@DatabaseField(columnName = DBC.users.column_fullname, canBeNull = false)
