@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, GidderActivity!</string>
+    <string name="app_name">Gidder</string>
+    <string name="add_user_fullname">Full name</string>
+    <string name="add_user_email">E-Mail</string>
+    <string name="add_user_username">Username</string>
+    <string name="add_user_btn_add">Add</string>
+    <string name="add_user_btn_cancel">Cancel</string>
+    <string name="add_user_password">Password</string>
+
+</resources>
