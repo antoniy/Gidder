@@ -9,12 +9,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class UsersActivity extends BaseActivity implements OnClickListener {
+public class UsersActivity extends BaseActivity implements OnClickListener, OnLongClickListener {
 	private final static String TAG = UsersActivity.class.getSimpleName();
 	private final static int REQUEST_CODE_ADD_USER = 1;
 	
@@ -41,6 +42,7 @@ public class UsersActivity extends BaseActivity implements OnClickListener {
 		doneButton.setOnClickListener(this);
 		
 		usersListView = (ListView) findViewById(R.id.usersListView);
+		usersListView.setOnLongClickListener(this);
 		loadUsersListContent();
 	}
 	
@@ -48,25 +50,20 @@ public class UsersActivity extends BaseActivity implements OnClickListener {
 		String[] columns = new String[] {DBC.users.column_fullname, DBC.users.column_email, DBC.users.column_username};
 		int[] to = new int[] {R.id.usersItemFullname, R.id.usersItemEmail, R.id.usersItemUsername};
 		
-		usersCursor = getHelper().getReadableDatabase().query(DBC.users.table_name, new String[] {DBC.users.column_id, DBC.users.column_fullname, DBC.users.column_email, DBC.users.column_username}, null, null, null, null, null);
+		usersCursor = getHelper().getReadableDatabase().query(
+				DBC.users.table_name, 
+				new String[] {
+						DBC.users.column_id, 
+						DBC.users.column_fullname, 
+						DBC.users.column_email, 
+						DBC.users.column_username
+					}, 
+				null, null, null, null, null);
 		
 		Log.i(TAG, "Num of rows retrieved: " + usersCursor.getCount());
 		
 		usersListAdapter = new SimpleCursorAdapter(this, R.layout.users_item, usersCursor, columns, to);
 		usersListView.setAdapter(usersListAdapter);
-//		usersListAdapter.notifyDataSetChanged();
-	}
-
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-	}
-
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
 	}
 
 	@Override
@@ -88,5 +85,11 @@ public class UsersActivity extends BaseActivity implements OnClickListener {
 		}
 		
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+
+	@Override
+	public boolean onLongClick(View v) {
+		return false;
 	}
 }

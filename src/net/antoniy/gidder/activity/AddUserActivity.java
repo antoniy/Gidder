@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 public class AddUserActivity extends BaseActivity {
 	private final static String TAG = AddUserActivity.class.getSimpleName();
@@ -19,10 +19,10 @@ public class AddUserActivity extends BaseActivity {
 	
 	private Button addUserButton;
 	private Button cancelButton;
-	private TextView fullnameTextView;
-	private TextView emailTextView;
-	private TextView usernameTextView;
-	private TextView passwordTextView;
+	private EditText fullnameEditText;
+	private EditText emailEditText;
+	private EditText usernameEditText;
+	private EditText passwordEditText;
 	
 	@Override
 	protected void setup() {
@@ -37,10 +37,10 @@ public class AddUserActivity extends BaseActivity {
 		cancelButton = (Button) findViewById(R.id.addUserBtnCancel);
 		cancelButton.setOnClickListener(this);
 		
-		fullnameTextView = (TextView) findViewById(R.id.addUserFullname);
-		emailTextView = (TextView) findViewById(R.id.addUserEmail);
-		usernameTextView = (TextView) findViewById(R.id.addUserUsername);
-		passwordTextView = (TextView) findViewById(R.id.addUserPassword);
+		fullnameEditText = (EditText) findViewById(R.id.addUserFullname);
+		emailEditText = (EditText) findViewById(R.id.addUserEmail);
+		usernameEditText = (EditText) findViewById(R.id.addUserUsername);
+		passwordEditText = (EditText) findViewById(R.id.addUserPassword);
 	}
 
 	@Override
@@ -48,16 +48,14 @@ public class AddUserActivity extends BaseActivity {
 		super.onClick(v);
 		
 		if(v.getId() == R.id.addUserBtnAdd) {
-			// TODO: Do validation.
-//			passwordTextView.setError("Some error message.");
 			if(!isFieldsValid()) {
 				return;
 			}
 			
-			String fullname = fullnameTextView.getText().toString();
-			String email = emailTextView.getText().toString();
-			String username = usernameTextView.getText().toString();
-			String password = passwordTextView.getText().toString();
+			String fullname = fullnameEditText.getText().toString();
+			String email = emailEditText.getText().toString();
+			String username = usernameEditText.getText().toString();
+			String password = passwordEditText.getText().toString();
 			
 			try {
 				getHelper().getUserDao().create(new User(0, fullname, email, username, password));
@@ -93,7 +91,7 @@ public class AddUserActivity extends BaseActivity {
 		return isAllFieldsValid;
 	}
 	
-	private boolean isTextViewEmpty(TextView tv) {
+	private boolean isEditTextEmpty(EditText tv) {
 		String text = tv.getText().toString();
 		if("".equals(text.trim())) {
 			tv.setError("Field must contain value");
@@ -104,26 +102,26 @@ public class AddUserActivity extends BaseActivity {
 	}
 	
 	private boolean isFullnameValid() {
-		return !isTextViewEmpty(fullnameTextView);
+		return !isEditTextEmpty(fullnameEditText);
 	}
 	
 	private boolean isPasswordValid() {
-		return !isTextViewEmpty(passwordTextView);
+		return !isEditTextEmpty(passwordEditText);
 	}
 	
 	private boolean isUsernameValid() {
-		return !isTextViewEmpty(usernameTextView);
+		return !isEditTextEmpty(usernameEditText);
 	}
 	
 	private boolean isEmailValid() {
-		if(isTextViewEmpty(emailTextView)) {
+		if(isEditTextEmpty(emailEditText)) {
 			return false;
 		}
 		
-		String email = emailTextView.getText().toString();
+		String email = emailEditText.getText().toString();
 		Matcher matcher = emailPattern.matcher(email);
 		if(!matcher.matches()) {
-			emailTextView.setError("E-mail address is incorrect");
+			emailEditText.setError("E-mail address is incorrect");
 			return false;
 		}
 		

@@ -20,6 +20,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	private final static int DB_VERSION = 20111127;
 	
 	private Dao<User, Integer> userDao;
+	private Dao<Repository, Integer> repositoryDao;
 	
 //	private final static String USERS = "users";
 //	private final static String USERS_ID = BaseColumns._ID;
@@ -58,6 +59,13 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			userDao = getDao(User.class);
 		}
 		return userDao;
+	}
+	
+	public Dao<Repository, Integer> getRepositoryDao() throws SQLException {
+		if (repositoryDao == null) {
+			repositoryDao = getDao(Repository.class);
+		}
+		return repositoryDao;
 	}
 	
 //	@Override

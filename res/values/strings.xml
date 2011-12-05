@@ -6,8 +6,11 @@
     <string name="add_user_fullname">Full name</string>
     <string name="add_user_email">E-Mail</string>
     <string name="add_user_username">Username</string>
-    <string name="add_user_btn_add">Add</string>
-    <string name="add_user_btn_cancel">Cancel</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_cancel">Cancel</string>
     <string name="add_user_password">Password</string>
+    <string name="add_repository_name">Name</string>
+    <string name="add_repository_mapping">Mapping</string>
+    <string name="add_repository_description">Description</string>
 
 </resources>

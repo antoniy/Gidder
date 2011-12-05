@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/menu_bg"
+    android:orientation="vertical" 
+    android:gravity="center">
+
+    <ImageView 
+        android:src="@drawable/splash"
+        android:id="@+id/splashScreenImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <TextView 
+        android:text="Gidder v1.0"
+        android:id="@+id/splashScreenTitleTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:textColor="#000000" 
+        android:gravity="center"
+        android:textSize="26sp"/>
+
+    <TextView 
+        android:text="Git server over SSH for Android"
+        android:id="@+id/splashScreenSubtitleTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" 
+        android:textColor="#000000" 
+        android:textSize="14sp" 
+        android:textStyle="italic"/>
+</LinearLayout>

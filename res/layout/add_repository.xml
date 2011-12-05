@@ -5,37 +5,30 @@
     android:background="@drawable/menu_bg"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/addUserFullname"
+     <EditText
+        android:id="@+id/addRepositoryName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:inputType="textCapWords" 
-        android:hint="@string/add_user_fullname">
+        android:hint="@string/add_repository_name">
 
         <requestFocus />
     </EditText>
 
     <EditText
-        android:id="@+id/addUserEmail"
+        android:id="@+id/addRepositoryMapping"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress" 
-        android:hint="@string/add_user_email"/>
+        android:inputType="text" 
+        android:hint="@string/add_repository_mapping"/>
 
     <EditText
-        android:id="@+id/addUserUsername"
+        android:id="@+id/addRepositoryDescription"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
         android:inputType="text"
-        android:hint="@string/add_user_username"/>
-
-    <EditText
-        android:id="@+id/addUserPassword"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword" 
-        android:hint="@string/add_user_password"/>
+        android:hint="@string/add_repository_description"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -45,13 +38,13 @@
         android:gravity="bottom">
 
         <Button
-            android:id="@+id/addUserBtnAdd"
+            android:id="@+id/addRepositoryBtnAdd"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_add" />
 
         <Button
-            android:id="@+id/addUserBtnCancel"
+            android:id="@+id/addRepositoryBtnCancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_cancel"/>

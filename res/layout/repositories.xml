@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/menu_bg"
+	android:background="@drawable/menu_bg"
     android:orientation="vertical" >
 
     <ListView
-        android:id="@+id/usersListView"
+        android:id="@+id/repositoriesListView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
         android:background="#00000000"
@@ -14,7 +14,7 @@
         android:layout_weight="1">
     </ListView>
 
-	<LinearLayout
+    <LinearLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
@@ -22,13 +22,13 @@
 	    android:gravity="bottom">
 	    
 	    <Button
-	        android:id="@+id/usersAddButton"
+	        android:id="@+id/repositoriesAddButton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:text="Add" />
 	    
 	    <Button
-	        android:id="@+id/usersDoneButton"
+	        android:id="@+id/repositoriesDoneButton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:text="Done" />
