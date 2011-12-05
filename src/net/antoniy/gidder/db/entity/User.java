@@ -1,17 +1,23 @@
 package net.antoniy.gidder.db.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import net.antoniy.gidder.db.DBC;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = DBC.users.table_name)
 public class User implements Serializable {
 	private static final long serialVersionUID = 20111204L;
 
-	@DatabaseField(columnName = DBC.users.column_id, generatedId = true, canBeNull = false)
+	@DatabaseField(
+			columnName = DBC.users.column_id, 
+			generatedId = true, 
+			canBeNull = false
+		)
 	private int id;
 	
 	@DatabaseField(columnName = DBC.users.column_fullname, canBeNull = false)
@@ -25,6 +31,9 @@ public class User implements Serializable {
 	
 	@DatabaseField(columnName = DBC.users.column_password, canBeNull = false)
 	private String password;
+	
+	@ForeignCollectionField(eager = true, orderColumnName = DBC.permissions.column_user_id)
+	private Collection<Permission> permissions;
 	
 	public User() {
 	}
@@ -75,6 +84,14 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Collection<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(Collection<Permission> permissions) {
+		this.permissions = permissions;
 	}
 	
 }

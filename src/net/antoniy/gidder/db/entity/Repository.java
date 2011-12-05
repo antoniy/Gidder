@@ -1,10 +1,12 @@
 package net.antoniy.gidder.db.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import net.antoniy.gidder.db.DBC;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = DBC.repositories.table_name)
@@ -22,6 +24,9 @@ public class Repository implements Serializable {
 	
 	@DatabaseField(columnName = DBC.repositories.column_description, canBeNull = true)
 	private String description;
+	
+	@ForeignCollectionField(eager = true, orderColumnName = DBC.permissions.column_repository_id)
+	private Collection<Permission> permissions;
 	
 	public Repository() {
 	}
@@ -63,6 +68,14 @@ public class Repository implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Collection<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(Collection<Permission> permissions) {
+		this.permissions = permissions;
 	}
 	
 }

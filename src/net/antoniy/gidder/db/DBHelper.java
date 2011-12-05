@@ -2,6 +2,7 @@ package net.antoniy.gidder.db;
 
 import java.sql.SQLException;
 
+import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
 import android.content.Context;
@@ -21,13 +22,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	
 	private Dao<User, Integer> userDao;
 	private Dao<Repository, Integer> repositoryDao;
-	
-//	private final static String USERS = "users";
-//	private final static String USERS_ID = BaseColumns._ID;
-//	private final static String USERS_USERNAME = "g_username";
-//	private final static String USERS_PASSWORD = "g_password";
-//	private final static String USERS_FULLNAME = "g_fullname";
-//	private final static String USERS_EMAIL = "g_email";
+	private Dao<Permission, Integer> permissionDao;
 	
 	public DBHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
@@ -35,9 +30,17 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	
 	@Override
 	public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
+//		
+//		Log.i(TAG, "Creating the database...");
+//		
+//		// Foreign keys are disabled by default in SQLite, so we need to enable them. 
+//		// This works since Froyo 2.2 because this feature is in SQLite since version 3.6.19 and Froyo comes with 2.6.22
+//		database.execSQL("PRAGMA foreign_keys=ON;");
+		
 		try {
 			TableUtils.createTable(connectionSource, User.class);
 			TableUtils.createTable(connectionSource, Repository.class);
+			TableUtils.createTable(connectionSource, Permission.class);
 		} catch (SQLException e) {
 			Log.e(TAG, "Unable to create datbases", e);
 		}
@@ -48,6 +51,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		try {
 			TableUtils.dropTable(connectionSource, User.class, true);
 			TableUtils.dropTable(connectionSource, Repository.class, true);
+			TableUtils.dropTable(connectionSource, Permission.class, true);
 			onCreate(database, connectionSource);
 		} catch (SQLException e) {
 			Log.e(TAG, "Unable to upgrade database from version " + oldVersion + " to new " + newVersion, e);
@@ -66,6 +70,13 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			repositoryDao = getDao(Repository.class);
 		}
 		return repositoryDao;
+	}
+	
+	public Dao<Permission, Integer> getPermissionDao() throws SQLException {
+		if (permissionDao == null) {
+			permissionDao = getDao(Permission.class);
+		}
+		return permissionDao;
 	}
 	
 //	@Override
