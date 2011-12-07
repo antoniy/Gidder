@@ -14,8 +14,6 @@ import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,7 +37,6 @@ public class MainMenuActivity extends BaseActivity implements OnItemClickListene
 	protected void initComponents(Bundle savedInstanceState) {
     	GridView mainMenuGridView = (GridView) findViewById(R.id.mainGridView);
     	mainMenuGridView.setAdapter(new MainMenuAdapter(this));
-    	mainMenuGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
     	mainMenuGridView.setOnItemClickListener(this);
     }
     

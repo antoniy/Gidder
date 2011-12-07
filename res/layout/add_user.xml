@@ -12,8 +12,6 @@
         android:layout_marginTop="5dp"
         android:inputType="textCapWords" 
         android:hint="@string/add_user_fullname">
-
-        <requestFocus />
     </EditText>
 
     <EditText
@@ -38,9 +36,12 @@
         android:hint="@string/add_user_password"/>
 
 	<ListView
-	    android:id="@+id/listView1"
+	    android:id="@+id/addUserPermissions"
 	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" 
+	    android:layout_height="fill_parent"
+	    android:background="#00000000"
+		android:cacheColorHint="#00000000"
+		android:listSelector="#00000000"
 	    android:layout_weight="1">
 	</ListView>
 

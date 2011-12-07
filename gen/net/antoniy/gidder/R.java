@@ -16,16 +16,20 @@ public final class R {
         public static final int permissions=0x7f020002;
         public static final int permissions_pressed=0x7f020003;
         public static final int permissions_selector=0x7f020004;
-        public static final int repositories=0x7f020005;
-        public static final int repositories_pressed=0x7f020006;
-        public static final int repositories_selector=0x7f020007;
-        public static final int settings=0x7f020008;
-        public static final int settings_pressed=0x7f020009;
-        public static final int settings_selector=0x7f02000a;
-        public static final int splash=0x7f02000b;
-        public static final int users=0x7f02000c;
-        public static final int users_pressed=0x7f02000d;
-        public static final int users_selector=0x7f02000e;
+        public static final int pull_checked=0x7f020005;
+        public static final int pull_unchecked=0x7f020006;
+        public static final int push_checked=0x7f020007;
+        public static final int push_unchecked=0x7f020008;
+        public static final int repositories=0x7f020009;
+        public static final int repositories_pressed=0x7f02000a;
+        public static final int repositories_selector=0x7f02000b;
+        public static final int settings=0x7f02000c;
+        public static final int settings_pressed=0x7f02000d;
+        public static final int settings_selector=0x7f02000e;
+        public static final int splash=0x7f02000f;
+        public static final int users=0x7f020010;
+        public static final int users_pressed=0x7f020011;
+        public static final int users_selector=0x7f020012;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f05000c;
@@ -39,8 +43,8 @@ public final class R {
         public static final int addUserEmail=0x7f050006;
         public static final int addUserFullname=0x7f050005;
         public static final int addUserPassword=0x7f050008;
+        public static final int addUserPermissions=0x7f050009;
         public static final int addUserUsername=0x7f050007;
-        public static final int listView1=0x7f050009;
         public static final int mainGridView=0x7f05000d;
         public static final int mainMenuItemImg=0x7f05000e;
         public static final int mainMenuItemText=0x7f05000f;
@@ -53,12 +57,15 @@ public final class R {
         public static final int splashScreenImageView=0x7f050016;
         public static final int splashScreenSubtitleTextView=0x7f050018;
         public static final int splashScreenTitleTextView=0x7f050017;
-        public static final int usersAddButton=0x7f05001a;
-        public static final int usersDoneButton=0x7f05001b;
-        public static final int usersItemEmail=0x7f05001e;
-        public static final int usersItemFullname=0x7f05001c;
-        public static final int usersItemUsername=0x7f05001d;
-        public static final int usersListView=0x7f050019;
+        public static final int userPermissionItemName=0x7f050019;
+        public static final int userPermissionItemPull=0x7f05001a;
+        public static final int userPermissionItemPush=0x7f05001b;
+        public static final int usersAddButton=0x7f05001d;
+        public static final int usersDoneButton=0x7f05001e;
+        public static final int usersItemEmail=0x7f050021;
+        public static final int usersItemFullname=0x7f05001f;
+        public static final int usersItemUsername=0x7f050020;
+        public static final int usersListView=0x7f05001c;
     }
     public static final class layout {
         public static final int add_repository=0x7f030000;
@@ -68,8 +75,9 @@ public final class R {
         public static final int repositories=0x7f030004;
         public static final int repositories_item=0x7f030005;
         public static final int splash_screen=0x7f030006;
-        public static final int users=0x7f030007;
-        public static final int users_item=0x7f030008;
+        public static final int user_permission_item=0x7f030007;
+        public static final int users=0x7f030008;
+        public static final int users_item=0x7f030009;
     }
     public static final class string {
         public static final int add_repository_description=0x7f04000a;
