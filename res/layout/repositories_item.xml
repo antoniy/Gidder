@@ -2,31 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/repositoriesItemName"
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_repository"
+        android:layout_gravity="center"/>
+    
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="TextView" 
-        android:textSize="20sp"/>
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_margin="5dp">
+        
+    	<TextView 
+    	    android:id="@+id/repositoriesItemName"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:textColor="@android:color/black" 
+    		android:text="TextView"
+    		android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/repositoriesItemMapping"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="TextView" 
-        android:textSize="16sp"/>
+    	<TextView 
+    	    android:id="@+id/repositoriesItemMapping"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:textColor="@android:color/black" 
+    		android:text="TextView"
+    		android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/repositoriesItemDescription"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="TextView" 
-        android:textSize="16sp"
-        android:textStyle="italic"/>
+    	<TextView 
+    	    android:id="@+id/repositoriesItemDescription"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:textColor="@android:color/black" 
+    		android:text="TextView"
+    		android:textSize="16sp" 
+    		android:textStyle="italic" />
+    	
+    </LinearLayout>
 
 </LinearLayout>

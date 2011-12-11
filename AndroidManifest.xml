@@ -24,27 +24,21 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.UsersActivity">
-            <intent-filter >
-                <action android:name="net.antoniy.gidder.START_USERS_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
         <activity android:name=".activity.AddUserActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_USER_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RepositoriesActivity">
-            <intent-filter >
-                <action android:name="net.antoniy.gidder.START_REPOSITORIES_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
         <activity android:name=".activity.AddRepositoryActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.SlideActivity">
+            <intent-filter >
+                <action android:name="net.antoniy.gidder.START_SLIDE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

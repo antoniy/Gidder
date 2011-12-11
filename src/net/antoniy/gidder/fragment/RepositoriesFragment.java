@@ -1,45 +1,43 @@
-package net.antoniy.gidder.activity;
+package net.antoniy.gidder.fragment;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.DBC;
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class RepositoriesActivity extends BaseActivity {
-	private final static String TAG = RepositoriesActivity.class.getSimpleName();
+public class RepositoriesFragment extends BaseFragment implements OnClickListener {
+	private final static String TAG = RepositoriesFragment.class.getSimpleName();
 	private final static int REQUEST_CODE_ADD_REPOSITORY = 1;
 	
 	private final static String INTENT_ACTION_START_ADD_REPOSITORY = "net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY";
 	
-	private Button doneButton;
 	private Button addButton;
 	private ListView repositoriesListView;
 	private CursorAdapter repositoriesListAdapter;
 	private Cursor repositoriesCursor;
 	
 	@Override
-	protected void setup() {
-		setContentView(R.layout.repositories);
-	}
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		LinearLayout mainContainer = (LinearLayout) inflater.inflate(R.layout.repositories, null);
 
-	@Override
-	protected void initComponents(Bundle savedInstanceState) {
-		addButton = (Button) findViewById(R.id.repositoriesAddButton);
+		addButton = (Button) mainContainer.findViewById(R.id.repositoriesAddButton);
 		addButton.setOnClickListener(this);
 		
-		doneButton = (Button) findViewById(R.id.repositoriesDoneButton);
-		doneButton.setOnClickListener(this);
-		
-		repositoriesListView = (ListView) findViewById(R.id.repositoriesListView);
+		repositoriesListView = (ListView) mainContainer.findViewById(R.id.repositoriesListView);
 		loadUsersListContent();
+		
+		return mainContainer;
 	}
 	
 	private void loadUsersListContent() {
@@ -58,23 +56,20 @@ public class RepositoriesActivity extends BaseActivity {
 		
 		Log.i(TAG, "Num of rows retrieved: " + repositoriesCursor.getCount());
 		
-		repositoriesListAdapter = new SimpleCursorAdapter(this, R.layout.repositories_item, repositoriesCursor, columns, to);
+		repositoriesListAdapter = new SimpleCursorAdapter(getActivity(), R.layout.repositories_item, repositoriesCursor, columns, to);
 		repositoriesListView.setAdapter(repositoriesListAdapter);
 	}
 
 	@Override
 	public void onClick(View v) {
-		if(v.getId() == R.id.repositoriesDoneButton) {
-			setResult(Activity.RESULT_OK, null);
-			finish();
-		} else if(v.getId() == R.id.repositoriesAddButton) {
+		if(v.getId() == R.id.repositoriesAddButton) {
 			Intent intent = new Intent(INTENT_ACTION_START_ADD_REPOSITORY);
 			startActivityForResult(intent, REQUEST_CODE_ADD_REPOSITORY);
 		}
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == REQUEST_CODE_ADD_REPOSITORY) {
 			repositoriesCursor.requery();
 			repositoriesListAdapter.notifyDataSetChanged();

@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package net.antoniy.gidder;
+package com.viewpagerindicator;
 
 public final class R {
     public static final class attr {

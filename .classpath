@@ -6,7 +6,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="lib/mina-core-2.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.jgit-1.1.0.201109151100-r.jar"/>
-	<classpathentry kind="lib" path="lib/ormlite-android-4.30.jar">
+	<classpathentry kind="lib" path="lib/ormlite-android-4.30.jar" sourcepath="lib/src/ormlite-android-4.30-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/Gidder/lib/doc/ormlite-android-4.30-javadoc.jar!/"/>
 		</attributes>
@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/sshd-core-0.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/tomcat-apr-5.5.23.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-jdk16-146.jar"/>
+	<classpathentry kind="lib" path="lib/android-support-v4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

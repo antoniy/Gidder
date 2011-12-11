@@ -2,36 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-	android:background="@drawable/menu_bg"
+	android:background="#D4D4D4"
     android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/repositoriesListView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:background="#00000000"
-		android:cacheColorHint="#00000000"
-        android:layout_weight="1">
-    </ListView>
-
     <LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-	    android:background="@android:color/transparent"
-	    android:gravity="bottom">
+        android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:background="@drawable/bg_box"
+        android:layout_margin="5dp"
+    	android:padding="5dp"
+    	android:layout_weight="1">
+        
+    	<ListView 
+    	    android:id="@+id/repositoriesListView"
+    		android:layout_width="fill_parent"
+    		android:layout_height="fill_parent"
+    		android:background="#00000000" 
+    		android:cacheColorHint="#00000000"
+    		android:divider="#D4D4D4"
+    		android:dividerHeight="1dp">
+    	</ListView>
+    	
+    </LinearLayout>
 	    
-	    <Button
-	        android:id="@+id/repositoriesAddButton"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Add" />
+    <Button
+        android:id="@+id/repositoriesAddButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add_repository"
+        android:gravity="center" 
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp" />
 	    
-	    <Button
-	        android:id="@+id/repositoriesDoneButton"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Done" />
-	    
-	</LinearLayout>
 </LinearLayout>

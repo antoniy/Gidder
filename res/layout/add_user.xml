@@ -2,62 +2,71 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/menu_bg"
+    android:background="#D4D4D4"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/addUserFullname"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:inputType="textCapWords" 
-        android:hint="@string/add_user_fullname">
-    </EditText>
+        android:background="@drawable/bg_box"
+        android:layout_margin="5dp"
+    	android:padding="5dp"
+    	android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/addUserEmail"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress" 
-        android:hint="@string/add_user_email"/>
+        <TextView
+            android:id="@+id/addUserTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" android:gravity="center"/>
+        
+    	<EditText android:id="@+id/addUserFullname"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:layout_marginTop="5dp" android:inputType="textCapWords"
+    		android:hint="@string/add_user_fullname">
+    	</EditText>
 
-    <EditText
-        android:id="@+id/addUserUsername"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:inputType="text"
-        android:hint="@string/add_user_username"/>
+    	<EditText android:id="@+id/addUserEmail"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:inputType="textEmailAddress"
+    		android:hint="@string/add_user_email" />
 
-    <EditText
-        android:id="@+id/addUserPassword"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword" 
-        android:hint="@string/add_user_password"/>
+    	<EditText android:id="@+id/addUserUsername"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content" android:inputType="text"
+    		android:hint="@string/add_user_username" />
 
-	<ListView
-	    android:id="@+id/addUserPermissions"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:background="#00000000"
-		android:cacheColorHint="#00000000"
-		android:listSelector="#00000000"
-	    android:layout_weight="1">
-	</ListView>
+    	<EditText android:id="@+id/addUserPassword"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:inputType="textPassword"
+    		android:hint="@string/add_user_password" />
+    	
+    </LinearLayout>
+
+    <!-- 	<ListView -->
+<!-- 	    android:id="@+id/addUserPermissions" -->
+<!-- 	    android:layout_width="fill_parent" -->
+<!-- 	    android:layout_height="fill_parent" -->
+<!-- 	    android:background="#00000000" -->
+<!-- 		android:cacheColorHint="#00000000" -->
+<!-- 		android:listSelector="#00000000" -->
+<!-- 	    android:layout_weight="1"> -->
+<!-- 	</ListView> -->
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
         android:gravity="bottom">
 
         <Button
-            android:id="@+id/addUserBtnAdd"
+            android:id="@+id/addUserBtnAddEdit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_add" 
             android:layout_weight="1"/>
 
         <Button

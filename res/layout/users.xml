@@ -2,36 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/menu_bg"
-    android:orientation="vertical" >
+    android:background="#D4D4D4"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/usersListView"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:background="#00000000"
-		android:cacheColorHint="#00000000"
-        android:layout_weight="1">
-    </ListView>
+    	android:layout_height="fill_parent"
+    	android:background="@drawable/bg_box"
+        android:layout_margin="5dp"
+    	android:padding="5dp"
+    	android:layout_weight="1">
+    	
+    	<ListView 
+    	    android:id="@+id/usersListView"
+    		android:layout_width="fill_parent"
+    		android:layout_height="fill_parent"
+    		android:background="#00000000" 
+    		android:cacheColorHint="#00000000"
+    		android:divider="#D4D4D4"
+            android:dividerHeight="1dp"/>
 
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-	    android:background="@android:color/transparent"
-	    android:gravity="bottom">
-	    
-	    <Button
-	        android:id="@+id/usersAddButton"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Add" />
-	    
-	    <Button
-	        android:id="@+id/usersDoneButton"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Done" />
-	    
 	</LinearLayout>
+
+	<Button 
+	    android:id="@+id/usersAddButton"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:text="@string/btn_add_user"
+		android:gravity="center" 
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"/>
+
 </LinearLayout>

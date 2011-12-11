@@ -25,6 +25,7 @@ public class MainMenuActivity extends BaseActivity implements OnItemClickListene
 	private final static String TAG = MainMenuActivity.class.getSimpleName();
 	private final static String INTENT_ACTION_START_USERS = "net.antoniy.gidder.START_USERS_ACTIVITY";
 	private final static String INTENT_ACTION_START_REPOSITORIES = "net.antoniy.gidder.START_REPOSITORIES_ACTIVITY";
+	private final static String INTENT_ACTION_START_SLIDE = "net.antoniy.gidder.START_SLIDE_ACTIVITY";
 	
 	private SshServer sshServer;
 	
@@ -99,6 +100,10 @@ public class MainMenuActivity extends BaseActivity implements OnItemClickListene
 				Intent intent = new Intent(INTENT_ACTION_START_REPOSITORIES);
 				startActivityForResult(intent, 0);
 				break;
+			}
+			case PERMISSIONS: {
+				Intent intent = new Intent(INTENT_ACTION_START_SLIDE);
+				startActivityForResult(intent, 0);
 			}
 		}
 	}

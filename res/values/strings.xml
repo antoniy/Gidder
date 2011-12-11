@@ -12,5 +12,10 @@
     <string name="add_repository_name">Name</string>
     <string name="add_repository_mapping">Mapping</string>
     <string name="add_repository_description">Description</string>
+    <string name="btn_edit">Edit</string>
+    <string name="add_user_title">Add new user</string>
+    <string name="add_user_edittitle">Edit user</string>
+    <string name="btn_add_user">Add user</string>
+    <string name="btn_add_repository">Add repository</string>
 
 </resources>

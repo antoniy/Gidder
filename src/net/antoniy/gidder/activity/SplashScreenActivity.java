@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class SplashScreenActivity extends BaseActivity {
-	private final static String INTENT_ACTION_START_MAIN_MENU = "net.antoniy.gidder.START_MAIN_MENU_ACTIVITY";
+//	private final static String INTENT_ACTION_START_MAIN_MENU = "net.antoniy.gidder.START_MAIN_MENU_ACTIVITY";
+	private final static String INTENT_ACTION_START_SLIDE = "net.antoniy.gidder.START_SLIDE_ACTIVITY";
 	
 	@Override
 	protected void setup() {
@@ -27,7 +28,7 @@ public class SplashScreenActivity extends BaseActivity {
 	               // do nothing
 	            } finally {
 	               finish();
-	               Intent i = new Intent(INTENT_ACTION_START_MAIN_MENU);
+	               Intent i = new Intent(INTENT_ACTION_START_SLIDE);
 	               startActivity(i);
 	            }
 	         }
