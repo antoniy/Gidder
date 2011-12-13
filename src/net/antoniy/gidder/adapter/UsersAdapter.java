@@ -12,19 +12,16 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-//public class UsersAdapter extends ArrayAdapter<User> {
 public class UsersAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
 	private List<User> items;
 	private final int itemResourceId;
 
-	public UsersAdapter(Context context, int textViewResourceId, List<User> objects) {
-//		super(context, textViewResourceId, objects);
-		
+	public UsersAdapter(Context context, int textViewResourceId, List<User> items) {
 		this.itemResourceId = textViewResourceId;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.items = objects;
+		this.items = items;
 	}
 	
 	@Override

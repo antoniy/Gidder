@@ -1,31 +1,36 @@
 package net.antoniy.gidder.fragment;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import net.antoniy.gidder.R;
-import net.antoniy.gidder.db.DBC;
+import net.antoniy.gidder.activity.AddRepositoryActivity;
+import net.antoniy.gidder.activity.SlideActivity;
+import net.antoniy.gidder.adapter.RepositoryAdapter;
+import net.antoniy.gidder.db.entity.Repository;
+import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
-public class RepositoriesFragment extends BaseFragment implements OnClickListener {
+public class RepositoriesFragment extends ContextMenuFragment implements OnClickListener {
 	private final static String TAG = RepositoriesFragment.class.getSimpleName();
-	private final static int REQUEST_CODE_ADD_REPOSITORY = 1;
-	
 	private final static String INTENT_ACTION_START_ADD_REPOSITORY = "net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY";
 	
 	private Button addButton;
 	private ListView repositoriesListView;
-	private CursorAdapter repositoriesListAdapter;
-	private Cursor repositoriesCursor;
+	private RepositoryAdapter repositoriesListAdapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,28 +40,22 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 		addButton.setOnClickListener(this);
 		
 		repositoriesListView = (ListView) mainContainer.findViewById(R.id.repositoriesListView);
-		loadUsersListContent();
+		loadRepositoriesListContent();
+		registerForContextMenu(repositoriesListView);
 		
 		return mainContainer;
 	}
 	
-	private void loadUsersListContent() {
-		String[] columns = new String[] {DBC.repositories.column_name, DBC.repositories.column_mapping, DBC.repositories.column_description};
-		int[] to = new int[] {R.id.repositoriesItemName, R.id.repositoriesItemMapping, R.id.repositoriesItemDescription};
+	private void loadRepositoriesListContent() {
+		List<Repository> repositories = null;
+		try {
+			repositories = getHelper().getRepositoryDao().queryForAll();
+		} catch (SQLException e) {
+			Log.e(TAG, "Could not retrieve repositories.", e);
+			return;
+		}
 		
-		repositoriesCursor = getHelper().getReadableDatabase().query(
-				DBC.repositories.table_name, 
-				new String[] {
-						DBC.repositories.column_id, 
-						DBC.repositories.column_name, 
-						DBC.repositories.column_mapping, 
-						DBC.repositories.column_description
-					}, 
-				null, null, null, null, null);
-		
-		Log.i(TAG, "Num of rows retrieved: " + repositoriesCursor.getCount());
-		
-		repositoriesListAdapter = new SimpleCursorAdapter(getActivity(), R.layout.repositories_item, repositoriesCursor, columns, to);
+		repositoriesListAdapter = new RepositoryAdapter(getActivity(), R.layout.repositories_item, repositories);
 		repositoriesListView.setAdapter(repositoriesListAdapter);
 	}
 
@@ -64,17 +63,64 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	public void onClick(View v) {
 		if(v.getId() == R.id.repositoriesAddButton) {
 			Intent intent = new Intent(INTENT_ACTION_START_ADD_REPOSITORY);
-			startActivityForResult(intent, REQUEST_CODE_ADD_REPOSITORY);
+			startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_ADD_REPOSITORY);
 		}
 	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(requestCode == REQUEST_CODE_ADD_REPOSITORY) {
-			repositoriesCursor.requery();
+		if(resultCode == Activity.RESULT_OK) {
+			Log.i(TAG, "Refreshing repositories...");
+			List<Repository> repositories = null;
+			try {
+				repositories = getHelper().getRepositoryDao().queryForAll();
+			} catch (SQLException e) {
+				Log.e(TAG, "Could not retrieve repositories.", e);
+				return;
+			}
+			
+			repositoriesListAdapter.setItems(repositories);
 			repositoriesListAdapter.notifyDataSetChanged();
 		}
 		
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if(((SlideActivity)getActivity()).getCurrentFragment() != FragmentType.REPOSITORIES) {
+			return false;
+		}
+		
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		
+		Log.i(TAG, "Long selection: " + info.position);
+		
+		Repository repository = repositoriesListAdapter.getItem(info.position);
+		
+		switch (item.getItemId()) {
+		case CONTEXT_MENU_ITEM_EDIT:
+			Intent intent = new Intent(getActivity(), AddRepositoryActivity.class);
+			intent.putExtra("repositoryId", repository.getId());
+			startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_EDIT_REPOSITORY);
+			break;
+		case CONTEXT_MENU_ITEM_REMOVE:
+			
+			break;
+		}
+		
+		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	protected void onContextMenuEditItemSelected(int position) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onContextMenuRemoveItemSelected(int position) {
+		// TODO Auto-generated method stub
+		
 	}
 }

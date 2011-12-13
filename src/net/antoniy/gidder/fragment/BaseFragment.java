@@ -1,16 +1,16 @@
 package net.antoniy.gidder.fragment;
 
 import net.antoniy.gidder.db.DBHelper;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-
 abstract class BaseFragment extends Fragment {
+	
 	private volatile DBHelper helper;
 	private volatile boolean created = false;
 	private volatile boolean destroyed = false;
@@ -83,4 +83,5 @@ abstract class BaseFragment extends Fragment {
 		OpenHelperManager.releaseHelper();
 		this.helper = null;
 	}
+	
 }

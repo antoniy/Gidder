@@ -20,6 +20,6 @@
 	<classpathentry kind="lib" path="lib/sshd-core-0.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/tomcat-apr-5.5.23.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-jdk16-146.jar"/>
-	<classpathentry kind="lib" path="lib/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="lib/android-support-v4.jar" sourcepath="/home/antoniy/projects/android-sdk-linux/extras/android/support/v4/src"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

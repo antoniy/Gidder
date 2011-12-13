@@ -17,5 +17,7 @@
     <string name="add_user_edittitle">Edit user</string>
     <string name="btn_add_user">Add user</string>
     <string name="btn_add_repository">Add repository</string>
+    <string name="add_repository_title">Add repository</string>
+    <string name="add_repository_edittitle">Edit repository</string>
 
 </resources>

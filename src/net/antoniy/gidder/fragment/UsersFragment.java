@@ -5,14 +5,13 @@ import java.util.List;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.activity.AddUserActivity;
+import net.antoniy.gidder.activity.SlideActivity;
 import net.antoniy.gidder.adapter.UsersAdapter;
 import net.antoniy.gidder.db.entity.User;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +22,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class UsersFragment extends BaseFragment implements OnClickListener {
+public class UsersFragment extends ContextMenuFragment implements OnClickListener {
 	private final static String TAG = UsersFragment.class.getSimpleName();
 	private final static String INTENT_ACTION_START_ADD_USER = "net.antoniy.gidder.START_ADD_USER_ACTIVITY";
-	
-	private final static int CONTEXT_MENU_ITEM_EDIT = 1;
-	private final static int CONTEXT_MENU_ITEM_REMOVE = 2;
 	
 	private Button addButton;
 	private ListView usersListView;
@@ -59,7 +55,6 @@ public class UsersFragment extends BaseFragment implements OnClickListener {
 		
 		usersListAdapter = new UsersAdapter(getActivity(), R.layout.users_item, users);
 		usersListView.setAdapter(usersListAdapter);
-		
 	}
 	
 	@Override
@@ -90,18 +85,15 @@ public class UsersFragment extends BaseFragment implements OnClickListener {
 	}
 	
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.setHeaderTitle("Actions");
-		menu.add(ContextMenu.NONE, CONTEXT_MENU_ITEM_EDIT, ContextMenu.NONE, "Edit");
-		menu.add(ContextMenu.NONE, CONTEXT_MENU_ITEM_REMOVE, ContextMenu.NONE, "Delete");
-	}
-
-	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		if(((SlideActivity)getActivity()).getCurrentFragment() != FragmentType.USERS) {
+			return false;
+		}
+		
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		
 		Log.i(TAG, "Long selection: " + info.position);
+		Log.i(TAG, "Current[user]: " + ((SlideActivity)getActivity()).getCurrentFragment());
 		
 		User user = usersListAdapter.getItem(info.position);
 		
@@ -117,5 +109,17 @@ public class UsersFragment extends BaseFragment implements OnClickListener {
 		}
 		
 		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	protected void onContextMenuEditItemSelected(int position) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onContextMenuRemoveItemSelected(int position) {
+		// TODO Auto-generated method stub
+		
 	}
 }

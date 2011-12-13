@@ -9,25 +9,54 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class AddRepositoryActivity extends BaseActivity {
 	private final static String TAG = AddRepositoryActivity.class.getSimpleName();
 	
-	private Button addRepositoryButton;
+	public final static int REQUEST_CODE_ADD_REPOSITORY = 1;
+	public final static int REQUEST_CODE_EDIT_REPOSITORY = 2;
+	
+	private Button addEditButton;
 	private Button cancelButton;
 	private EditText nameEditText;
 	private EditText mappingEditText;
 	private EditText descriptionEditText;
+	private boolean editMode = false;
+	private int repositoryId;
 	
 	@Override
 	protected void setup() {
 		setContentView(R.layout.add_repository);
+		
+		if(getIntent().getExtras() != null) {
+			repositoryId = getIntent().getExtras().getInt("repositoryId", -1);
+			Log.i(TAG, "RepositoryID: " + repositoryId);
+			
+			if(repositoryId > 0) {
+				editMode = true;
+			} else {
+				editMode = false;
+			}
+		}
 	}
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		addRepositoryButton = (Button) findViewById(R.id.addRepositoryBtnAdd);
-		addRepositoryButton.setOnClickListener(this);
+		TextView titleTextView = (TextView) findViewById(R.id.addRepositoryTitle);
+		if(editMode) {
+			titleTextView.setText(R.string.add_repository_edittitle);
+		} else {
+			titleTextView.setText(R.string.add_repository_title);
+		}
+		
+		addEditButton = (Button) findViewById(R.id.addRepositoryBtnAdd);
+		addEditButton.setOnClickListener(this);
+		if(editMode) {
+			addEditButton.setText(R.string.btn_edit);
+		} else {
+			addEditButton.setText(R.string.btn_add);
+		}
 		
 		cancelButton = (Button) findViewById(R.id.addRepositoryBtnCancel);
 		cancelButton.setOnClickListener(this);
@@ -35,6 +64,24 @@ public class AddRepositoryActivity extends BaseActivity {
 		nameEditText = (EditText) findViewById(R.id.addRepositoryName);
 		mappingEditText = (EditText) findViewById(R.id.addRepositoryMapping);
 		descriptionEditText = (EditText) findViewById(R.id.addRepositoryDescription);
+		
+		if(editMode) {
+			populateFieldsWithRepositoryData();
+		}
+	}
+	
+	private void populateFieldsWithRepositoryData() {
+		Repository repository = null;
+		try {
+			repository = getHelper().getRepositoryDao().queryForId(repositoryId);
+		} catch (SQLException e) {
+			Log.e(TAG, "Error retrieving repository with id " + repositoryId, e);
+			return;
+		}
+		
+		nameEditText.setText(repository.getName());
+		mappingEditText.setText(repository.getMapping());
+		descriptionEditText.setText(repository.getDescription());
 	}
 
 	@Override
@@ -51,11 +98,18 @@ public class AddRepositoryActivity extends BaseActivity {
 			String description = descriptionEditText.getText().toString();
 			
 			try {
-				getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description));
+				if(editMode) {
+					getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description));
+				} else {
+					getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description));
+				}
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem when add new repository.", e);
+				finish();
+				return;
 			}
 			
+			setResult(RESULT_OK, null);
 			finish();
 		} else if(v.getId() == R.id.addRepositoryBtnCancel) {
 			finish();

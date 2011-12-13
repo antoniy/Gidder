@@ -2,38 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/menu_bg"
+    android:background="#D4D4D4"
     android:orientation="vertical" >
 
-     <EditText
-        android:id="@+id/addRepositoryName"
-        android:layout_width="fill_parent"
+     <LinearLayout
+     	android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:inputType="textCapWords" 
-        android:hint="@string/add_repository_name">
+        android:background="@drawable/bg_box"
+        android:layout_margin="5dp"
+    	android:padding="5dp"
+    	android:orientation="vertical">
+    	
+         	<TextView
+	            android:id="@+id/addRepositoryTitle"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:textAppearance="?android:attr/textAppearanceLarge"
+	            android:textColor="#000000" android:gravity="center"/>
+         
+	     	<EditText 
+	     	    android:id="@+id/addRepositoryName"
+	     		android:layout_width="fill_parent"
+	     		android:layout_height="wrap_content"
+	     		android:layout_marginTop="10dp" 
+	     		android:inputType="textCapWords"
+	     		android:hint="@string/add_repository_name">
+	
+	     		<requestFocus />
+	     	</EditText>
+	
+	     	<EditText 
+	     	    android:id="@+id/addRepositoryMapping"
+	     		android:layout_width="fill_parent"
+	     		android:layout_height="wrap_content" 
+	     		android:inputType="text"
+	     		android:hint="@string/add_repository_mapping" />
+	
+	     	<EditText 
+	     	    android:id="@+id/addRepositoryDescription"
+	     		android:layout_width="fill_parent"
+	     		android:layout_height="wrap_content" 
+	     		android:inputType="text"
+	     		android:hint="@string/add_repository_description" />
+	     	
+     </LinearLayout>
 
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/addRepositoryMapping"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text" 
-        android:hint="@string/add_repository_mapping"/>
-
-    <EditText
-        android:id="@+id/addRepositoryDescription"
+     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
-        android:inputType="text"
-        android:hint="@string/add_repository_description"/>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" 
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:background="@android:color/transparent"
         android:gravity="bottom">
 
@@ -41,13 +58,15 @@
             android:id="@+id/addRepositoryBtnAdd"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_add" />
+            android:text="@string/btn_add"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/addRepositoryBtnCancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_cancel"/>
+            android:text="@string/btn_cancel"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
