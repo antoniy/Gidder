@@ -5,24 +5,24 @@ import java.util.List;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.activity.AddUserActivity;
-import net.antoniy.gidder.activity.SlideActivity;
 import net.antoniy.gidder.adapter.UsersAdapter;
 import net.antoniy.gidder.db.entity.User;
+import net.antoniy.gidder.popup.ActionsPopupWindow;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class UsersFragment extends ContextMenuFragment implements OnClickListener {
+public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener {
 	private final static String TAG = UsersFragment.class.getSimpleName();
 	private final static String INTENT_ACTION_START_ADD_USER = "net.antoniy.gidder.START_ADD_USER_ACTIVITY";
 	
@@ -39,7 +39,9 @@ public class UsersFragment extends ContextMenuFragment implements OnClickListene
 		
 		usersListView = (ListView) mainContainer.findViewById(R.id.usersListView);
 		loadUsersListContent();
-		registerForContextMenu(usersListView);
+		usersListView.setOnItemLongClickListener(this);
+//		usersListView.setOnItemClickListener(this);
+//		registerForContextMenu(usersListView);
 		
 		return mainContainer;
 	}
@@ -62,6 +64,11 @@ public class UsersFragment extends ContextMenuFragment implements OnClickListene
 		if(v.getId() == R.id.usersAddButton) {
 			Intent intent = new Intent(INTENT_ACTION_START_ADD_USER);
 			startActivityForResult(intent, AddUserActivity.REQUEST_CODE_ADD_USER);
+		} else if(v.getId() == R.id.usersListView) {
+			Log.i(TAG, "Single click on users list!");
+			
+			ActionsPopupWindow popup = new ActionsPopupWindow(v);
+			popup.showLikeQuickAction();
 		}
 	}
 	
@@ -84,42 +91,52 @@ public class UsersFragment extends ContextMenuFragment implements OnClickListene
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		if(((SlideActivity)getActivity()).getCurrentFragment() != FragmentType.USERS) {
-			return false;
-		}
-		
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		
-		Log.i(TAG, "Long selection: " + info.position);
-		Log.i(TAG, "Current[user]: " + ((SlideActivity)getActivity()).getCurrentFragment());
-		
-		User user = usersListAdapter.getItem(info.position);
-		
-		switch (item.getItemId()) {
-		case CONTEXT_MENU_ITEM_EDIT:
-			Intent intent = new Intent(getActivity(), AddUserActivity.class);
-			intent.putExtra("userId", user.getId());
-			startActivityForResult(intent, AddUserActivity.REQUEST_CODE_EDIT_USER);
-			break;
-		case CONTEXT_MENU_ITEM_REMOVE:
-			
-			break;
-		}
-		
-		return super.onContextItemSelected(item);
-	}
+//	@Override
+//	public boolean onContextItemSelected(MenuItem item) {
+//		if(((SlideActivity)getActivity()).getCurrentFragment() != FragmentType.USERS) {
+//			return false;
+//		}
+//		
+//		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+//		
+//		Log.i(TAG, "Long selection: " + info.position);
+//		Log.i(TAG, "Current[user]: " + ((SlideActivity)getActivity()).getCurrentFragment());
+//		
+//		User user = usersListAdapter.getItem(info.position);
+//		
+//		switch (item.getItemId()) {
+//		case CONTEXT_MENU_ITEM_EDIT:
+//			Intent intent = new Intent(getActivity(), AddUserActivity.class);
+//			intent.putExtra("userId", user.getId());
+//			startActivityForResult(intent, AddUserActivity.REQUEST_CODE_EDIT_USER);
+//			break;
+//		case CONTEXT_MENU_ITEM_REMOVE:
+//			
+//			break;
+//		}
+//		
+//		return super.onContextItemSelected(item);
+//	}
+//
+//	@Override
+//	protected void onContextMenuEditItemSelected(int position) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	protected void onContextMenuRemoveItemSelected(int position) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
 
 	@Override
-	protected void onContextMenuEditItemSelected(int position) {
-		// TODO Auto-generated method stub
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		Log.i(TAG, "Long click on users list!");
 		
-	}
-
-	@Override
-	protected void onContextMenuRemoveItemSelected(int position) {
-		// TODO Auto-generated method stub
-		
+		ActionsPopupWindow popup = new ActionsPopupWindow(view);
+		popup.showLikeQuickAction();
+		return true;
 	}
 }
