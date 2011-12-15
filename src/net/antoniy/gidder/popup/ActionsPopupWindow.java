@@ -1,56 +1,74 @@
 package net.antoniy.gidder.popup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.antoniy.gidder.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TableRow;
-import android.widget.Toast;
 
-public class ActionsPopupWindow extends BetterPopupWindow implements
-		OnClickListener {
+public class ActionsPopupWindow extends BetterPopupWindow implements OnClickListener {
 
-	public ActionsPopupWindow(View anchor) {
+	public final static int RESULT_UNDEFINED = 0;
+	public final static int RESULT_EDIT = 1;
+	public final static int RESULT_DELETE = 2;
+	
+	private int result = RESULT_UNDEFINED;
+	private List<OnActionItemClickListener> listeners;
+	private int position;
+	
+	public ActionsPopupWindow(View anchor, int position) {
 		super(anchor);
+		
+		this.listeners = new ArrayList<OnActionItemClickListener>();
+		this.position = position;
 	}
 
 	@Override
 	protected void onCreate() {
 		// inflate layout
-		LayoutInflater inflater = (LayoutInflater) this.anchor.getContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.actions_popup, null);
 
-		// setup button events
-		for (int i = 0, icount = root.getChildCount(); i < icount; i++) {
-			View v = root.getChildAt(i);
-
-			if (v instanceof TableRow) {
-				TableRow row = (TableRow) v;
-
-				for (int j = 0, jcount = row.getChildCount(); j < jcount; j++) {
-					View item = row.getChildAt(j);
-					if (item instanceof Button) {
-						Button b = (Button) item;
-						b.setOnClickListener(this);
-					}
-				}
-			}
-		}
-
+		View edit = root.findViewById(R.id.actionPopupEdit);
+		edit.setOnClickListener(this);
+		
+		View delete = root.findViewById(R.id.actionPopupDelete);
+		delete.setOnClickListener(this);
+		
 		// set the inflated view as what we want to display
 		this.setContentView(root);
 	}
 
 	@Override
 	public void onClick(View v) {
-		// we'll just display a simple toast on a button click
-		Button b = (Button) v;
-		Toast.makeText(this.anchor.getContext(), b.getText(), Toast.LENGTH_SHORT).show();
+		if(v.getId() == R.id.actionPopupEdit) {
+			result = RESULT_EDIT;
+			fireOnActionItemClick();
+//			Toast.makeText(this.anchor.getContext(), "Edit", Toast.LENGTH_SHORT).show();
+		} else if(v.getId() == R.id.actionPopupDelete) {
+			result = RESULT_DELETE;
+			fireOnActionItemClick();
+//			Toast.makeText(this.anchor.getContext(), "Delete", Toast.LENGTH_SHORT).show();
+		}
 		this.dismiss();
+	}
+	
+	private void fireOnActionItemClick() {
+		for (OnActionItemClickListener listener : listeners) {
+			listener.onActionItemClick(anchor, position, result);
+		}
+	}
+	
+	public int getResult() {
+		return result;
+	}
+	
+	public void addOnActionItemClickListener(OnActionItemClickListener listener) {
+		listeners.add(listener);
 	}
 }

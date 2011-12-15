@@ -19,5 +19,7 @@
     <string name="btn_add_repository">Add repository</string>
     <string name="add_repository_title">Add repository</string>
     <string name="add_repository_edittitle">Edit repository</string>
+    <string name="action_popup_edit">Edit</string>
+    <string name="action_popup_delete">Delete</string>
 
 </resources>

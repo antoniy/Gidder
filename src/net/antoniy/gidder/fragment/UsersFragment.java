@@ -8,7 +8,10 @@ import net.antoniy.gidder.activity.AddUserActivity;
 import net.antoniy.gidder.adapter.UsersAdapter;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.popup.ActionsPopupWindow;
+import net.antoniy.gidder.popup.OnActionItemClickListener;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +25,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener {
+public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnActionItemClickListener {
 	private final static String TAG = UsersFragment.class.getSimpleName();
 	private final static String INTENT_ACTION_START_ADD_USER = "net.antoniy.gidder.START_ADD_USER_ACTIVITY";
 	
@@ -40,8 +43,6 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		usersListView = (ListView) mainContainer.findViewById(R.id.usersListView);
 		loadUsersListContent();
 		usersListView.setOnItemLongClickListener(this);
-//		usersListView.setOnItemClickListener(this);
-//		registerForContextMenu(usersListView);
 		
 		return mainContainer;
 	}
@@ -64,11 +65,6 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		if(v.getId() == R.id.usersAddButton) {
 			Intent intent = new Intent(INTENT_ACTION_START_ADD_USER);
 			startActivityForResult(intent, AddUserActivity.REQUEST_CODE_ADD_USER);
-		} else if(v.getId() == R.id.usersListView) {
-			Log.i(TAG, "Single click on users list!");
-			
-			ActionsPopupWindow popup = new ActionsPopupWindow(v);
-			popup.showLikeQuickAction();
 		}
 	}
 	
@@ -76,67 +72,62 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == Activity.RESULT_OK) {
 			Log.i(TAG, "Refreshing users...");
-			List<User> users = null;
-			try {
-				users = getHelper().getUserDao().queryForAll();
-			} catch (SQLException e) {
-				Log.e(TAG, "Could not retrieve users.", e);
-				return;
-			}
-			
-			usersListAdapter.setItems(users);
-			usersListAdapter.notifyDataSetChanged();
+			updateUsersList();
 		}
 		
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
-//	@Override
-//	public boolean onContextItemSelected(MenuItem item) {
-//		if(((SlideActivity)getActivity()).getCurrentFragment() != FragmentType.USERS) {
-//			return false;
-//		}
-//		
-//		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-//		
-//		Log.i(TAG, "Long selection: " + info.position);
-//		Log.i(TAG, "Current[user]: " + ((SlideActivity)getActivity()).getCurrentFragment());
-//		
-//		User user = usersListAdapter.getItem(info.position);
-//		
-//		switch (item.getItemId()) {
-//		case CONTEXT_MENU_ITEM_EDIT:
-//			Intent intent = new Intent(getActivity(), AddUserActivity.class);
-//			intent.putExtra("userId", user.getId());
-//			startActivityForResult(intent, AddUserActivity.REQUEST_CODE_EDIT_USER);
-//			break;
-//		case CONTEXT_MENU_ITEM_REMOVE:
-//			
-//			break;
-//		}
-//		
-//		return super.onContextItemSelected(item);
-//	}
-//
-//	@Override
-//	protected void onContextMenuEditItemSelected(int position) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	protected void onContextMenuRemoveItemSelected(int position) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-
-
+	private void updateUsersList() {
+		List<User> users = null;
+		try {
+			users = getHelper().getUserDao().queryForAll();
+		} catch (SQLException e) {
+			Log.e(TAG, "Could not retrieve users.", e);
+			return;
+		}
+		
+		usersListAdapter.setItems(users);
+		usersListAdapter.notifyDataSetChanged();
+	}
+	
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		Log.i(TAG, "Long click on users list!");
-		
-		ActionsPopupWindow popup = new ActionsPopupWindow(view);
+		ActionsPopupWindow popup = new ActionsPopupWindow(view, position);
 		popup.showLikeQuickAction();
+		popup.addOnActionItemClickListener(this);
+		
 		return true;
+	}
+
+	@Override
+	public void onActionItemClick(View v, int position, int resultCode) {
+		if(resultCode == ActionsPopupWindow.RESULT_EDIT) {
+			User user = usersListAdapter.getItem(position);
+			
+			Intent intent = new Intent(getActivity(), AddUserActivity.class);
+			intent.putExtra("userId", user.getId());
+			startActivityForResult(intent, AddUserActivity.REQUEST_CODE_EDIT_USER);
+		} else if(resultCode == ActionsPopupWindow.RESULT_DELETE) {
+			final User user = usersListAdapter.getItem(position);
+			
+			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			    @Override
+			    public void onClick(DialogInterface dialog, int which) {
+			        if(which == DialogInterface.BUTTON_POSITIVE) {
+			            try {
+							getHelper().getUserDao().deleteById(user.getId());
+							updateUsersList();
+						} catch (SQLException e) {
+							Log.e(TAG, "Problem while deleting user.", e);
+						}
+			        }
+			    }
+			};
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
+			    .setNegativeButton("No", null).show();
+		}
 	}
 }

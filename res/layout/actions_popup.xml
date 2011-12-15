@@ -1,57 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/alert_light_frame"
->
-        <TableRow>
-                <Button
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/one"
-                        android:text="One"
-                        android:minWidth="80dp"
-                        android:minHeight="80dp"
-                         />
-                <Button
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/two"
-                        android:text="Two"
-                        android:minWidth="80dp"
-                        android:minHeight="80dp"
-                         />
-                <Button
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/three"
-                        android:text="Three"
-                        android:minWidth="80dp"
-                        android:minHeight="80dp"
-                         />
-        </TableRow>
-        <TableRow>
-                <Button
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/four"
-                        android:text="Four"
-                        android:minHeight="80dp"
-                         />
-                <Button
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/five"
-                        android:text="Five"
-                        android:minHeight="80dp"
-                         />
-                <Button
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/six"
-                        android:text="Six"
-                        android:minHeight="80dp"
-                         />
-        </TableRow>
-</TableLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_box" >
+
+	<LinearLayout 
+	    android:id="@+id/actionPopupEdit"
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_margin="3dp">
+	    
+	    <ImageView 
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+	        android:src="@drawable/ic_action_edit"/>
+	    
+	    <TextView
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content" 
+	        android:text="@string/action_popup_edit"
+	        android:textSize="14sp"
+	        android:gravity="center"/>
+	    
+	</LinearLayout>
+	
+	<View
+	    android:layout_width="1dip"
+	    android:layout_height="fill_parent"
+	    android:background="#D4D4D4"
+	    android:layout_margin="3dp"/>
+	    
+	<LinearLayout 
+	    android:id="@+id/actionPopupDelete"
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_margin="3dp">
+	    
+	    <ImageView 
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+	        android:src="@drawable/ic_action_delete"/>
+	    
+	    <TextView
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content" 
+	        android:text="@string/action_popup_delete"
+	        android:textSize="14sp"
+	        android:gravity="center"/>
+	    
+	</LinearLayout>
+</LinearLayout>
