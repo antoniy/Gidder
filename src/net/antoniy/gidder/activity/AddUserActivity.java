@@ -106,9 +106,10 @@ public class AddUserActivity extends BaseActivity {
 			
 			try {
 				if(editMode) {
-					getHelper().getUserDao().update(new User(userId, fullname, email, username, password));
+					// TODO: Fix edit of active and create datetime.
+					getHelper().getUserDao().update(new User(userId, fullname, email, username, password, true, System.currentTimeMillis()));
 				} else {
-					getHelper().getUserDao().create(new User(0, fullname, email, username, password));
+					getHelper().getUserDao().create(new User(0, fullname, email, username, password, true, System.currentTimeMillis()));
 				}
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem when add new user.", e);

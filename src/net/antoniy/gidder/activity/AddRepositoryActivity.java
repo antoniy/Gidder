@@ -99,9 +99,10 @@ public class AddRepositoryActivity extends BaseActivity {
 			
 			try {
 				if(editMode) {
-					getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description));
+					// TODO: Fix edit of active and create datetime.
+					getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description, true, System.currentTimeMillis()));
 				} else {
-					getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description));
+					getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
 				}
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem when add new repository.", e);

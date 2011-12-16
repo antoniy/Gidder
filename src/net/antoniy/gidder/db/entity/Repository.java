@@ -25,17 +25,27 @@ public class Repository implements Serializable {
 	@DatabaseField(columnName = DBC.repositories.column_description, canBeNull = true)
 	private String description;
 	
+	@DatabaseField(columnName = DBC.repositories.column_active, canBeNull = false, defaultValue = "false")
+	private boolean active;
+	
+	@DatabaseField(columnName = DBC.repositories.column_create_date, canBeNull = false)
+	private long createDate;
+	
 	@ForeignCollectionField(eager = true, orderColumnName = DBC.permissions.column_repository_id)
 	private Collection<Permission> permissions;
 	
 	public Repository() {
 	}
 
-	public Repository(int id, String name, String mapping, String description) {
+	public Repository(int id, String name, String mapping, String description,
+			boolean active, long createDate) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.mapping = mapping;
 		this.description = description;
+		this.active = active;
+		this.createDate = createDate;
 	}
 
 	public int getId() {
@@ -77,5 +87,20 @@ public class Repository implements Serializable {
 	public void setPermissions(Collection<Permission> permissions) {
 		this.permissions = permissions;
 	}
-	
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public long getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(long createDate) {
+		this.createDate = createDate;
+	}
 }
