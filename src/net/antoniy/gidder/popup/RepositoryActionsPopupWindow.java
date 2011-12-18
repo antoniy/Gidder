@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-public class ActionsPopupWindow extends BetterPopupWindow implements OnClickListener {
+public class RepositoryActionsPopupWindow extends BetterPopupWindow implements OnClickListener {
 
 	public final static int RESULT_UNDEFINED = 0;
 	public final static int RESULT_EDIT = 1;
@@ -20,19 +20,20 @@ public class ActionsPopupWindow extends BetterPopupWindow implements OnClickList
 	private List<OnActionItemClickListener> listeners;
 	private int position;
 	
-	public ActionsPopupWindow(View anchor, int position) {
+	public RepositoryActionsPopupWindow(View anchor, int position) {
 		super(anchor);
 		
 		this.listeners = new ArrayList<OnActionItemClickListener>();
 		this.position = position;
+		
+		onCreate();
 	}
 
-	@Override
-	protected void onCreate() {
+	private void onCreate() {
 		// inflate layout
 		LayoutInflater inflater = (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.actions_popup, null);
+		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.repositories_actions_popup, null);
 
 		View edit = root.findViewById(R.id.actionPopupEdit);
 		edit.setOnClickListener(this);
@@ -49,11 +50,9 @@ public class ActionsPopupWindow extends BetterPopupWindow implements OnClickList
 		if(v.getId() == R.id.actionPopupEdit) {
 			result = RESULT_EDIT;
 			fireOnActionItemClick();
-//			Toast.makeText(this.anchor.getContext(), "Edit", Toast.LENGTH_SHORT).show();
 		} else if(v.getId() == R.id.actionPopupDelete) {
 			result = RESULT_DELETE;
 			fireOnActionItemClick();
-//			Toast.makeText(this.anchor.getContext(), "Delete", Toast.LENGTH_SHORT).show();
 		}
 		this.dismiss();
 	}

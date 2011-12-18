@@ -21,5 +21,7 @@
     <string name="add_repository_edittitle">Edit repository</string>
     <string name="action_popup_edit">Edit</string>
     <string name="action_popup_delete">Delete</string>
+    <string name="action_popup_activate">Activate</string>
+    <string name="action_popup_deactivate">Deactivate</string>
 
 </resources>

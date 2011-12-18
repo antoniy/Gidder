@@ -7,8 +7,8 @@ import net.antoniy.gidder.R;
 import net.antoniy.gidder.activity.AddUserActivity;
 import net.antoniy.gidder.adapter.UsersAdapter;
 import net.antoniy.gidder.db.entity.User;
-import net.antoniy.gidder.popup.ActionsPopupWindow;
 import net.antoniy.gidder.popup.OnActionItemClickListener;
+import net.antoniy.gidder.popup.UserActionsPopupWindow;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -93,7 +93,9 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 	
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		ActionsPopupWindow popup = new ActionsPopupWindow(view, position);
+		User user = usersListAdapter.getItem(position);
+		
+		UserActionsPopupWindow popup = new UserActionsPopupWindow(view, position, user.isActive());
 		popup.showLikeQuickAction();
 		popup.addOnActionItemClickListener(this);
 		
@@ -102,13 +104,13 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 
 	@Override
 	public void onActionItemClick(View v, int position, int resultCode) {
-		if(resultCode == ActionsPopupWindow.RESULT_EDIT) {
+		if(resultCode == UserActionsPopupWindow.RESULT_EDIT) {
 			User user = usersListAdapter.getItem(position);
 			
 			Intent intent = new Intent(getActivity(), AddUserActivity.class);
 			intent.putExtra("userId", user.getId());
 			startActivityForResult(intent, AddUserActivity.REQUEST_CODE_EDIT_USER);
-		} else if(resultCode == ActionsPopupWindow.RESULT_DELETE) {
+		} else if(resultCode == UserActionsPopupWindow.RESULT_DELETE) {
 			final User user = usersListAdapter.getItem(position);
 			
 			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -128,6 +130,24 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
 			    .setNegativeButton("No", null).show();
+		} else if(resultCode == UserActionsPopupWindow.RESULT_DEACTIVATE) {
+			User user = usersListAdapter.getItem(position);
+			user.setActive(false);
+			
+			try {
+				getHelper().getUserDao().update(user);
+			} catch (SQLException e) {
+				Log.e(TAG, "Problem while deactivating user.", e);
+			}
+		} else if(resultCode == UserActionsPopupWindow.RESULT_ACTIVATE) {
+			User user = usersListAdapter.getItem(position);
+			user.setActive(true);
+			
+			try {
+				getHelper().getUserDao().update(user);
+			} catch (SQLException e) {
+				Log.e(TAG, "Problem while activating user.", e);
+			}
 		}
 	}
 }

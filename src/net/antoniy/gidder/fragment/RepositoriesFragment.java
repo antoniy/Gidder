@@ -7,7 +7,7 @@ import net.antoniy.gidder.R;
 import net.antoniy.gidder.activity.AddRepositoryActivity;
 import net.antoniy.gidder.adapter.RepositoryAdapter;
 import net.antoniy.gidder.db.entity.Repository;
-import net.antoniy.gidder.popup.ActionsPopupWindow;
+import net.antoniy.gidder.popup.RepositoryActionsPopupWindow;
 import net.antoniy.gidder.popup.OnActionItemClickListener;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -93,7 +93,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		ActionsPopupWindow popup = new ActionsPopupWindow(view, position);
+		RepositoryActionsPopupWindow popup = new RepositoryActionsPopupWindow(view, position);
 		popup.showLikeQuickAction();
 		popup.addOnActionItemClickListener(this);
 		
@@ -102,13 +102,13 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 
 	@Override
 	public void onActionItemClick(View v, int position, int resultCode) {
-		if(resultCode == ActionsPopupWindow.RESULT_EDIT) {
+		if(resultCode == RepositoryActionsPopupWindow.RESULT_EDIT) {
 			Repository repository = repositoriesListAdapter.getItem(position);
 			
 			Intent intent = new Intent(getActivity(), AddRepositoryActivity.class);
 			intent.putExtra("repositoryId", repository.getId());
 			startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_EDIT_REPOSITORY);
-		} else if(resultCode == ActionsPopupWindow.RESULT_DELETE) {
+		} else if(resultCode == RepositoryActionsPopupWindow.RESULT_DELETE) {
 			final Repository repository = repositoriesListAdapter.getItem(position);
 			
 			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {

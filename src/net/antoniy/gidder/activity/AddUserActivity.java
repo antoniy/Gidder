@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class AddUserActivity extends BaseActivity {
 	private EditText passwordEditText;
 	private boolean editMode = false;
 	private int userId;
+	private CheckBox activateCheckox;
 	
 	@Override
 	protected void setup() {
@@ -69,6 +71,7 @@ public class AddUserActivity extends BaseActivity {
 		emailEditText = (EditText) findViewById(R.id.addUserEmail);
 		usernameEditText = (EditText) findViewById(R.id.addUserUsername);
 		passwordEditText = (EditText) findViewById(R.id.addUserPassword);
+		activateCheckox = (CheckBox) findViewById(R.id.addUserActivate);
 		
 		if(editMode) {
 			populateFieldsWithUserData();
@@ -88,6 +91,8 @@ public class AddUserActivity extends BaseActivity {
 		emailEditText.setText(user.getEmail());
 		usernameEditText.setText(user.getUsername());
 		passwordEditText.setText(user.getPassword());
+		activateCheckox.setChecked(user.isActive());
+		
 	}
 	
 	@Override
@@ -103,13 +108,20 @@ public class AddUserActivity extends BaseActivity {
 			String email = emailEditText.getText().toString();
 			String username = usernameEditText.getText().toString();
 			String password = passwordEditText.getText().toString();
+			boolean active = activateCheckox.isChecked();
 			
 			try {
 				if(editMode) {
-					// TODO: Fix edit of active and create datetime.
-					getHelper().getUserDao().update(new User(userId, fullname, email, username, password, true, System.currentTimeMillis()));
+					User user = getHelper().getUserDao().queryForId(userId);
+					user.setFullname(fullname);
+					user.setEmail(email);
+					user.setPassword(password);
+					user.setUsername(username);
+					user.setActive(active);
+					
+					getHelper().getUserDao().update(user);
 				} else {
-					getHelper().getUserDao().create(new User(0, fullname, email, username, password, true, System.currentTimeMillis()));
+					getHelper().getUserDao().create(new User(0, fullname, email, username, password, active, System.currentTimeMillis()));
 				}
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem when add new user.", e);

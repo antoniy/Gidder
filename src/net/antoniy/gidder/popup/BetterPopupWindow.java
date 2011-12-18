@@ -21,7 +21,7 @@ import android.widget.PopupWindow;
  * @author qberticus
  * 
  */
-public class BetterPopupWindow {
+public abstract class BetterPopupWindow {
 	protected final View anchor;
 	private final PopupWindow window;
 	private View root;
@@ -53,15 +53,15 @@ public class BetterPopupWindow {
 
 		this.windowManager = (WindowManager) this.anchor.getContext()
 				.getSystemService(Context.WINDOW_SERVICE);
-		onCreate();
+//		onCreate();
 	}
 
-	/**
-	 * Anything you want to have happen when created. Probably should create a
-	 * view and setup the event listeners on child views.
-	 */
-	protected void onCreate() {
-	}
+//	/**
+//	 * Anything you want to have happen when created. Probably should create a
+//	 * view and setup the event listeners on child views.
+//	 */
+//	protected void onCreate() {
+//	}
 
 	/**
 	 * In case there is stuff to do right before displaying.

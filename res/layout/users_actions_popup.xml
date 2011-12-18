@@ -51,4 +51,31 @@
 	        android:gravity="center"/>
 	    
 	</LinearLayout>
+	
+	<View
+	    android:layout_width="1dip"
+	    android:layout_height="fill_parent"
+	    android:background="#D4D4D4"
+	    android:layout_margin="3dp"/>
+	    
+	<LinearLayout 
+	    android:id="@+id/actionPopupActivateDeactivate"
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_margin="3dp">
+	    
+	    <ImageView
+	        android:id="@+id/actionPopupActivateDeactivateImage"
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"/>
+	    
+	    <TextView
+	        android:id="@+id/actionPopupActivateDeactivateText"
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content" 
+	        android:textSize="14sp"
+	        android:gravity="center"/>
+	    
+	</LinearLayout>
 </LinearLayout>
