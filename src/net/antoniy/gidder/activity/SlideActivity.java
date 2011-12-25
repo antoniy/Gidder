@@ -44,6 +44,7 @@ public class SlideActivity extends FragmentActivity {
 //		});
 		
 		mIndicator = (TitlePageIndicator)findViewById(R.id.slideIndicator);
+//		mIndicator = (TabPageIndicator)findViewById(R.id.slideIndicator);
 		mIndicator.setViewPager(mPager);
 	}
 

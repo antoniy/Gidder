@@ -44,6 +44,23 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		} catch (SQLException e) {
 			Log.e(TAG, "Unable to create datbases", e);
 		}
+		
+		try {
+			initDevelopmentData(database);
+		} catch (SQLException e) {
+			Log.e(TAG, "Error while initializing development data.", e);
+		}
+	}
+	
+	private void initDevelopmentData(SQLiteDatabase database) throws SQLException {
+		getUserDao().create(new User(0, "Antoniy Chonkov", "antoniy@gmail.com", "antoniy", "asdasd", true, System.currentTimeMillis()));
+		getUserDao().create(new User(0, "Dimitar Kalinov", "dkalinoff@gmail.com", "miteto", "asdasd", true, System.currentTimeMillis()));
+		getUserDao().create(new User(0, "Liliya Besaleva", "liliya_besaleva@hotmail.com", "lia", "asdasd", true, System.currentTimeMillis()));
+		getUserDao().create(new User(0, "Jordan Grancharov", "phrone@gmail.com", "dakel", "asdasd", true, System.currentTimeMillis()));
+		
+		getRepositoryDao().create(new Repository(0, "Repository1", "repo1", "Test repository 1", true, System.currentTimeMillis()));
+		getRepositoryDao().create(new Repository(0, "Repository2", "repo2", "Test repository 2", true, System.currentTimeMillis()));
+		getRepositoryDao().create(new Repository(0, "Repository3", "repo3", "Test repository 3", true, System.currentTimeMillis()));
 	}
 	
 	@Override

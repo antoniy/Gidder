@@ -12,36 +12,39 @@
         android:name=".app.GidderApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+        
         <activity android:name=".activity.SplashScreenActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainMenuActivity">
-            <intent-filter >
-                <action android:name="net.antoniy.gidder.START_MAIN_MENU_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
+        
         <activity android:name=".activity.AddUserActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_USER_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        
         <activity android:name=".activity.AddRepositoryActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        
         <activity android:name=".activity.SlideActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_SLIDE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        
+        <activity android:name=".activity.RepositoryPermissionsActivity">
+            <intent-filter />
+		</activity>
+		
     </application>
 
 </manifest>

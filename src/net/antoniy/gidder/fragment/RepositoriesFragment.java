@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.activity.AddRepositoryActivity;
+import net.antoniy.gidder.activity.RepositoryPermissionsActivity;
 import net.antoniy.gidder.adapter.RepositoryAdapter;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.popup.RepositoryActionsPopupWindow;
@@ -20,12 +21,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class RepositoriesFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnActionItemClickListener {
+public class RepositoriesFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnActionItemClickListener, OnItemClickListener {
 	private final static String TAG = RepositoriesFragment.class.getSimpleName();
 	private final static String INTENT_ACTION_START_ADD_REPOSITORY = "net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY";
 	
@@ -43,6 +45,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 		repositoriesListView = (ListView) mainContainer.findViewById(R.id.repositoriesListView);
 		loadRepositoriesListContent();
 		repositoriesListView.setOnItemLongClickListener(this);
+		repositoriesListView.setOnItemClickListener(this);
 		
 		return mainContainer;
 	}
@@ -130,4 +133,15 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 			    .setNegativeButton("No", null).show();
 		}
 	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Repository repository = repositoriesListAdapter.getItem(position);
+		
+		Intent intent = new Intent(getActivity(), RepositoryPermissionsActivity.class);
+		intent.putExtra("repositoryId", repository.getId());
+		
+		startActivityForResult(intent, 0);
+	}
+
 }

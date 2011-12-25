@@ -56,4 +56,14 @@
             <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
     </style>
         
+    <style name="general_list_style">
+        <item name="android:background">@drawable/bg_box</item>
+        <item name="android:cacheColorHint">#00000000</item>
+        <item name="android:divider">#D4D4D4</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:footerDividersEnabled">false</item>
+        <item name="android:headerDividersEnabled">false</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:padding">5dp</item>
+    </style>
 </resources>

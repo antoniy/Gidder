@@ -23,5 +23,8 @@
     <string name="action_popup_delete">Delete</string>
     <string name="action_popup_activate">Activate</string>
     <string name="action_popup_deactivate">Deactivate</string>
+    <string name="btn_done">Done</string>
+    <string name="repository_permissions_item_pull">Pull</string>
+    <string name="repository_permissions_item_push">Push</string>
 
 </resources>
