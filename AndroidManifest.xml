@@ -45,6 +45,7 @@
             <intent-filter />
 		</activity>
 		
+        <service android:name=".service.SSHDaemonService"/>
     </application>
 
 </manifest>

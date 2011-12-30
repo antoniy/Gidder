@@ -9,6 +9,7 @@ import net.antoniy.gidder.adapter.UsersAdapter;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.popup.OnActionItemClickListener;
 import net.antoniy.gidder.popup.UserActionsPopupWindow;
+import net.antoniy.gidder.service.SSHDaemonService;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -91,8 +92,21 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		usersListAdapter.notifyDataSetChanged();
 	}
 	
+	boolean shouldStart = true;
+	
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		if(shouldStart) {
+			Intent intent = new Intent(getActivity(), SSHDaemonService.class);
+			getActivity().startService(intent);
+			shouldStart = false;
+		} else {
+			Intent intent = new Intent(getActivity(), SSHDaemonService.class);
+			getActivity().stopService(intent);
+			shouldStart = true;
+		}
+//		getActivity().bin
+		
 		User user = usersListAdapter.getItem(position);
 		
 		UserActionsPopupWindow popup = new UserActionsPopupWindow(view, position, user.isActive());
