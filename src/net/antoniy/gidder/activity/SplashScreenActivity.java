@@ -15,6 +15,19 @@ public class SplashScreenActivity extends BaseActivity {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
+//		try {
+//			long start = System.currentTimeMillis();
+////			new SDCardRepositoryManager().createRepository(null);
+//			Repository repository = new LocalDiskRepositoryManager().createRepository("/sdcard/tmp/repo1.git");
+//			repository.create(true);
+//			repository.close();
+//			Log.i("SplashScreenActivity", "Time: " + (System.currentTimeMillis() - start));
+//		} catch (RepositoryNotFoundException e1) {
+//			e1.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
 		Thread splashThread = new Thread() {
 	         @Override
 	         public void run() {

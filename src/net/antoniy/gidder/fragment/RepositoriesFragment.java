@@ -8,8 +8,9 @@ import net.antoniy.gidder.activity.AddRepositoryActivity;
 import net.antoniy.gidder.activity.RepositoryPermissionsActivity;
 import net.antoniy.gidder.adapter.RepositoryAdapter;
 import net.antoniy.gidder.db.entity.Repository;
-import net.antoniy.gidder.popup.RepositoryActionsPopupWindow;
+import net.antoniy.gidder.git.GitRepositoryDao;
 import net.antoniy.gidder.popup.OnActionItemClickListener;
+import net.antoniy.gidder.popup.RepositoryActionsPopupWindow;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,26 +31,26 @@ import android.widget.ListView;
 public class RepositoriesFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnActionItemClickListener, OnItemClickListener {
 	private final static String TAG = RepositoriesFragment.class.getSimpleName();
 	private final static String INTENT_ACTION_START_ADD_REPOSITORY = "net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY";
-	
+
 	private Button addButton;
 	private ListView repositoriesListView;
 	private RepositoryAdapter repositoriesListAdapter;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		LinearLayout mainContainer = (LinearLayout) inflater.inflate(R.layout.repositories, null);
 
 		addButton = (Button) mainContainer.findViewById(R.id.repositoriesAddButton);
 		addButton.setOnClickListener(this);
-		
+
 		repositoriesListView = (ListView) mainContainer.findViewById(R.id.repositoriesListView);
 		loadRepositoriesListContent();
 		repositoriesListView.setOnItemLongClickListener(this);
 		repositoriesListView.setOnItemClickListener(this);
-		
+
 		return mainContainer;
 	}
-	
+
 	private void loadRepositoriesListContent() {
 		List<Repository> repositories = null;
 		try {
@@ -58,29 +59,29 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 			Log.e(TAG, "Could not retrieve repositories.", e);
 			return;
 		}
-		
+
 		repositoriesListAdapter = new RepositoryAdapter(getActivity(), R.layout.repositories_item, repositories);
 		repositoriesListView.setAdapter(repositoriesListAdapter);
 	}
 
 	@Override
 	public void onClick(View v) {
-		if(v.getId() == R.id.repositoriesAddButton) {
+		if (v.getId() == R.id.repositoriesAddButton) {
 			Intent intent = new Intent(INTENT_ACTION_START_ADD_REPOSITORY);
 			startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_ADD_REPOSITORY);
 		}
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode == Activity.RESULT_OK) {
+		if (resultCode == Activity.RESULT_OK) {
 			Log.i(TAG, "Refreshing repositories...");
 			updateRepositoriesList();
 		}
-		
+
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
 	private void updateRepositoriesList() {
 		List<Repository> repositories = null;
 		try {
@@ -89,7 +90,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 			Log.e(TAG, "Could not retrieve repositories.", e);
 			return;
 		}
-		
+
 		repositoriesListAdapter.setItems(repositories);
 		repositoriesListAdapter.notifyDataSetChanged();
 	}
@@ -99,7 +100,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 		RepositoryActionsPopupWindow popup = new RepositoryActionsPopupWindow(view, position);
 		popup.showLikeQuickAction();
 		popup.addOnActionItemClickListener(this);
-		
+
 		return true;
 	}
 
@@ -119,6 +120,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 			    public void onClick(DialogInterface dialog, int which) {
 			        if(which == DialogInterface.BUTTON_POSITIVE) {
 			            try {
+			            	new GitRepositoryDao(getActivity()).deleteRepository(repository.getMapping());
 							getHelper().getRepositoryDao().deleteById(repository.getId());
 							updateRepositoriesList();
 						} catch (SQLException e) {
@@ -137,10 +139,10 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Repository repository = repositoriesListAdapter.getItem(position);
-		
+
 		Intent intent = new Intent(getActivity(), RepositoryPermissionsActivity.class);
 		intent.putExtra("repositoryId", repository.getId());
-		
+
 		startActivityForResult(intent, 0);
 	}
 

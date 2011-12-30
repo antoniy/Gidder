@@ -18,13 +18,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
-
-import android.content.Context;
 
 /** Manages Git repositories stored on the local filesystem. */
 public class LocalDiskRepositoryManager implements GitRepositoryManager {
@@ -50,34 +47,34 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 		}
 	}
 
-	public Repository createRepository(String name) throws RepositoryNotFoundException {
-		if (isUnreasonableName(name)) {
-			throw new RepositoryNotFoundException("Invalid name: " + name);
-		}
-
-		try {
-			File dir = FileKey.resolve(gitDirOf(name), FS.DETECTED);
-			FileKey loc;
-			if (dir != null) {
-				// Already exists on disk, use the repository we found.
-				//
-				loc = FileKey.exact(dir, FS.DETECTED);
-			} else {
-				// It doesn't exist under any of the standard permutations
-				// of the repository name, so prefer the standard bare name.
-				//
-				if (!name.endsWith(Constants.DOT_GIT_EXT)) {
-					name = name + Constants.DOT_GIT_EXT;
-				}
-				loc = FileKey.exact(new File(name), FS.DETECTED);
-			}
-			return RepositoryCache.open(loc, false);
-		} catch (IOException e1) {
-			final RepositoryNotFoundException e2;
-			e2 = new RepositoryNotFoundException("Cannot open repository " + name);
-			e2.initCause(e1);
-			throw e2;
-		}
+	public void createRepository(String name) throws RepositoryNotFoundException {
+////		if (isUnreasonableName(name)) {
+////			throw new RepositoryNotFoundException("Invalid name: " + name);
+////		}
+//
+//		try {
+//			File dir = FileKey.resolve(gitDirOf(name), FS.DETECTED);
+//			FileKey loc;
+//			if (dir != null) {
+//				// Already exists on disk, use the repository we found.
+//				//
+//				loc = FileKey.exact(dir, FS.DETECTED);
+//			} else {
+//				// It doesn't exist under any of the standard permutations
+//				// of the repository name, so prefer the standard bare name.
+//				//
+//				if (!name.endsWith(Constants.DOT_GIT_EXT)) {
+//					name = name + Constants.DOT_GIT_EXT;
+//				}
+//				loc = FileKey.exact(new File(name), FS.DETECTED);
+//			}
+//			return RepositoryCache.open(loc, false);
+//		} catch (IOException e1) {
+//			final RepositoryNotFoundException e2;
+//			e2 = new RepositoryNotFoundException("Cannot open repository " + name);
+//			e2.initCause(e1);
+//			throw e2;
+//		}
 	}
 
 	private boolean isUnreasonableName(String name) {
@@ -101,5 +98,18 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 			return true; // windows UNC path can be "//..."
 
 		return false; // is a reasonable name
+	}
+
+	@Override
+	public void renameRepository(String oldMapping, String newMapping)
+			throws RepositoryNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteRepository(String mapping) throws RepositoryNotFoundException {
+		// TODO Auto-generated method stub
+		
 	}
 }

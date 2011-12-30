@@ -17,7 +17,6 @@ package net.antoniy.gidder.git;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
-
 /**
  * Manages Git repositories for the Gerrit server process.
  * <p>
@@ -26,31 +25,35 @@ import org.eclipse.jgit.lib.Repository;
  * environment.
  */
 public interface GitRepositoryManager {
-  /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
-  public static final String REF_REJECT_COMMITS = "refs/meta/reject-commits";
 
-  /**
-   * Get (or open) a repository by name.
-   *
-   * @param name the repository name, relative to the base directory.
-   * @return the cached Repository instance. Caller must call {@code close()}
-   *         when done to decrement the resource handle.
-   * @throws RepositoryNotFoundException the name does not denote an existing
-   *         repository, or the name cannot be read as a repository.
-   */
-  public abstract Repository openRepository(String name)
-      throws RepositoryNotFoundException;
+	/**
+	 * Get (or open) a repository by name.
+	 * 
+	 * @param name
+	 *            the repository name, relative to the base directory.
+	 * @return the cached Repository instance. Caller must call {@code close()}
+	 *         when done to decrement the resource handle.
+	 * @throws RepositoryNotFoundException
+	 *             the name does not denote an existing repository, or the name
+	 *             cannot be read as a repository.
+	 */
+	public Repository openRepository(String mapping) throws RepositoryNotFoundException;
 
-  /**
-   * Create (and open) a repository by name.
-   *
-   * @param name the repository name, relative to the base directory.
-   * @return the cached Repository instance. Caller must call {@code close()}
-   *         when done to decrement the resource handle.
-   * @throws RepositoryNotFoundException the name does not denote an existing
-   *         repository, or the name cannot be read as a repository.
-   */
-  public abstract Repository createRepository(String name)
-      throws RepositoryNotFoundException;
+	/**
+	 * Create (and open) a repository by name.
+	 * 
+	 * @param name
+	 *            the repository name, relative to the base directory.
+	 * @return the cached Repository instance. Caller must call {@code close()}
+	 *         when done to decrement the resource handle.
+	 * @throws RepositoryNotFoundException
+	 *             the name does not denote an existing repository, or the name
+	 *             cannot be read as a repository.
+	 */
+	public void createRepository(String mapping) throws RepositoryNotFoundException;
+
+	public void renameRepository(String oldMapping, String newMapping) throws RepositoryNotFoundException;
+
+	public void deleteRepository(String mapping) throws RepositoryNotFoundException;
 
 }

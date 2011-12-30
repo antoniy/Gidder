@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
+import net.antoniy.gidder.git.GitRepositoryDao;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ public class AddRepositoryActivity extends BaseActivity {
 	private EditText descriptionEditText;
 	private boolean editMode = false;
 	private int repositoryId;
+	private GitRepositoryDao repositoryDao;
 	
 	@Override
 	protected void setup() {
@@ -43,6 +45,8 @@ public class AddRepositoryActivity extends BaseActivity {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
+		repositoryDao = new GitRepositoryDao(this);
+		
 		TextView titleTextView = (TextView) findViewById(R.id.addRepositoryTitle);
 		if(editMode) {
 			titleTextView.setText(R.string.add_repository_edittitle);
@@ -99,10 +103,15 @@ public class AddRepositoryActivity extends BaseActivity {
 			
 			try {
 				if(editMode) {
+					repositoryDao.renameRepository(repositoryId, mapping);
+
 					// TODO: Fix edit of active and create datetime.
 					getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description, true, System.currentTimeMillis()));
 				} else {
 					getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
+					
+					// TODO: create repo WITH LOADING
+					repositoryDao.createRepository(mapping);
 				}
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem when add new repository.", e);

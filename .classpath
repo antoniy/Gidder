@@ -5,7 +5,11 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="lib/mina-core-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.jgit-1.1.0.201109151100-r.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jgit-1.1.0.201109151100-r.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Gidder/lib/doc/org.eclipse.jgit-1.1.0.201109151100-r-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/ormlite-android-4.30.jar" sourcepath="lib/src/ormlite-android-4.30-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/Gidder/lib/doc/ormlite-android-4.30-javadoc.jar!/"/>
