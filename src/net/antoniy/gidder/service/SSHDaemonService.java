@@ -1,8 +1,12 @@
 package net.antoniy.gidder.service;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
+import net.antoniy.gidder.db.DBC;
 import net.antoniy.gidder.db.DBHelper;
+import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ssh.GidderCommandFactory;
 import net.antoniy.gidder.ssh.GidderHostKeyProvider;
 import net.antoniy.gidder.ssh.NoShell;
@@ -33,17 +37,6 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 		sshServer.setShellFactory(new NoShell());
 		sshServer.setCommandFactory(new GidderCommandFactory(this));
 		sshServer.setPasswordAuthenticator(this);
-//		sshServer.setSessionFactory(new GidderSessionFactory());
-		
-//		sshServer.setPasswordAuthenticator(new PasswordAuthenticator() {
-//			public boolean authenticate(String username, String password, ServerSession session) {
-//				if("test".equals(username) && "123".equals(password)) {
-//					return true;
-//				}
-//				
-//				return false;
-//			}
-//		});
 	}
 	
 	@Override
@@ -81,10 +74,27 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 
 	@Override
 	public boolean authenticate(String username, String password, ServerSession session) {
-//		session.getIoSession().
-//		session.setAttribute(key, value)
+		if(password == null || "".equals(password.trim())) {
+			return false;
+		}
 		
-		return true;
+		// Query for user by username
+		try {
+			List<User> users = dbHelper.getUserDao().queryForEq(DBC.users.column_username, username);
+			if(users.size() != 1) {
+				return false;
+			}
+			User user = users.get(0);
+			
+			if(password.equals(user.getPassword())) {
+				return true;
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "Problem while retrieving user from database.", e);
+			return false;
+		}
+		
+		return false;
 	}
 
 }
