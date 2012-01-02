@@ -1,4 +1,4 @@
-package net.antoniy.gidder.popup;
+package net.antoniy.gidder.ui.popup;
 
 import android.view.View;
 

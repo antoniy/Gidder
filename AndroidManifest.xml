@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".activity.RepositoryPermissionsActivity">
+        <activity android:name=".ui.activity.RepositoryPermissionsActivity">
             <intent-filter />
 		</activity>
 		

@@ -1,13 +1,13 @@
-package net.antoniy.gidder.adapter;
+package net.antoniy.gidder.ui.adapter;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import net.antoniy.gidder.R;
-import net.antoniy.gidder.activity.BaseActivity;
 import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
+import net.antoniy.gidder.ui.activity.BaseActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

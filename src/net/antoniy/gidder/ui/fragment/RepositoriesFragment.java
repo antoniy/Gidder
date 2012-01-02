@@ -1,16 +1,16 @@
-package net.antoniy.gidder.fragment;
+package net.antoniy.gidder.ui.fragment;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import net.antoniy.gidder.R;
-import net.antoniy.gidder.activity.AddRepositoryActivity;
-import net.antoniy.gidder.activity.RepositoryPermissionsActivity;
-import net.antoniy.gidder.adapter.RepositoryAdapter;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
-import net.antoniy.gidder.popup.OnActionItemClickListener;
-import net.antoniy.gidder.popup.RepositoryActionsPopupWindow;
+import net.antoniy.gidder.ui.activity.AddRepositoryActivity;
+import net.antoniy.gidder.ui.activity.RepositoryPermissionsActivity;
+import net.antoniy.gidder.ui.adapter.RepositoryAdapter;
+import net.antoniy.gidder.ui.popup.OnActionItemClickListener;
+import net.antoniy.gidder.ui.popup.RepositoryActionsPopupWindow;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

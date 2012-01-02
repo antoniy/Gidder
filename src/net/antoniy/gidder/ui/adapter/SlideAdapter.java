@@ -1,9 +1,9 @@
-package net.antoniy.gidder.adapter;
+package net.antoniy.gidder.ui.adapter;
 
 import com.viewpagerindicator.TitleProvider;
 
-import net.antoniy.gidder.fragment.FragmentFactory;
-import net.antoniy.gidder.fragment.FragmentType;
+import net.antoniy.gidder.ui.fragment.FragmentFactory;
+import net.antoniy.gidder.ui.fragment.FragmentType;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

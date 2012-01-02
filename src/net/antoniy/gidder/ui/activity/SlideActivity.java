@@ -1,8 +1,8 @@
-package net.antoniy.gidder.activity;
+package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
-import net.antoniy.gidder.adapter.SlideAdapter;
-import net.antoniy.gidder.fragment.FragmentType;
+import net.antoniy.gidder.ui.adapter.SlideAdapter;
+import net.antoniy.gidder.ui.fragment.FragmentType;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;

@@ -1,4 +1,4 @@
-package net.antoniy.gidder.activity;
+package net.antoniy.gidder.ui.activity;
 
 import java.sql.SQLException;
 import java.util.regex.Matcher;

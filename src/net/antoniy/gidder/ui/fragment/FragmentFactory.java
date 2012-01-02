@@ -1,4 +1,4 @@
-package net.antoniy.gidder.fragment;
+package net.antoniy.gidder.ui.fragment;
 
 import android.support.v4.app.Fragment;
 

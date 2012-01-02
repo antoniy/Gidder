@@ -1,4 +1,4 @@
-package net.antoniy.gidder.fragment;
+package net.antoniy.gidder.ui.fragment;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.service.SSHDaemonService;

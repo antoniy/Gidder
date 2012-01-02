@@ -1,4 +1,4 @@
-package net.antoniy.gidder.activity;
+package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
 import android.content.Intent;

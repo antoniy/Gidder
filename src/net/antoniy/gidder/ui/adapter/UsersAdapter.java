@@ -1,4 +1,4 @@
-package net.antoniy.gidder.adapter;
+package net.antoniy.gidder.ui.adapter;
 
 import java.util.List;
 
