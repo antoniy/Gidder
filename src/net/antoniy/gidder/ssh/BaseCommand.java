@@ -19,14 +19,17 @@ import java.io.OutputStream;
 
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.ExitCallback;
+import org.apache.sshd.server.SessionAware;
+import org.apache.sshd.server.session.ServerSession;
 
-public abstract class BaseCommand implements Command {
+public abstract class BaseCommand implements Command, SessionAware {
 	public final static int CODE_OK = 0;
 	public final static int CODE_ERROR = 255;
 	
 	protected InputStream in;
 	protected OutputStream out;
 	protected OutputStream err;
+	protected ServerSession session;
 
 	private ExitCallback exit;
 
@@ -72,4 +75,8 @@ public abstract class BaseCommand implements Command {
 		exit.onExit(rc, message);
 	}
 
+	@Override
+	public void setSession(ServerSession session) {
+		this.session = session;
+	}
 }

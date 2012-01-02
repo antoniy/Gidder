@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#D4D4D4"
+    android:orientation="vertical">
+
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="SSH Settings"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:layout_marginLeft="5dp"/>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_box"
+        android:layout_margin="5dp">
+        
+		<Button 
+		    android:id="@+id/startSshdButton"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:text="Start SSHd"
+			android:gravity="center" />
+	
+		<Button 
+		    android:id="@+id/stopSshdButton"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:text="Stop SSHd"
+			android:gravity="center" />
+	
+	</LinearLayout>
+</LinearLayout>

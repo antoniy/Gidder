@@ -15,7 +15,8 @@ import com.viewpagerindicator.TitlePageIndicator;
 public class SlideActivity extends FragmentActivity {
 	private final static String TAG = SlideActivity.class.getSimpleName();
 	
-	private final static FragmentType[] CONTENT = new FragmentType[] { FragmentType.USERS, FragmentType.REPOSITORIES };
+//	private final static FragmentType[] CONTENT = new FragmentType[] { FragmentType.USERS, FragmentType.REPOSITORIES };
+	private final static FragmentType[] CONTENT = FragmentType.values();
 	
 	private SlideAdapter mAdapter;
 	private ViewPager mPager;
@@ -46,6 +47,7 @@ public class SlideActivity extends FragmentActivity {
 		mIndicator = (TitlePageIndicator)findViewById(R.id.slideIndicator);
 //		mIndicator = (TabPageIndicator)findViewById(R.id.slideIndicator);
 		mIndicator.setViewPager(mPager);
+		mIndicator.setCurrentItem(mAdapter.getCount() / 2);
 	}
 
 	public FragmentType getCurrentFragment() {

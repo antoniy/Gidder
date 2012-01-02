@@ -3,7 +3,8 @@ package net.antoniy.gidder.fragment;
 public enum FragmentType {
 	
 	USERS("Users"),
-	REPOSITORIES("Repositories");
+	REPOSITORIES("Repositories"),
+	SETTINGS("Settings");
 	
 	private String title;
 

@@ -308,9 +308,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__tab_unselected_pressed_holo=0x7f020014;
     }
     public static final class id {
-        public static final int actionPopupActivateDeactivate=0x7f050026;
-        public static final int actionPopupActivateDeactivateImage=0x7f050027;
-        public static final int actionPopupActivateDeactivateText=0x7f050028;
+        public static final int actionPopupActivateDeactivate=0x7f050028;
+        public static final int actionPopupActivateDeactivateImage=0x7f050029;
+        public static final int actionPopupActivateDeactivateText=0x7f05002a;
         public static final int actionPopupDelete=0x7f050016;
         public static final int actionPopupEdit=0x7f050015;
         public static final int addRepositoryBtnAdd=0x7f050009;
@@ -339,18 +339,20 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int repositoryPermissionsListView=0x7f05001a;
         public static final int repositoryPermissionsPullImage=0x7f05001c;
         public static final int repositoryPermissionsPushImage=0x7f05001d;
-        public static final int slideIndicator=0x7f05001f;
-        public static final int slidePager=0x7f050020;
-        public static final int splashScreenImageView=0x7f050021;
-        public static final int splashScreenSubtitleTextView=0x7f050023;
-        public static final int splashScreenTitleTextView=0x7f050022;
+        public static final int slideIndicator=0x7f050021;
+        public static final int slidePager=0x7f050022;
+        public static final int splashScreenImageView=0x7f050023;
+        public static final int splashScreenSubtitleTextView=0x7f050025;
+        public static final int splashScreenTitleTextView=0x7f050024;
+        public static final int startSshdButton=0x7f05001f;
+        public static final int stopSshdButton=0x7f050020;
         public static final int triangle=0x7f050003;
         public static final int underline=0x7f050004;
-        public static final int usersAddButton=0x7f050025;
-        public static final int usersItemEmail=0x7f05002b;
-        public static final int usersItemFullname=0x7f050029;
-        public static final int usersItemUsername=0x7f05002a;
-        public static final int usersListView=0x7f050024;
+        public static final int usersAddButton=0x7f050027;
+        public static final int usersItemEmail=0x7f05002d;
+        public static final int usersItemFullname=0x7f05002b;
+        public static final int usersItemUsername=0x7f05002c;
+        public static final int usersListView=0x7f050026;
         public static final int vertical=0x7f050001;
     }
     public static final class integer {
@@ -366,12 +368,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int repository_permissions=0x7f030005;
         public static final int repository_permissions_child_item=0x7f030006;
         public static final int repository_permissions_group_item=0x7f030007;
-        public static final int slide=0x7f030008;
-        public static final int splash_screen=0x7f030009;
-        public static final int users=0x7f03000a;
-        public static final int users_actions_popup=0x7f03000b;
-        public static final int users_item=0x7f03000c;
-        public static final int vpi__tab=0x7f03000d;
+        public static final int settings=0x7f030008;
+        public static final int slide=0x7f030009;
+        public static final int splash_screen=0x7f03000a;
+        public static final int users=0x7f03000b;
+        public static final int users_actions_popup=0x7f03000c;
+        public static final int users_item=0x7f03000d;
+        public static final int vpi__tab=0x7f03000e;
     }
     public static final class string {
         public static final int action_popup_activate=0x7f0b0014;

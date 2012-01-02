@@ -17,10 +17,11 @@ package net.antoniy.gidder.ssh;
 import java.io.IOException;
 
 import net.antoniy.gidder.git.GitRepositoryManager;
-import net.antoniy.gidder.git.LocalDiskRepositoryManager;
+import net.antoniy.gidder.git.SDCardRepositoryManager;
 
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
 import android.content.Context;
@@ -33,37 +34,16 @@ public abstract class AbstractGitCommand extends BaseCommand {
 	private final static String MSG_REPOSITORY_ACCESS_PROBLEM = "Problem accessing the repository.\r\n";
 	
 	private String repoPath;
-	private Context context;
+//	private Context context;
 
-//	protected String projectName() {
-//		String projectName = repoPath;
-//
-//		if (projectName.endsWith(".git")) {
-//			// Be nice and drop the trailing ".git" suffix, which we never keep
-//			// in our database, but clients might mistakenly provide anyway.
-//			//
-//			projectName = projectName.substring(0, projectName.length() - 4);
-//		}
-//
-//		if (projectName.startsWith("/")) {
-//			// Be nice and drop the leading "/" if supplied by an absolute path.
-//			// We don't have a file system hierarchy, just a flat namespace in
-//			// the database's Project entities. We never encode these with a
-//			// leading '/' but users might accidentally include them in Git
-//			// URLs.
-//			//
-//			projectName = projectName.substring(1);
-//		}
-//
-//		return projectName;
-//	}
-
-	private GitRepositoryManager repoManager = new LocalDiskRepositoryManager();
+	private GitRepositoryManager repoManager = new SDCardRepositoryManager();
+	protected SshAuthorizationManager sshAuthorizationManager;
 	protected Repository repo;
 
 	public AbstractGitCommand(Context context, String repoPath) {
 		this.repoPath = repoPath;
-		this.context = context;
+//		this.context = context;
+		this.sshAuthorizationManager = new SshAuthorizationManager(context);
 	}
 	
 	public void start(final Environment env) {
@@ -81,7 +61,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 //		android.os.Environment.getExternalStorageDirectory()
 		
 		try {
-			repo = repoManager.openRepository(repoPath);
+			repo = repoManager.openRepository(getRepositoryMapping());
 		} catch (RepositoryNotFoundException e1) {
 			Log.w(TAG, "Repository not found.", e1);
 			onExit(CODE_ERROR, MSG_REPOSITORY_NOT_FOUND);
@@ -111,6 +91,21 @@ public abstract class AbstractGitCommand extends BaseCommand {
 			
 			onExit(CODE_OK);
 		}
+	}
+	
+	protected String getRepositoryMapping() {
+		String mapping = null;
+		if(repoPath.startsWith("/")) {
+			mapping = repoPath.substring(1);
+		} else {
+			mapping = repoPath;
+		}
+		
+		if(mapping.endsWith(Constants.DOT_GIT_EXT)) {
+			mapping = mapping.substring(0, mapping.length() - Constants.DOT_GIT_EXT.length());
+		}
+		
+		return mapping;
 	}
 
 	protected abstract void runImpl() throws IOException;

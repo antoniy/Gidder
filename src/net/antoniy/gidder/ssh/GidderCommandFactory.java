@@ -25,6 +25,10 @@ public class GidderCommandFactory implements CommandFactory {
 	@Override
 	public Command createCommand(String command) {
 		Log.i(TAG, "Process command: " + command);
+		
+		// Session manager works. I can do authorization somewhere inhere or use other class for authorization.
+//		SshSessionManager sessionManager = SshSessionManager.getInstance();
+		
 		try {
 			return processCommand(command);
 		} catch (InvalidGitParameterException e) {
@@ -45,24 +49,20 @@ public class GidderCommandFactory implements CommandFactory {
 			throw new InvalidGitParameterException("Command not found: " + command);
 		}
 		
-		if("git-upload-pack".equals(words[0]) ||
-				"git-receive-pack".equals(words[0]) ||
-				"upload-pack".equals(words[0]) ||
-				"receive-pack".equals(words[0])) {
+		if("git-upload-pack".equals(words[0]) || "upload-pack".equals(words[0])) {
 			return new Upload(context, parseRepoPath(words[1]));
+		} else if ("git-receive-pack".equals(words[0]) || "receive-pack".equals(words[0])) {
+			return new Receive(context, parseRepoPath(words[1]));
 		} else {
 			throw new InvalidGitParameterException("Command not found: " + command);
 		}
 	}
 	
 	private String parseRepoPath(String path) throws InvalidGitParameterException {
-		Log.i(TAG, "Path: " + path);
-		
 		path = path.replace("'", "").replace("/", "");
 		
-		Log.i(TAG, "Path2: " + path);
-		
 		if(pathPattern.matcher(path).find()) {
+			Log.i(TAG, "Parsed repoPath: " + path);
 			return path;
 		}
 		

@@ -16,22 +16,34 @@ package net.antoniy.gidder.ssh;
 
 import java.io.IOException;
 
+import net.antoniy.gidder.exception.SshAuthorizationException;
+
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceivePack;
 
 import android.content.Context;
+import android.util.Log;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 public final class Receive extends AbstractGitCommand {
-
+	private final static String TAG = Receive.class.getSimpleName();
+	private final static String MSG_REPOSITORY_PERMISSIONS = "[Gidder] Don't have permissions to PUSH in this repository.\r\n";
+	
 	public Receive(Context context, String repoPath) {
 		super(context, repoPath);
 	}
 	
 	@Override
 	protected void runImpl() throws IOException {
+		if(!hasPermission()) {
+			err.write(MSG_REPOSITORY_PERMISSIONS.getBytes());
+			err.flush();
+			onExit(CODE_ERROR, MSG_REPOSITORY_PERMISSIONS);
+			return;
+		}
+		
 		Config config = new Config();
 //		int timeout = Integer.parseInt(config.getString("transfer", null, "timeout"));
 		int timeout = 10;
@@ -51,6 +63,20 @@ public final class Receive extends AbstractGitCommand {
 //			err.printStackTrace();
 ////			throw new Failure(128, "fatal: client IO read/write timeout", err);
 //		}
+	}
+	
+	private boolean hasPermission() {
+		String username = session.getUsername();
+		
+		boolean hasPermission = false;
+		try {
+			hasPermission = sshAuthorizationManager.hasRepositoryPushPermission(username, getRepositoryMapping());
+		} catch (SshAuthorizationException e) {
+			Log.e(TAG, "Problem with user authorization.", e);
+			return false;
+		}
+		
+		return hasPermission;
 	}
 
 }

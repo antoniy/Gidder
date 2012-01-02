@@ -16,8 +16,27 @@ public class SDCardRepositoryManager implements GitRepositoryManager {
 
 	@Override
 	public Repository openRepository(String name) throws RepositoryNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Repository repository = null;
+		try {
+			FileRepositoryBuilder builder = new FileRepositoryBuilder();
+			builder.setGitDir(getRepositoryPath(name + Constants.DOT_GIT_EXT));
+			builder.setBare();	
+			builder.setup();
+			
+			repository = builder.build();
+			
+			Log.i(TAG, "Repository created: " + repository.getDirectory().getCanonicalPath());
+		} catch (IllegalArgumentException e) {
+			throw new RepositoryNotFoundException("Error while configuring repository.", e);
+		} catch (IOException e) {
+			throw new RepositoryNotFoundException("Error while reading the repository.", e);
+		} finally {
+			if(repository != null) {
+				repository.close();
+			}
+		}
+		
+		return repository;
 	}
 
 	@Override
