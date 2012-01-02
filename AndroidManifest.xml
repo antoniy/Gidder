@@ -13,28 +13,28 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         
-        <activity android:name=".activity.SplashScreenActivity" >
+        <activity android:name=".ui.activity.SplashScreenActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-        <activity android:name=".activity.AddUserActivity">
+        <activity android:name=".ui.activity.AddUserActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_USER_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".activity.AddRepositoryActivity">
+        <activity android:name=".ui.activity.AddRepositoryActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".activity.SlideActivity">
+        <activity android:name=".ui.activity.SlideActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_SLIDE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>

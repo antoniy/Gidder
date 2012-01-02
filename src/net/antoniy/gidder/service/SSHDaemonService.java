@@ -55,7 +55,6 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 			Log.e(TAG, "Problem when stopping SSHd.", e);
 		} finally {
 			dbHelper.close();
-			super.onDestroy();
 		}
 		
 	}
@@ -66,10 +65,10 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 			sshServer.start();
 			Log.i(TAG, "SSHd started!");
 		} catch (IOException e) {
-			Log.e(TAG, "Problem when starting SSHd,", e);
+			Log.e(TAG, "Problem when starting SSHd.", e);
 		}
 
-		return super.onStartCommand(intent, flags, startId);
+		return START_STICKY;
 	}
 
 	@Override
