@@ -2,6 +2,11 @@ package net.antoniy.gidder.ui.fragment;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.service.SSHDaemonService;
+import net.antoniy.gidder.ui.activity.SplashScreenActivity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener {
+	private final static int SSH_STARTED_NOTIFICATION_ID = 1;
 	
 	private Button startSshdButton;
 	private Button stopSshdButton;
@@ -36,8 +42,24 @@ public class SettingsFragment extends BaseFragment implements OnClickListener {
 		Intent intent = new Intent(getActivity(), SSHDaemonService.class);
 		if(viewId == R.id.startSshdButton) {
 			getActivity().startService(intent);
+			
+			Notification notification = new Notification(R.drawable.ic_launcher, "SSH server started!", System.currentTimeMillis());
+			notification.defaults |= Notification.DEFAULT_SOUND;
+//			notification.defaults |= Notification.DEFAULT_VIBRATE;
+			notification.flags = Notification.FLAG_AUTO_CANCEL;
+			
+			Intent notificationIntent = new Intent(getActivity(), SplashScreenActivity.class);
+			PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 1, notificationIntent, 0);
+
+			notification.setLatestEventInfo(getActivity(), "Gidder", "SSH server started!", contentIntent);
+			
+			NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+			notificationManager.notify(SSH_STARTED_NOTIFICATION_ID, notification);
 		} else if(viewId == R.id.stopSshdButton) {
 			getActivity().stopService(intent);
+			
+			NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+			notificationManager.cancel(SSH_STARTED_NOTIFICATION_ID);
 		}
 	}
 }
