@@ -150,6 +150,7 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 			
 			try {
 				getHelper().getUserDao().update(user);
+				updateUsersList();
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem while deactivating user.", e);
 			}
@@ -159,6 +160,7 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 			
 			try {
 				getHelper().getUserDao().update(user);
+				updateUsersList();
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem while activating user.", e);
 			}

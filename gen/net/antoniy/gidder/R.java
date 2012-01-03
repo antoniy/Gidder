@@ -296,16 +296,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_push_checked=0x7f020008;
         public static final int ic_push_unchecked=0x7f020009;
         public static final int ic_repository=0x7f02000a;
-        public static final int ic_user=0x7f02000b;
-        public static final int menu_bg=0x7f02000c;
-        public static final int splash=0x7f02000d;
-        public static final int vpi__tab_indicator=0x7f02000e;
-        public static final int vpi__tab_selected_focused_holo=0x7f02000f;
-        public static final int vpi__tab_selected_holo=0x7f020010;
-        public static final int vpi__tab_selected_pressed_holo=0x7f020011;
-        public static final int vpi__tab_unselected_focused_holo=0x7f020012;
-        public static final int vpi__tab_unselected_holo=0x7f020013;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f020014;
+        public static final int ic_user_active=0x7f02000b;
+        public static final int ic_user_unactive=0x7f02000c;
+        public static final int menu_bg=0x7f02000d;
+        public static final int splash=0x7f02000e;
+        public static final int vpi__tab_indicator=0x7f02000f;
+        public static final int vpi__tab_selected_focused_holo=0x7f020010;
+        public static final int vpi__tab_selected_holo=0x7f020011;
+        public static final int vpi__tab_selected_pressed_holo=0x7f020012;
+        public static final int vpi__tab_unselected_focused_holo=0x7f020013;
+        public static final int vpi__tab_unselected_holo=0x7f020014;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f020015;
     }
     public static final class id {
         public static final int actionPopupActivateDeactivate=0x7f050028;
@@ -349,9 +350,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int triangle=0x7f050003;
         public static final int underline=0x7f050004;
         public static final int usersAddButton=0x7f050027;
-        public static final int usersItemEmail=0x7f05002d;
-        public static final int usersItemFullname=0x7f05002b;
-        public static final int usersItemUsername=0x7f05002c;
+        public static final int usersItemEmail=0x7f05002e;
+        public static final int usersItemFullname=0x7f05002c;
+        public static final int usersItemImage=0x7f05002b;
+        public static final int usersItemUsername=0x7f05002d;
         public static final int usersListView=0x7f050026;
         public static final int vertical=0x7f050001;
     }

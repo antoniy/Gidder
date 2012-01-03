@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,13 @@ public class UsersAdapter extends BaseAdapter {
 		}
 		
 		User user = items.get(position);
+		
+		ImageView userImage = (ImageView) v.findViewById(R.id.usersItemImage);
+		if(user.isActive()) {
+			userImage.setImageResource(R.drawable.ic_user_active);
+		} else {
+			userImage.setImageResource(R.drawable.ic_user_unactive);
+		}
 		
 		TextView userFullname = (TextView) v.findViewById(R.id.usersItemFullname);
 		userFullname.setText(user.getFullname());

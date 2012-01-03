@@ -3,12 +3,12 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
-    android:paddingLeft="40dp">
+    android:paddingLeft="30dp">
 
     <ImageView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_user"
+        android:src="@drawable/ic_user_active"
         android:layout_gravity="center"/>
     
     <LinearLayout
