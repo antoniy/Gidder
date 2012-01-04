@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener {
 	private final static int SSH_STARTED_NOTIFICATION_ID = 1;
@@ -44,6 +45,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener {
 		Intent intent = new Intent(getActivity(), SSHDaemonService.class);
 		if(viewId == R.id.startSshdButton) {
 			if(isSshServiceRunning()) {
+				Toast.makeText(getActivity(), "Service already started!", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
@@ -63,6 +65,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener {
 			notificationManager.notify(SSH_STARTED_NOTIFICATION_ID, notification);
 		} else if(viewId == R.id.stopSshdButton) {
 			if(!isSshServiceRunning()) {
+				Toast.makeText(getActivity(), "Service already stopped!", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			

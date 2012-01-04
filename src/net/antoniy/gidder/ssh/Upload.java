@@ -57,12 +57,6 @@ public final class Upload extends AbstractGitCommand {
 		up.setPackConfig(packConfig);
 		up.setTimeout(timeout);
 		up.upload(in, out, err);
-//		try {
-//		} catch (IOException err) {
-//			err.printStackTrace();
-//			// throw new Failure(128, "fatal: client IO read/write timeout",
-//			// err);
-//		}
 	}
 
 	private boolean hasPermission() {

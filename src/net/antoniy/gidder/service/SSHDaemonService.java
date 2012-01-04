@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.DBC;
 import net.antoniy.gidder.db.DBHelper;
 import net.antoniy.gidder.db.entity.User;
@@ -16,10 +15,7 @@ import org.apache.sshd.SshServer;
 import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -60,7 +56,7 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 	@Override
 	public void onDestroy() {
 		try {
-			sshServer.stop();
+			sshServer.stop(true);
 			Log.i(TAG, "SSHd stopped!");
 		} catch (InterruptedException e) {
 			Log.e(TAG, "Problem when stopping SSHd.", e);

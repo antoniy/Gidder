@@ -18,9 +18,6 @@ import java.io.IOException;
 
 import net.antoniy.gidder.exception.SshAuthorizationException;
 
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceivePack;
 
 import android.content.Context;
@@ -44,25 +41,20 @@ public final class Receive extends AbstractGitCommand {
 			return;
 		}
 		
-		Config config = new Config();
+//		Config config = new Config();
 //		int timeout = Integer.parseInt(config.getString("transfer", null, "timeout"));
 		int timeout = 10;
 
-		PackConfig packConfig = new PackConfig();
-	    packConfig.setDeltaCompress(false);
-	    packConfig.setThreads(1);
-	    packConfig.fromConfig(config);
+//		PackConfig packConfig = new PackConfig();
+//	    packConfig.setDeltaCompress(false);
+//	    packConfig.setThreads(1);
+//	    packConfig.fromConfig(config);
 	    
 	    
 		final ReceivePack rp = new ReceivePack(repo);
-		rp.setRefLogIdent(new PersonIdent("test", "test@test.com"));
+//		rp.setRefLogIdent(new PersonIdent("test", "test@test.com"));
 		rp.setTimeout(timeout);
 		rp.receive(in, out, err);
-//		try {
-//		} catch (IOException err) {
-//			err.printStackTrace();
-////			throw new Failure(128, "fatal: client IO read/write timeout", err);
-//		}
 	}
 	
 	private boolean hasPermission() {
