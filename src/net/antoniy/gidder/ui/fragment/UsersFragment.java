@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
-import net.antoniy.gidder.service.SSHDaemonService;
 import net.antoniy.gidder.ui.activity.AddUserActivity;
 import net.antoniy.gidder.ui.adapter.UsersAdapter;
 import net.antoniy.gidder.ui.popup.OnActionItemClickListener;
@@ -14,6 +13,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +33,7 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 	private Button addButton;
 	private ListView usersListView;
 	private UsersAdapter usersListAdapter;
+	private UserActionsPopupWindow popup;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,28 +93,24 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		usersListAdapter.notifyDataSetChanged();
 	}
 	
-	boolean shouldStart = true;
-	
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		if(shouldStart) {
-			Intent intent = new Intent(getActivity(), SSHDaemonService.class);
-			getActivity().startService(intent);
-			shouldStart = false;
-		} else {
-			Intent intent = new Intent(getActivity(), SSHDaemonService.class);
-			getActivity().stopService(intent);
-			shouldStart = true;
-		}
-//		getActivity().bin
-		
 		User user = usersListAdapter.getItem(position);
 		
-		UserActionsPopupWindow popup = new UserActionsPopupWindow(view, position, user.isActive());
-		popup.showLikeQuickAction();
+		popup = new UserActionsPopupWindow(view, position, user.isActive());
+		popup.showLikeQuickAction(0, 40);
 		popup.addOnActionItemClickListener(this);
-		
+
 		return true;
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// We need this because when the popup is opened and the screen orientation 
+		// changes - the popup window leaks and we got an exception.
+		popup.dismiss();
+
+		super.onConfigurationChanged(newConfig);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -192,7 +193,8 @@ public abstract class BetterPopupWindow {
 
 		// display on bottom
 		if (rootHeight > anchorRect.top) {
-			yPos = anchorRect.bottom + yOffset;
+			// I changed the sign to minus because the offset does not work correctly when select the top item in the list
+			yPos = anchorRect.bottom - yOffset;
 			this.window.setAnimationStyle(R.style.Animations_GrowFromTop);
 		}
 

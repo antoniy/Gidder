@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.SlideActivity">
+        <activity android:name=".ui.activity.SlideActivity" android:configChanges="orientation">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_SLIDE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
