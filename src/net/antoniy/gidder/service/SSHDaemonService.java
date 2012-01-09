@@ -2,9 +2,7 @@ package net.antoniy.gidder.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
-import net.antoniy.gidder.db.DBC;
 import net.antoniy.gidder.db.DBHelper;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ssh.GidderCommandFactory;
@@ -86,11 +84,11 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 		
 		// Query for user by username
 		try {
-			List<User> users = dbHelper.getUserDao().queryForEq(DBC.users.column_username, username);
-			if(users.size() != 1) {
+			User user = dbHelper.getUserDao().queryForUsernameAndActive(username);
+			
+			if(user == null) {
 				return false;
 			}
-			User user = users.get(0);
 			
 			if(password.equals(user.getPassword())) {
 				return true;

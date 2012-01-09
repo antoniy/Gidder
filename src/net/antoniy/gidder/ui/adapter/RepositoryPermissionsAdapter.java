@@ -197,7 +197,7 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 				Log.i(TAG, "Updated!");
 			} else {
 				try {
-					context.getHelper().getPermissionDao().delete(permission);
+					context.getHelper().getPermissionDao().deleteById(permission.getId());
 				} catch (SQLException e) {
 					Log.e(TAG, "Cannot delete permission instance.", e);
 					return;

@@ -2,6 +2,9 @@ package net.antoniy.gidder.db;
 
 import java.sql.SQLException;
 
+import net.antoniy.gidder.db.dao.PermissionDao;
+import net.antoniy.gidder.db.dao.RepositoryDao;
+import net.antoniy.gidder.db.dao.UserDao;
 import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
@@ -20,9 +23,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	private final static String DB_NAME = "gidder.db";
 	private final static int DB_VERSION = 20111127;
 	
-	private Dao<User, Integer> userDao;
-	private Dao<Repository, Integer> repositoryDao;
-	private Dao<Permission, Integer> permissionDao;
+//	private Dao<User, Integer> userDao;
+	private UserDao userDao;
+//	private Dao<Repository, Integer> repositoryDao;
+	private RepositoryDao repositoryDao;
+//	private Dao<Permission, Integer> permissionDao;
+	private PermissionDao permissionDao;
 	
 	public DBHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
@@ -75,24 +81,30 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 	}
 	
-	public Dao<User, Integer> getUserDao() throws SQLException {
+	public UserDao getUserDao() throws SQLException {
 		if (userDao == null) {
-			userDao = getDao(User.class);
+			Dao<User, Integer> dao = getDao(User.class);
+			userDao = new UserDao(dao);
 		}
+		
 		return userDao;
 	}
 	
-	public Dao<Repository, Integer> getRepositoryDao() throws SQLException {
+	public RepositoryDao getRepositoryDao() throws SQLException {
 		if (repositoryDao == null) {
-			repositoryDao = getDao(Repository.class);
+			Dao<Repository, Integer> dao = getDao(Repository.class);
+			repositoryDao = new RepositoryDao(dao);
 		}
+		
 		return repositoryDao;
 	}
 	
-	public Dao<Permission, Integer> getPermissionDao() throws SQLException {
+	public PermissionDao getPermissionDao() throws SQLException {
 		if (permissionDao == null) {
-			permissionDao = getDao(Permission.class);
+			Dao<Permission, Integer> dao = getDao(Permission.class);
+			permissionDao = new PermissionDao(dao);
 		}
+		
 		return permissionDao;
 	}
 	
