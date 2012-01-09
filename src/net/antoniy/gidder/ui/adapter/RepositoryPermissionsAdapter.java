@@ -51,7 +51,11 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 			}
 		}
 		
-		return null;
+		// Create new empty permission instance
+		Repository repository = new Repository(repositoryId, null, null, null, false, 0);
+		Permission permission = new Permission(0, user, repository, false, false);
+		
+		return permission;
 	}
 
 	@Override
@@ -81,20 +85,6 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 		}
 		
 		Permission permission = getChild(groupPosition, childPosition);
-		if(permission == null) {
-			Repository repository = new Repository();
-			repository.setId(repositoryId);
-			
-			permission = new Permission();
-			permission.setId(0);
-			permission.setRepository(repository);
-			permission.setUser(user);
-			permission.setAllowPull(false);
-			permission.setAllowPush(false);
-			
-			// TODO: this adds ID to the permission instance (ORM stuff) - fix it because the checking in the onClick does not work.
-			user.getPermissions().add(permission);
-		}
 
 		ImageView pullImageView = (ImageView) v.findViewById(R.id.repositoryPermissionsPullImage);
 		pullImageView.setOnClickListener(this);
@@ -198,8 +188,6 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 		if(permission.getId() > 0) {
 			// If permission instance is persisted check if we need to update it or remove it.
 			if(permission.isAllowPull() || permission.isAllowPush()) {
-				// TODO: update it
-				Log.i(TAG, "Updating...");
 				try {
 					context.getHelper().getPermissionDao().update(permission);
 				} catch (SQLException e) {
@@ -208,8 +196,6 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 				}
 				Log.i(TAG, "Updated!");
 			} else {
-				// TODO: remove it
-				Log.i(TAG, "Removing...");
 				try {
 					context.getHelper().getPermissionDao().delete(permission);
 				} catch (SQLException e) {
@@ -223,20 +209,14 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 			
 			// If the permission instance is not persisted till now check if we need to persist it
 			if(permission.isAllowPull() || permission.isAllowPush()) {
-				// TODO: persist
-				Log.i(TAG, "Persisting...");
-				try {
-					context.getHelper().getPermissionDao().create(permission);
-				} catch (SQLException e) {
- 					Log.e(TAG, "Cannot persist permission instance.", e);
-					return;
-				}
+				// This actually persists the new permission instance automatically.
+				user.getPermissions().add(permission);
+				
 				Log.i(TAG, "Persisted!");
 			}
 		}
 		
 		notifyDataSetChanged();
-		Log.i(TAG, "UserID: " + user.getId() + ", Operation: " + (v.getId() == R.id.repositoryPermissionsPullImage ? "pull" : "push"));
 	}
 
 }
