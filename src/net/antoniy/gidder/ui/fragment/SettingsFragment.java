@@ -2,6 +2,7 @@ package net.antoniy.gidder.ui.fragment;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.service.SSHDaemonService;
+import net.antoniy.gidder.ui.activity.SlideActivity;
 import net.antoniy.gidder.ui.activity.SplashScreenActivity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -54,12 +55,13 @@ public class SettingsFragment extends BaseFragment implements OnClickListener {
 			Notification notification = new Notification(R.drawable.ic_launcher, "SSH server started!", System.currentTimeMillis());
 			notification.defaults |= Notification.DEFAULT_SOUND;
 //			notification.defaults |= Notification.DEFAULT_VIBRATE;
-			notification.flags = Notification.FLAG_AUTO_CANCEL;
+//			notification.flags = Notification.FLAG_AUTO_CANCEL;
+			notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
 			
-			Intent notificationIntent = new Intent(getActivity(), SplashScreenActivity.class);
+			Intent notificationIntent = new Intent(getActivity(), SlideActivity.class);
 			PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 1, notificationIntent, 0);
 
-			notification.setLatestEventInfo(getActivity(), "Gidder", "SSH server started!", contentIntent);
+			notification.setLatestEventInfo(getActivity(), "Gidder", "SSH server running...", contentIntent);
 			
 			NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 			notificationManager.notify(SSH_STARTED_NOTIFICATION_ID, notification);
