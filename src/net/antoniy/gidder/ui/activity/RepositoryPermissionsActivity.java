@@ -49,6 +49,7 @@ public class RepositoryPermissionsActivity extends BaseActivity {
 	@Override
 	public void onClick(View v) {
 		if(v.getId() == R.id.repositoryPermissionsDone) {
+			setResult(RESULT_OK);
 			finish();
 		}
 	}

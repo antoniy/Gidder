@@ -49,7 +49,7 @@ public class SlideActivity extends FragmentActivity {
 		mIndicator.setViewPager(mPager);
 		mIndicator.setCurrentItem(mAdapter.getCount() / 2);
 	}
-
+	
 	public FragmentType getCurrentFragment() {
 		return CONTENT[mPager.getCurrentItem() % CONTENT.length];
 	}

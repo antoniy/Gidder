@@ -1,9 +1,7 @@
 package net.antoniy.gidder.ui.fragment;
 
-import android.support.v4.app.Fragment;
-
 public final class FragmentFactory {
-	public static Fragment createFragment(FragmentType fragmentType) {
+	public static BaseFragment createFragment(FragmentType fragmentType) {
 		switch (fragmentType) {
 		case USERS:
 			return new UsersFragment();

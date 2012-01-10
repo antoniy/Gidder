@@ -310,9 +310,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__tab_unselected_pressed_holo=0x7f020016;
     }
     public static final class id {
-        public static final int actionPopupActivateDeactivate=0x7f050028;
-        public static final int actionPopupActivateDeactivateImage=0x7f050029;
-        public static final int actionPopupActivateDeactivateText=0x7f05002a;
+        public static final int actionPopupActivateDeactivate=0x7f050029;
+        public static final int actionPopupActivateDeactivateImage=0x7f05002a;
+        public static final int actionPopupActivateDeactivateText=0x7f05002b;
         public static final int actionPopupDelete=0x7f050016;
         public static final int actionPopupEdit=0x7f050015;
         public static final int addRepositoryBtnAdd=0x7f050009;
@@ -335,27 +335,28 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int repositoriesItemDescription=0x7f050019;
         public static final int repositoriesItemMapping=0x7f050018;
         public static final int repositoriesItemName=0x7f050017;
+        public static final int repositoriesItemUserCount=0x7f05001a;
         public static final int repositoriesListView=0x7f050013;
-        public static final int repositoryPermissionGroupItemFullname=0x7f05001e;
-        public static final int repositoryPermissionsDone=0x7f05001b;
-        public static final int repositoryPermissionsListView=0x7f05001a;
-        public static final int repositoryPermissionsPullImage=0x7f05001c;
-        public static final int repositoryPermissionsPushImage=0x7f05001d;
-        public static final int slideIndicator=0x7f050021;
-        public static final int slidePager=0x7f050022;
-        public static final int splashScreenImageView=0x7f050023;
-        public static final int splashScreenSubtitleTextView=0x7f050025;
-        public static final int splashScreenTitleTextView=0x7f050024;
-        public static final int startSshdButton=0x7f05001f;
-        public static final int stopSshdButton=0x7f050020;
+        public static final int repositoryPermissionGroupItemFullname=0x7f05001f;
+        public static final int repositoryPermissionsDone=0x7f05001c;
+        public static final int repositoryPermissionsListView=0x7f05001b;
+        public static final int repositoryPermissionsPullImage=0x7f05001d;
+        public static final int repositoryPermissionsPushImage=0x7f05001e;
+        public static final int slideIndicator=0x7f050022;
+        public static final int slidePager=0x7f050023;
+        public static final int splashScreenImageView=0x7f050024;
+        public static final int splashScreenSubtitleTextView=0x7f050026;
+        public static final int splashScreenTitleTextView=0x7f050025;
+        public static final int startSshdButton=0x7f050020;
+        public static final int stopSshdButton=0x7f050021;
         public static final int triangle=0x7f050003;
         public static final int underline=0x7f050004;
-        public static final int usersAddButton=0x7f050027;
-        public static final int usersItemEmail=0x7f05002e;
-        public static final int usersItemFullname=0x7f05002c;
-        public static final int usersItemImage=0x7f05002b;
-        public static final int usersItemUsername=0x7f05002d;
-        public static final int usersListView=0x7f050026;
+        public static final int usersAddButton=0x7f050028;
+        public static final int usersItemEmail=0x7f05002f;
+        public static final int usersItemFullname=0x7f05002d;
+        public static final int usersItemImage=0x7f05002c;
+        public static final int usersItemUsername=0x7f05002e;
+        public static final int usersListView=0x7f050027;
         public static final int vertical=0x7f050001;
     }
     public static final class integer {

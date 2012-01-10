@@ -37,11 +37,48 @@
     	    android:id="@+id/repositoriesItemDescription"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
-    		android:textColor="@android:color/black" 
+    		android:textColor="@android:color/darker_gray" 
     		android:text="TextView"
     		android:textSize="16sp" 
     		android:textStyle="italic" />
     	
     </LinearLayout>
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:text="("
+        android:textColor="@android:color/darker_gray"
+        android:textSize="24sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"/>
+    
+    <TextView 
+        android:id="@+id/repositoriesItemUserCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:textColor="@android:color/black"
+        android:text="0"
+        android:textSize="24sp"
+        android:layout_marginTop="5dp"/>
+    
+    <ImageView 
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_user_active"
+        android:layout_gravity="top"
+        android:layout_marginTop="10dp"/>
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:text=")"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="24sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"/>
 
 </LinearLayout>

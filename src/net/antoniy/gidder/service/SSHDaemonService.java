@@ -27,14 +27,14 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 	public SSHDaemonService() {
 		Log.i(TAG, "Construct SSHDaemonService!");
 		
-		dbHelper = new DBHelper(this);
-		
-		sshServer = SshServer.setUpDefaultServer();
-		sshServer.setPort(6666);
-		sshServer.setKeyPairProvider(new GidderHostKeyProvider(this));
-		sshServer.setShellFactory(new NoShell());
-		sshServer.setCommandFactory(new GidderCommandFactory(this));
-		sshServer.setPasswordAuthenticator(this);
+//		dbHelper = new DBHelper(this);
+//		
+//		sshServer = SshServer.setUpDefaultServer();
+//		sshServer.setPort(6666);
+//		sshServer.setKeyPairProvider(new GidderHostKeyProvider(this));
+//		sshServer.setShellFactory(new NoShell());
+//		sshServer.setCommandFactory(new GidderCommandFactory(this));
+//		sshServer.setPasswordAuthenticator(this);
 	}
 	
 	@Override
@@ -54,18 +54,31 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 	@Override
 	public void onDestroy() {
 		try {
-			sshServer.stop(true);
+			if(sshServer != null) {
+				sshServer.stop(true);
+			}
 			Log.i(TAG, "SSHd stopped!");
 		} catch (InterruptedException e) {
 			Log.e(TAG, "Problem when stopping SSHd.", e);
 		} finally {
-			dbHelper.close();
+			if(dbHelper != null) {
+				dbHelper.close();
+			}
 		}
 		
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
+		dbHelper = new DBHelper(this);
+		
+		sshServer = SshServer.setUpDefaultServer();
+		sshServer.setPort(6666);
+		sshServer.setKeyPairProvider(new GidderHostKeyProvider(this));
+		sshServer.setShellFactory(new NoShell());
+		sshServer.setCommandFactory(new GidderCommandFactory(this));
+		sshServer.setPasswordAuthenticator(this);
+		
 		try {
 			sshServer.start();
 			Log.i(TAG, "SSHd started!");

@@ -108,7 +108,9 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 	public void onConfigurationChanged(Configuration newConfig) {
 		// We need this because when the popup is opened and the screen orientation 
 		// changes - the popup window leaks and we got an exception.
-		popup.dismiss();
+		if(popup != null) {
+			popup.dismiss();
+		}
 
 		super.onConfigurationChanged(newConfig);
 	}

@@ -9,7 +9,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
-abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 	
 	private volatile DBHelper helper;
 	private volatile boolean created = false;

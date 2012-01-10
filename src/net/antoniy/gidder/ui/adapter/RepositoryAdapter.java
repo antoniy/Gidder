@@ -2,6 +2,8 @@ package net.antoniy.gidder.ui.adapter;
 
 import java.util.List;
 
+import org.eclipse.jgit.lib.Constants;
+
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
 import android.content.Context;
@@ -54,11 +56,16 @@ public class RepositoryAdapter extends BaseAdapter {
 		TextView repositoryName = (TextView) v.findViewById(R.id.repositoriesItemName);
 		repositoryName.setText(repository.getName());
 		
+		String mapping = "/" + repository.getMapping() + Constants.DOT_GIT_EXT;
 		TextView repositoryMapping = (TextView) v.findViewById(R.id.repositoriesItemMapping);
-		repositoryMapping.setText(repository.getMapping());
+		repositoryMapping.setText(mapping);
 		
 		TextView repositoryDescription = (TextView) v.findViewById(R.id.repositoriesItemDescription);
 		repositoryDescription.setText(repository.getDescription());
+		
+		int userWithPermissionsCount = repository.getPermissions().size();
+		TextView repositoryUserCount = (TextView) v.findViewById(R.id.repositoriesItemUserCount);
+		repositoryUserCount.setText(String.valueOf(userWithPermissionsCount));
 		
 		return v;
 	}
