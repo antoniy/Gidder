@@ -8,6 +8,7 @@ import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ssh.GidderCommandFactory;
 import net.antoniy.gidder.ssh.GidderHostKeyProvider;
 import net.antoniy.gidder.ssh.NoShell;
+import net.antoniy.gidder.ui.util.PrefsConstants;
 
 import org.apache.sshd.SshServer;
 import org.apache.sshd.server.PasswordAuthenticator;
@@ -15,7 +16,9 @@ import org.apache.sshd.server.session.ServerSession;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class SSHDaemonService extends Service implements PasswordAuthenticator {
@@ -72,8 +75,11 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		dbHelper = new DBHelper(this);
 		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SSHDaemonService.this);
+		String sshPort = prefs.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
+		
 		sshServer = SshServer.setUpDefaultServer();
-		sshServer.setPort(6666);
+		sshServer.setPort(Integer.parseInt(sshPort));
 		sshServer.setKeyPairProvider(new GidderHostKeyProvider(this));
 		sshServer.setShellFactory(new NoShell());
 		sshServer.setCommandFactory(new GidderCommandFactory(this));

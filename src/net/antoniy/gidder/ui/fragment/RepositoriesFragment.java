@@ -98,7 +98,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		RepositoryActionsPopupWindow popup = new RepositoryActionsPopupWindow(view, position);
-		popup.showLikeQuickAction();
+		popup.showLikeQuickAction(0, 40);
 		popup.addOnActionItemClickListener(this);
 
 		return true;

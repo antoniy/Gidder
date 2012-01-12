@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory android:title="General">
+        
+		<CheckBoxPreference 
+		    android:key="statusbar_notification"
+		    android:title="StatusBar notification"
+		    android:summaryOn="@string/click_to_disable"
+		    android:summaryOff="@string/click_to_enable"
+		    android:defaultValue="true"/>
+		
+        <EditTextPreference 
+            android:key="git_repositories_dir"
+            android:title="@string/settings_git_repositories_directory"
+            android:defaultValue="/sdcard/gidder/repositories"/>
+		
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="SSH">
+        
+        <EditTextPreference 
+            android:key="ssh_port"
+            android:title="@string/settings_ssh_server_port"
+            android:defaultValue="2222"/>
+        
+		<CheckBoxPreference 
+		    android:key="ssh_service_startup"
+		    android:title="@string/settings_start_on_boot"
+		    android:summaryOn="@string/click_to_disable"
+		    android:summaryOff="@string/click_to_enable"
+		    android:defaultValue="false"/>
+		
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -7,7 +7,7 @@ import com.viewpagerindicator.TitleProvider;
 
 import net.antoniy.gidder.ui.fragment.BaseFragment;
 import net.antoniy.gidder.ui.fragment.FragmentFactory;
-import net.antoniy.gidder.ui.fragment.FragmentType;
+import net.antoniy.gidder.ui.util.FragmentType;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

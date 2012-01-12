@@ -26,5 +26,10 @@
     <string name="btn_done">Done</string>
     <string name="repository_permissions_item_pull">Pull</string>
     <string name="repository_permissions_item_push">Push</string>
+    <string name="click_to_disable">Click to disable</string>
+    <string name="click_to_enable">Click to enable</string>
+    <string name="settings_git_repositories_directory">Git repositories directory</string>
+    <string name="settings_ssh_server_port">SSH server port</string>
+    <string name="settings_start_on_boot">Start SSH server on boot</string>
 
 </resources>

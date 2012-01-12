@@ -66,7 +66,7 @@ public final class Upload extends AbstractGitCommand {
 		try {
 			hasPermission = sshAuthorizationManager.hasRepositoryPullPermission(username, getRepositoryMapping());
 		} catch (SshAuthorizationException e) {
-			Log.e(TAG, "Problem with user authorization.", e);
+			Log.w(TAG, "Problem with user authorization.", e);
 			return false;
 		}
 		

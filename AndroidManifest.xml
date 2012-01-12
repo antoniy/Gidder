@@ -45,6 +45,8 @@
             <intent-filter />
 		</activity>
 		
+        <activity android:name=".ui.activity.GidderPreferencesActivity"></activity>
+		
         <service android:name=".service.SSHDaemonService"/>
     </application>
 

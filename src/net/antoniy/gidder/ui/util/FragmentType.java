@@ -1,4 +1,4 @@
-package net.antoniy.gidder.ui.fragment;
+package net.antoniy.gidder.ui.util;
 
 public enum FragmentType {
 	

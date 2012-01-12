@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,16 +103,16 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		return true;
 	}
 	
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// We need this because when the popup is opened and the screen orientation 
-		// changes - the popup window leaks and we got an exception.
-		if(popup != null) {
-			popup.dismiss();
-		}
-
-		super.onConfigurationChanged(newConfig);
-	}
+//	@Override
+//	public void onConfigurationChanged(Configuration newConfig) {
+//		// We need this because when the popup is opened and the screen orientation 
+//		// changes - the popup window leaks and we got an exception.
+//		if(popup != null) {
+//			popup.dismiss();
+//		}
+//
+//		super.onConfigurationChanged(newConfig);
+//	}
 
 	@Override
 	public void onActionItemClick(View v, int position, int resultCode) {

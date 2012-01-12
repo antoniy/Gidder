@@ -10,10 +10,18 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import android.util.Log;
 
-public class SDCardRepositoryManager implements GitRepositoryManager {
+class SDCardRepositoryManager implements GitRepositoryManager {
 	private final static String TAG = SDCardRepositoryManager.class.getSimpleName();
-	public final static String REPOSITORIES_PATH = "/sdcard/gidder/repositories/";
+	private final String baseRepositoriesPath;
 
+	public SDCardRepositoryManager(String baseRepositoriesPath) {
+		if(!baseRepositoriesPath.endsWith("/")) {
+			this.baseRepositoriesPath = baseRepositoriesPath + "/";
+		} else {
+			this.baseRepositoriesPath = baseRepositoriesPath;
+		}
+	}
+	
 	@Override
 	public Repository openRepository(String name) throws RepositoryNotFoundException {
 		Repository repository = null;
@@ -72,12 +80,12 @@ public class SDCardRepositoryManager implements GitRepositoryManager {
 			return;
 		}
 		
-		File repoPath = new File(REPOSITORIES_PATH + oldMapping + Constants.DOT_GIT_EXT);
+		File repoPath = new File(baseRepositoriesPath + oldMapping + Constants.DOT_GIT_EXT);
 		if(!repoPath.exists()) {
 			throw new RepositoryNotFoundException("Error while renaming repository - repository does not exists.");
 		}
 		
-		boolean renameResult = repoPath.renameTo(new File(REPOSITORIES_PATH + newMapping + Constants.DOT_GIT_EXT));
+		boolean renameResult = repoPath.renameTo(new File(baseRepositoriesPath + newMapping + Constants.DOT_GIT_EXT));
 		if(!renameResult) {
 			throw new RepositoryNotFoundException("Renaming repository failed.");
 		}
@@ -88,7 +96,7 @@ public class SDCardRepositoryManager implements GitRepositoryManager {
 			return;
 		}
 		
-		File repoPath = new File(REPOSITORIES_PATH + mapping + Constants.DOT_GIT_EXT);
+		File repoPath = new File(baseRepositoriesPath + mapping + Constants.DOT_GIT_EXT);
 		if(!repoPath.exists()) {
 			throw new RepositoryNotFoundException("Error while deleting repository - repository does not exists.");
 		}
@@ -114,14 +122,14 @@ public class SDCardRepositoryManager implements GitRepositoryManager {
 	}
 
 	private File getRepositoryPath(String repoMapping) {
-		File basePath = new File(REPOSITORIES_PATH);
+		File basePath = new File(baseRepositoriesPath);
 		if(!basePath.exists()) {
 			if(!basePath.mkdirs()) {
 				Log.w(TAG, "Repository path already exist or there is a problem creating folders.");
 			}
 		}
 		
-		File repoPath = new File(REPOSITORIES_PATH + repoMapping);
+		File repoPath = new File(baseRepositoriesPath + repoMapping);
 		
 		return repoPath;
 	}

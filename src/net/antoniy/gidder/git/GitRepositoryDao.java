@@ -4,10 +4,13 @@ import java.sql.SQLException;
 
 import net.antoniy.gidder.db.DBHelper;
 import net.antoniy.gidder.db.entity.Repository;
+import net.antoniy.gidder.ui.util.PrefsConstants;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class GitRepositoryDao {
@@ -17,8 +20,15 @@ public class GitRepositoryDao {
 	private DBHelper dbHelper;
 	
 	public GitRepositoryDao(Context context) {
-		repositoryManager = new SDCardRepositoryManager();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String gitRepoDir = prefs.getString(PrefsConstants.GIT_REPOSITORIES_DIR.getKey(), PrefsConstants.GIT_REPOSITORIES_DIR.getDefaultValue());
+		
+		repositoryManager = new SDCardRepositoryManager(gitRepoDir);
 		dbHelper = new DBHelper(context);
+	}
+	
+	public org.eclipse.jgit.lib.Repository openRepository(final String mapping) throws RepositoryNotFoundException {
+		return repositoryManager.openRepository(mapping);
 	}
 	
 	public void renameRepository(final int repositoryId, final String newMapping) {
