@@ -5,12 +5,15 @@ import java.sql.SQLException;
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class AddRepositoryActivity extends BaseActivity {
 	private final static String TAG = AddRepositoryActivity.class.getSimpleName();
@@ -47,13 +50,6 @@ public class AddRepositoryActivity extends BaseActivity {
 	protected void initComponents(Bundle savedInstanceState) {
 		repositoryDao = new GitRepositoryDao(this);
 		
-		TextView titleTextView = (TextView) findViewById(R.id.addRepositoryTitle);
-		if(editMode) {
-			titleTextView.setText(R.string.add_repository_edittitle);
-		} else {
-			titleTextView.setText(R.string.add_repository_title);
-		}
-		
 		addEditButton = (Button) findViewById(R.id.addRepositoryBtnAdd);
 		addEditButton.setOnClickListener(this);
 		if(editMode) {
@@ -69,6 +65,17 @@ public class AddRepositoryActivity extends BaseActivity {
 		mappingEditText = (EditText) findViewById(R.id.addRepositoryMapping);
 		descriptionEditText = (EditText) findViewById(R.id.addRepositoryDescription);
 		
+		ActionBar actionBar = (ActionBar) findViewById(R.id.addRepositoryActionBar);
+        actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
+
+        if(editMode) {
+        	actionBar.setTitle(R.string.add_repository_edittitle);
+        } else {
+        	actionBar.setTitle(R.string.add_repository_title);
+        }
+        
 		if(editMode) {
 			populateFieldsWithRepositoryData();
 		}

@@ -4,12 +4,17 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/slideActionBar"
+        style="@style/ActionBar"/>
+    
 	<com.viewpagerindicator.TitlePageIndicator
         android:id="@+id/slideIndicator"
         android:padding="10dip"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:background="#D4D4D4"/>
+        style="@style/CustomTitlePageIndicator"/>
+<!--         android:background="#D4D4D4" -->
 	
 <!-- 	<com.viewpagerindicator.TabPageIndicator -->
 <!--         android:id="@+id/slideIndicator" -->

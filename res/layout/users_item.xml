@@ -23,7 +23,12 @@
     		android:layout_height="wrap_content"
     		android:textColor="@android:color/black" 
     		android:text="TextView"
-    		android:textSize="20sp" />
+    		android:textSize="20sp" 
+    		
+    		android:shadowColor="#CCCCCC"
+			android:shadowDx="1.0"
+			android:shadowDy="1.0"
+			android:shadowRadius="1.0"/>
 
     	<TextView 
     	    android:id="@+id/usersItemUsername"

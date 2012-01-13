@@ -5,6 +5,10 @@
     android:background="#D4D4D4"
     android:orientation="vertical" >
 
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/addUserActionBar"
+        style="@style/ActionBar"/>
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -13,14 +17,6 @@
     	android:padding="5dp"
     	android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/addUserTitle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#000000" 
-            android:gravity="center"/>
-        
     	<EditText android:id="@+id/addUserFullname"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"

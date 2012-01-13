@@ -4,8 +4,12 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.IntentAction;
+
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,13 +53,6 @@ public class AddUserActivity extends BaseActivity {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		TextView titleTextView = (TextView) findViewById(R.id.addUserTitle);
-		if(editMode) {
-			titleTextView.setText(R.string.add_user_edittitle);
-		} else {
-			titleTextView.setText(R.string.add_user_title);
-		}
-		
 		addEditButton = (Button) findViewById(R.id.addUserBtnAddEdit);
 		addEditButton.setOnClickListener(this);
 		if(editMode) {
@@ -72,6 +69,17 @@ public class AddUserActivity extends BaseActivity {
 		usernameEditText = (EditText) findViewById(R.id.addUserUsername);
 		passwordEditText = (EditText) findViewById(R.id.addUserPassword);
 		activateCheckox = (CheckBox) findViewById(R.id.addUserActivate);
+		
+		ActionBar actionBar = (ActionBar) findViewById(R.id.addUserActionBar);
+        actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
+
+        if(editMode) {
+        	actionBar.setTitle(R.string.add_user_edittitle);
+        } else {
+        	actionBar.setTitle(R.string.add_user_title);
+        }
 		
 		if(editMode) {
 			populateFieldsWithUserData();

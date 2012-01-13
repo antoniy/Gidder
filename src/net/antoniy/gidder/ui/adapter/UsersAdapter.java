@@ -40,7 +40,7 @@ public class UsersAdapter extends BaseAdapter {
 		if(user.isActive()) {
 			userImage.setImageResource(R.drawable.ic_user_active);
 		} else {
-			userImage.setImageResource(R.drawable.ic_user_unactive);
+			userImage.setImageResource(R.drawable.ic_user_inactive);
 		}
 		
 		TextView userFullname = (TextView) v.findViewById(R.id.usersItemFullname);

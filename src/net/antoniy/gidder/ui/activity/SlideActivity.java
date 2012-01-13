@@ -13,6 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -22,9 +24,9 @@ public class SlideActivity extends FragmentActivity {
 //	private final static FragmentType[] CONTENT = new FragmentType[] { FragmentType.USERS, FragmentType.REPOSITORIES };
 	private final static FragmentType[] CONTENT = FragmentType.values();
 	
-	private SlideAdapter mAdapter;
-	private ViewPager mPager;
-	private PageIndicator mIndicator;
+	private SlideAdapter titleAdapter;
+	private ViewPager titlePager;
+	private PageIndicator titleIndicator;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +37,26 @@ public class SlideActivity extends FragmentActivity {
 		
 		Log.i(TAG, "Creating slide activity...");
 		
-		mAdapter = new SlideAdapter(getSupportFragmentManager(), CONTENT);
+		titleAdapter = new SlideAdapter(getSupportFragmentManager(), CONTENT);
 		
-		mPager = (ViewPager)findViewById(R.id.slidePager);
-		mPager.setAdapter(mAdapter);
+		titlePager = (ViewPager)findViewById(R.id.slidePager);
+		titlePager.setAdapter(titleAdapter);
 		
-		mIndicator = (TitlePageIndicator)findViewById(R.id.slideIndicator);
-		mIndicator.setViewPager(mPager);
-		mIndicator.setCurrentItem(mAdapter.getCount() / 2);
+		titleIndicator = (TitlePageIndicator)findViewById(R.id.slideIndicator);
+		titleIndicator.setViewPager(titlePager);
+		titleIndicator.setCurrentItem(titleAdapter.getCount() / 2);
+		
+		ActionBar actionBar = (ActionBar) findViewById(R.id.slideActionBar);
+//		actionBar.setHomeLogo(R.drawable.ic_actionbar_home);
+		actionBar.setTitle("Gidder");
+        actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.addAction(new IntentAction(this, new Intent("net.antoniy.gidder.START_ADD_USER_ACTIVITY"), R.drawable.ic_actionbar_add_user));
+        actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
 	}
 	
 	public FragmentType getCurrentFragment() {
-		return CONTENT[mPager.getCurrentItem() % CONTENT.length];
+		return CONTENT[titlePager.getCurrentItem() % CONTENT.length];
 	}
 	
 	@Override
