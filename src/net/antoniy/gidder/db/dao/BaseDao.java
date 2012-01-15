@@ -3,12 +3,15 @@ package net.antoniy.gidder.db.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 
-public class BaseDao<T, ID> {
+public class BaseDao<H extends OrmLiteSqliteOpenHelper, T, ID> {
 	protected final Dao<T, ID> dao;
+	protected final H dbHelper;
 
-	public BaseDao(Dao<T, ID> dao) {
+	public BaseDao(H dbHelper, Dao<T, ID> dao) {
+		this.dbHelper = dbHelper;
 		this.dao = dao;
 	}
 

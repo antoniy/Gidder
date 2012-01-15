@@ -4,15 +4,16 @@ import java.sql.SQLException;
 import java.util.List;
 
 import net.antoniy.gidder.db.DBC;
+import net.antoniy.gidder.db.DBHelper;
 import net.antoniy.gidder.db.entity.User;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.SelectArg;
 
-public class UserDao extends BaseDao<User, Integer>{
+public class UserDao extends BaseDao<DBHelper, User, Integer>{
 
-	public UserDao(Dao<User, Integer> dao) {
-		super(dao);
+	public UserDao(DBHelper dbHelper, Dao<User, Integer> dao) {
+		super(dbHelper, dao);
 	}
 	
 	public User queryForUsername(String username) throws SQLException {
@@ -37,5 +38,12 @@ public class UserDao extends BaseDao<User, Integer>{
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public int deleteById(Integer id) throws SQLException {
+		dbHelper.getPermissionDao().deleteByUserId(id);
+		
+		return super.deleteById(id);
 	}
 }

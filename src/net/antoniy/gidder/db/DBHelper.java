@@ -63,10 +63,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		getUserDao().create(new User(0, "Dimitar Kalinov", "dkalinoff@gmail.com", "miteto", "asdasd", true, System.currentTimeMillis()));
 		getUserDao().create(new User(0, "Liliya Besaleva", "liliya_besaleva@hotmail.com", "lia", "asdasd", true, System.currentTimeMillis()));
 		getUserDao().create(new User(0, "Jordan Grancharov", "phrone@gmail.com", "dakel", "asdasd", true, System.currentTimeMillis()));
-		
-		getRepositoryDao().create(new Repository(0, "Repository1", "repo1", "Test repository 1", true, System.currentTimeMillis()));
-		getRepositoryDao().create(new Repository(0, "Repository2", "repo2", "Test repository 2", true, System.currentTimeMillis()));
-		getRepositoryDao().create(new Repository(0, "Repository3", "repo3", "Test repository 3", true, System.currentTimeMillis()));
 	}
 	
 	@Override
@@ -84,7 +80,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	public UserDao getUserDao() throws SQLException {
 		if (userDao == null) {
 			Dao<User, Integer> dao = getDao(User.class);
-			userDao = new UserDao(dao);
+			userDao = new UserDao(this, dao);
 		}
 		
 		return userDao;
@@ -93,7 +89,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	public RepositoryDao getRepositoryDao() throws SQLException {
 		if (repositoryDao == null) {
 			Dao<Repository, Integer> dao = getDao(Repository.class);
-			repositoryDao = new RepositoryDao(dao);
+			repositoryDao = new RepositoryDao(this, dao);
 		}
 		
 		return repositoryDao;
@@ -102,7 +98,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	public PermissionDao getPermissionDao() throws SQLException {
 		if (permissionDao == null) {
 			Dao<Permission, Integer> dao = getDao(Permission.class);
-			permissionDao = new PermissionDao(dao);
+			permissionDao = new PermissionDao(this, dao);
 		}
 		
 		return permissionDao;

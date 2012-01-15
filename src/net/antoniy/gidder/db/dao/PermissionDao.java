@@ -3,15 +3,18 @@ package net.antoniy.gidder.db.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.j256.ormlite.dao.Dao;
-
 import net.antoniy.gidder.db.DBC;
+import net.antoniy.gidder.db.DBHelper;
 import net.antoniy.gidder.db.entity.Permission;
 
-public class PermissionDao extends BaseDao<Permission, Integer> {
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
 
-	public PermissionDao(Dao<Permission, Integer> dao) {
-		super(dao);
+public class PermissionDao extends BaseDao<DBHelper, Permission, Integer> {
+
+	public PermissionDao(DBHelper dbHelper, Dao<Permission, Integer> dao) {
+		super(dbHelper, dao);
 	}
 
 	public Permission queryForUserAndRepository(int userId, int repositoryId) throws SQLException {
@@ -24,5 +27,23 @@ public class PermissionDao extends BaseDao<Permission, Integer> {
 		}
 		
 		return null;
+	}
+	
+	public int deleteByRepositoryId(Integer repositoryId) throws SQLException {
+		DeleteBuilder<Permission, Integer> deleteBuilder = dao.deleteBuilder();
+		deleteBuilder.where().eq(DBC.permissions.column_repository_id, repositoryId);
+		
+		PreparedDelete<Permission> preparedDelete = deleteBuilder.prepare();
+
+		return dao.delete(preparedDelete);
+	}
+	
+	public int deleteByUserId(Integer userId) throws SQLException {
+		DeleteBuilder<Permission, Integer> deleteBuilder = dao.deleteBuilder();
+		deleteBuilder.where().eq(DBC.permissions.column_user_id, userId);
+		
+		PreparedDelete<Permission> preparedDelete = deleteBuilder.prepare();
+
+		return dao.delete(preparedDelete);
 	}
 }
