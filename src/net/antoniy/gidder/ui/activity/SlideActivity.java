@@ -43,6 +43,7 @@ public class SlideActivity extends FragmentActivity {
 		titlePager.setAdapter(titleAdapter);
 		
 		titleIndicator = (TitlePageIndicator)findViewById(R.id.slideIndicator);
+//		titleIndicator = (TabPageIndicator)findViewById(R.id.slideIndicator);
 		titleIndicator.setViewPager(titlePager);
 		titleIndicator.setCurrentItem(titleAdapter.getCount() / 2);
 		
@@ -51,7 +52,7 @@ public class SlideActivity extends FragmentActivity {
 		actionBar.setTitle("Gidder");
         actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.addAction(new IntentAction(this, new Intent("net.antoniy.gidder.START_ADD_USER_ACTIVITY"), R.drawable.ic_actionbar_add_user));
+        actionBar.addAction(new IntentAction(this, new Intent("net.antoniy.gidder.START_ADD_USER_ACTIVITY"), R.drawable.ic_actionbar_add));
         actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
 	}
 	

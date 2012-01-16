@@ -172,7 +172,7 @@ public abstract class BetterPopupWindow {
 	public void showLikeQuickAction(int xOffset, int yOffset) {
 		this.preShow();
 
-		this.window.setAnimationStyle(R.style.Animations_GrowFromBottom);
+		this.window.setAnimationStyle(R.style.Animations_PopUpMenu);
 
 		int[] location = new int[2];
 		this.anchor.getLocationOnScreen(location);
@@ -195,7 +195,7 @@ public abstract class BetterPopupWindow {
 		if (rootHeight > anchorRect.top) {
 			// I changed the sign to minus because the offset does not work correctly when select the top item in the list
 			yPos = anchorRect.bottom - yOffset;
-			this.window.setAnimationStyle(R.style.Animations_GrowFromTop);
+			this.window.setAnimationStyle(R.style.Animations_PopDownMenu);
 		}
 
 		this.window.showAtLocation(this.anchor, Gravity.NO_GRAVITY, xPos, yPos);

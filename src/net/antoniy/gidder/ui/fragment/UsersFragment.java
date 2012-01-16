@@ -7,8 +7,8 @@ import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.activity.AddUserActivity;
 import net.antoniy.gidder.ui.adapter.UsersAdapter;
-import net.antoniy.gidder.ui.popup.OnActionItemClickListener;
-import net.antoniy.gidder.ui.popup.UserActionsPopupWindow;
+import net.antoniy.gidder.ui.quickactions.ActionItem;
+import net.antoniy.gidder.ui.quickactions.QuickAction;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,15 +24,22 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 
-public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnActionItemClickListener {
+public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, QuickAction.OnActionItemClickListener, PopupWindow.OnDismissListener {
 	private final static String TAG = UsersFragment.class.getSimpleName();
 	private final static String INTENT_ACTION_START_ADD_USER = "net.antoniy.gidder.START_ADD_USER_ACTIVITY";
+	
+	private final static int QUICK_ACTION_EDIT = 1;
+	private final static int QUICK_ACTION_DELETE = 2;
+	private final static int QUICK_ACTION_DEACTIVATE = 3;
+	private final static int QUICK_ACTION_ACTIVATE = 4;
 	
 	private Button addButton;
 	private ListView usersListView;
 	private UsersAdapter usersListAdapter;
-	private UserActionsPopupWindow popup;
+	private int selectedRow;
+	private QuickAction quickAction;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +51,16 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		usersListView = (ListView) mainContainer.findViewById(R.id.usersListView);
 		loadUsersListContent();
 		usersListView.setOnItemLongClickListener(this);
+		
+		ActionItem editItem = new ActionItem(1, "Edit", getResources().getDrawable(R.drawable.ic_action_edit));
+		ActionItem deleteItem = new ActionItem(2, "Delete", getResources().getDrawable(R.drawable.ic_action_delete));
+		
+		quickAction = new QuickAction(getActivity());
+		quickAction.setOnActionItemClickListener(this);
+		quickAction.setOnDismissListener(this);
+		
+		quickAction.addActionItem(editItem);
+		quickAction.addActionItem(deleteItem);
 		
 		return mainContainer;
 	}
@@ -96,35 +113,34 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		User user = usersListAdapter.getItem(position);
 		
-		popup = new UserActionsPopupWindow(view, position, user.isActive());
-		popup.showLikeQuickAction(0, 40);
-		popup.addOnActionItemClickListener(this);
-
+		selectedRow = position; //set the selected row
+		
+		// Delete quick action items (if any of them exists) for activate and deactivate
+		quickAction.deleteActionItem(QUICK_ACTION_DEACTIVATE);
+		quickAction.deleteActionItem(QUICK_ACTION_ACTIVATE);
+		
+		ActionItem activateDeactivateItem = null;
+		if(user.isActive()) {
+			activateDeactivateItem = new ActionItem(QUICK_ACTION_DEACTIVATE, "Deactivate", getResources().getDrawable(R.drawable.ic_action_deactivate));
+		} else {
+			activateDeactivateItem = new ActionItem(QUICK_ACTION_ACTIVATE, "Activate", getResources().getDrawable(R.drawable.ic_action_activate));
+		}
+		
+		quickAction.addActionItem(activateDeactivateItem);
+		quickAction.show(view);
+		
 		return true;
 	}
-	
-//	@Override
-//	public void onConfigurationChanged(Configuration newConfig) {
-//		// We need this because when the popup is opened and the screen orientation 
-//		// changes - the popup window leaks and we got an exception.
-//		if(popup != null) {
-//			popup.dismiss();
-//		}
-//
-//		super.onConfigurationChanged(newConfig);
-//	}
 
 	@Override
-	public void onActionItemClick(View v, int position, int resultCode) {
-		if(resultCode == UserActionsPopupWindow.RESULT_EDIT) {
-			User user = usersListAdapter.getItem(position);
-			
+	public void onItemClick(QuickAction source, int pos, int actionId) {
+		final User user = usersListAdapter.getItem(selectedRow);
+		
+		if (actionId == QUICK_ACTION_EDIT) {
 			Intent intent = new Intent(getActivity(), AddUserActivity.class);
 			intent.putExtra("userId", user.getId());
 			startActivityForResult(intent, AddUserActivity.REQUEST_CODE_EDIT_USER);
-		} else if(resultCode == UserActionsPopupWindow.RESULT_DELETE) {
-			final User user = usersListAdapter.getItem(position);
-			
+		} else if(actionId == QUICK_ACTION_DELETE) {
 			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 			    @Override
 			    public void onClick(DialogInterface dialog, int which) {
@@ -142,8 +158,7 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
 			    .setNegativeButton("No", null).show();
-		} else if(resultCode == UserActionsPopupWindow.RESULT_DEACTIVATE) {
-			User user = usersListAdapter.getItem(position);
+		} else if(actionId == QUICK_ACTION_DEACTIVATE) {
 			user.setActive(false);
 			
 			try {
@@ -152,8 +167,7 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem while deactivating user.", e);
 			}
-		} else if(resultCode == UserActionsPopupWindow.RESULT_ACTIVATE) {
-			User user = usersListAdapter.getItem(position);
+		} else if(actionId == QUICK_ACTION_ACTIVATE) {
 			user.setActive(true);
 			
 			try {
@@ -164,4 +178,10 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 			}
 		}
 	}
+
+	@Override
+	public void onDismiss() {
+		// TODO Auto-generated method stub
+	}
+	
 }
