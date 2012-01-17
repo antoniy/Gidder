@@ -9,8 +9,8 @@ import net.antoniy.gidder.git.GitRepositoryDao;
 import net.antoniy.gidder.ui.activity.AddRepositoryActivity;
 import net.antoniy.gidder.ui.activity.RepositoryPermissionsActivity;
 import net.antoniy.gidder.ui.adapter.RepositoryAdapter;
-import net.antoniy.gidder.ui.popup.OnActionItemClickListener;
-import net.antoniy.gidder.ui.popup.RepositoryActionsPopupWindow;
+import net.antoniy.gidder.ui.quickactions.ActionItem;
+import net.antoniy.gidder.ui.quickactions.QuickAction;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,14 +27,20 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 
-public class RepositoriesFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnActionItemClickListener, OnItemClickListener {
+public class RepositoriesFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnItemClickListener, QuickAction.OnActionItemClickListener, PopupWindow.OnDismissListener {
 	private final static String TAG = RepositoriesFragment.class.getSimpleName();
 	private final static String INTENT_ACTION_START_ADD_REPOSITORY = "net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY";
 
+	private final static int QUICK_ACTION_EDIT = 1;
+	private final static int QUICK_ACTION_DELETE = 2;
+	
 	private Button addButton;
 	private ListView repositoriesListView;
 	private RepositoryAdapter repositoriesListAdapter;
+	private QuickAction quickAction;
+	private int selectedRow;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +54,16 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 		repositoriesListView.setOnItemLongClickListener(this);
 		repositoriesListView.setOnItemClickListener(this);
 
+		ActionItem editItem = new ActionItem(1, "Edit", getResources().getDrawable(R.drawable.ic_action_edit));
+		ActionItem deleteItem = new ActionItem(2, "Delete", getResources().getDrawable(R.drawable.ic_action_delete));
+		
+		quickAction = new QuickAction(getActivity());
+		quickAction.setOnActionItemClickListener(this);
+		quickAction.setOnDismissListener(this);
+		
+		quickAction.addActionItem(editItem);
+		quickAction.addActionItem(deleteItem);
+		
 		return mainContainer;
 	}
 
@@ -97,23 +113,31 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		RepositoryActionsPopupWindow popup = new RepositoryActionsPopupWindow(view, position);
-		popup.showLikeQuickAction(0, 40);
-		popup.addOnActionItemClickListener(this);
+		selectedRow = position;
+		quickAction.show(view);
 
 		return true;
 	}
 
 	@Override
-	public void onActionItemClick(View v, int position, int resultCode) {
-		if(resultCode == RepositoryActionsPopupWindow.RESULT_EDIT) {
-			Repository repository = repositoriesListAdapter.getItem(position);
-			
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Repository repository = repositoriesListAdapter.getItem(position);
+
+		Intent intent = new Intent(getActivity(), RepositoryPermissionsActivity.class);
+		intent.putExtra("repositoryId", repository.getId());
+
+		startActivityForResult(intent, 0);
+	}
+	
+	@Override
+	public void onItemClick(QuickAction source, int pos, int actionId) {
+		final Repository repository = repositoriesListAdapter.getItem(selectedRow);
+		
+		if(actionId == QUICK_ACTION_EDIT) {
 			Intent intent = new Intent(getActivity(), AddRepositoryActivity.class);
 			intent.putExtra("repositoryId", repository.getId());
 			startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_EDIT_REPOSITORY);
-		} else if(resultCode == RepositoryActionsPopupWindow.RESULT_DELETE) {
-			final Repository repository = repositoriesListAdapter.getItem(position);
+		} else if(actionId == QUICK_ACTION_DELETE) {
 			
 			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 			    @Override
@@ -137,13 +161,8 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Repository repository = repositoriesListAdapter.getItem(position);
-
-		Intent intent = new Intent(getActivity(), RepositoryPermissionsActivity.class);
-		intent.putExtra("repositoryId", repository.getId());
-
-		startActivityForResult(intent, 0);
+	public void onDismiss() {
+		// TODO Auto-generated method stub
 	}
 
 }

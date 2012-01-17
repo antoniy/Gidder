@@ -29,6 +29,8 @@ public class AddRepositoryActivity extends BaseActivity {
 	private boolean editMode = false;
 	private int repositoryId;
 	private GitRepositoryDao repositoryDao;
+
+	private ActionBar actionBar;
 	
 	@Override
 	protected void setup() {
@@ -65,7 +67,7 @@ public class AddRepositoryActivity extends BaseActivity {
 		mappingEditText = (EditText) findViewById(R.id.addRepositoryMapping);
 		descriptionEditText = (EditText) findViewById(R.id.addRepositoryDescription);
 		
-		ActionBar actionBar = (ActionBar) findViewById(R.id.addRepositoryActionBar);
+		actionBar = (ActionBar) findViewById(R.id.addRepositoryActionBar);
         actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
@@ -109,6 +111,7 @@ public class AddRepositoryActivity extends BaseActivity {
 			String description = descriptionEditText.getText().toString();
 			
 			try {
+				actionBar.setProgressBarVisibility(View.VISIBLE);
 				if(editMode) {
 					repositoryDao.renameRepository(repositoryId, mapping);
 
@@ -120,6 +123,7 @@ public class AddRepositoryActivity extends BaseActivity {
 					// TODO: create repo WITH LOADING
 					repositoryDao.createRepository(mapping);
 				}
+				actionBar.setProgressBarVisibility(View.GONE);
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem when add new repository.", e);
 				finish();
