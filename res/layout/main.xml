@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#D6DCFF"
+    android:orientation="vertical" >
+<!-- android:background="#D4D4D4" -->
+
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/mainActionBar"
+        style="@style/ActionBar"/>
+    
+<!--     <LinearLayout  -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:background="@drawable/bg_box" -->
+<!--         android:layout_margin="5dp" -->
+<!--     	android:padding="5dp" -->
+<!--     	android:orientation="horizontal" -->
+<!--     	android:layout_gravity="center"> -->
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_gravity="center"
+        	android:layout_marginTop="10dp"
+        	android:layout_marginBottom="10dp">
+        	
+        	<TextView 
+        	    android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:text="Server status:"
+        		android:textColor="@android:color/black"
+        		android:textSize="20sp" 
+        		android:shadowColor="#CCCCCC"
+        		android:shadowDx="1.0" 
+        		android:shadowDy="1.0"
+        		android:shadowRadius="1.0" 
+        		android:layout_gravity="center" />
+
+        	<TextView 
+        	    android:layout_width="wrap_content"
+        		android:layout_height="wrap_content" 
+        		android:text="ON"
+        		android:textColor="#FF0000" 
+        		android:textSize="20sp"
+        		android:shadowColor="#CCCCCC" 
+        		android:shadowDx="1.0"
+        		android:shadowDy="1.0" 
+        		android:shadowRadius="1.0"
+        		android:layout_gravity="center"
+        		android:layout_marginLeft="5dp" />
+        	
+        </LinearLayout>
+
+        <!--     </LinearLayout> -->
+
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_wireless_disabled"/>
+    
+</LinearLayout>
