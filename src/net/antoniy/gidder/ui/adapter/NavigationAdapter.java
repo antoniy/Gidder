@@ -22,8 +22,8 @@ public class NavigationAdapter extends BaseAdapter {
 
 		model = new ArrayList<NavigationAdapter.NavigationItem>();
 		model.add(new NavigationItem(NavigationItemType.SETUP, "Setup", R.drawable.ic_nav_setup));
-		model.add(new NavigationItem(NavigationItemType.DNS, "DNS", R.drawable.ic_nav_setup));
-		model.add(new NavigationItem(NavigationItemType.LOGS, "Logs", R.drawable.ic_nav_setup));
+		model.add(new NavigationItem(NavigationItemType.DNS, "DNS", R.drawable.ic_nav_dns));
+		model.add(new NavigationItem(NavigationItemType.LOGS, "Logs", R.drawable.ic_nav_log));
 	}
 
 	@Override

@@ -9,8 +9,6 @@ public final class FragmentFactory {
 			return new UsersFragment();
 		case REPOSITORIES:
 			return new RepositoriesFragment();
-		case SETTINGS:
-			return new SettingsFragment();
 		}
 		
 		return null;
