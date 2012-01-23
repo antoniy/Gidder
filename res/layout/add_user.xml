@@ -75,14 +75,34 @@
             android:id="@+id/addUserBtnAddEdit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@drawable/blue_btn_selector"
+	        android:textColor="#FFFFFF"
+	        android:textStyle="bold"
+	  		android:textSize="20sp"
+	        android:shadowColor="@android:color/black" 
+	  		android:shadowDx="1.0"
+	  		android:shadowDy="1.0" 
+	  		android:shadowRadius="1.0"
+	  		android:layout_marginLeft="5dp"
+	  		android:layout_marginRight="3dp"/>
 
         <Button
             android:id="@+id/addUserBtnCancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_cancel"
-            android:layout_weight="1"/>
+            android:background="@drawable/blue_btn_selector"
+	        android:textColor="#FFFFFF"
+	        android:textStyle="bold"
+	  		android:textSize="20sp"
+	        android:shadowColor="@android:color/black" 
+	  		android:shadowDx="1.0"
+	  		android:shadowDy="1.0" 
+	  		android:shadowRadius="1.0"
+            android:layout_weight="1"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="5dp"/>
 
     </LinearLayout>
 

@@ -9,6 +9,7 @@ import com.markupartist.android.widget.ActionBar.IntentAction;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
+import net.antoniy.gidder.ui.util.C;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,9 +72,9 @@ public class AddUserActivity extends BaseActivity {
 		activateCheckox = (CheckBox) findViewById(R.id.addUserActivate);
 		
 		ActionBar actionBar = (ActionBar) findViewById(R.id.addUserActionBar);
-        actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
+        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
+        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
 
         if(editMode) {
         	actionBar.setTitle(R.string.add_user_edittitle);

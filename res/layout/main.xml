@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#D6DCFF"
+    android:background="@android:color/white"
     android:orientation="vertical" >
 <!-- android:background="#D4D4D4" -->
 
@@ -10,55 +10,70 @@
         android:id="@+id/mainActionBar"
         style="@style/ActionBar"/>
     
-<!--     <LinearLayout  -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:background="@drawable/bg_box" -->
-<!--         android:layout_margin="5dp" -->
-<!--     	android:padding="5dp" -->
-<!--     	android:orientation="horizontal" -->
-<!--     	android:layout_gravity="center"> -->
-        
-        <LinearLayout
-            android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:layout_gravity="center"
-        	android:layout_marginTop="10dp"
-        	android:layout_marginBottom="10dp">
-        	
-        	<TextView 
-        	    android:layout_width="wrap_content"
-        		android:layout_height="wrap_content"
-        		android:text="Server status:"
-        		android:textColor="@android:color/black"
-        		android:textSize="20sp" 
-        		android:shadowColor="#CCCCCC"
-        		android:shadowDx="1.0" 
-        		android:shadowDy="1.0"
-        		android:shadowRadius="1.0" 
-        		android:layout_gravity="center" />
-
-        	<TextView 
-        	    android:layout_width="wrap_content"
-        		android:layout_height="wrap_content" 
-        		android:text="ON"
-        		android:textColor="#FF0000" 
-        		android:textSize="20sp"
-        		android:shadowColor="#CCCCCC" 
-        		android:shadowDx="1.0"
-        		android:shadowDy="1.0" 
-        		android:shadowRadius="1.0"
-        		android:layout_gravity="center"
-        		android:layout_marginLeft="5dp" />
-        	
-        </LinearLayout>
-
-        <!--     </LinearLayout> -->
-
+    <LinearLayout
+		android:layout_width="wrap_content"
+	   	android:layout_height="wrap_content"
+	   	android:layout_gravity="center"
+	   	android:layout_marginTop="10dp"
+	   	android:layout_marginBottom="10dp">
+	   	
+	   	<TextView 
+	   	    android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:text="WiFi connected to"
+	   		android:textColor="@android:color/darker_gray"
+	   		android:textSize="20sp" 
+	   		android:shadowColor="#CCCCCC"
+	   		android:shadowDx="1.0" 
+	   		android:shadowDy="1.0"
+	   		android:shadowRadius="1.0" 
+	   		android:layout_gravity="center" />
+	
+	   	<TextView 
+	   	    android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content" 
+	   		android:text="Underworld"
+	   		android:textColor="#0000FF" 
+	   		android:textSize="20sp"
+	   		android:layout_gravity="center"
+	   		android:layout_marginLeft="5dp" />
+    	
+    </LinearLayout>
+    
     <ImageView 
+        android:id="@+id/mainWirelessImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/ic_wireless_disabled"/>
     
+    <Button 
+        android:id="@+id/mainBtnStartStop"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/blue_btn_selector"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+  		android:textSize="24sp"
+        android:text="Start"
+        android:shadowColor="@android:color/black" 
+  		android:shadowDx="2.0"
+  		android:shadowDy="2.0" 
+  		android:shadowRadius="2.0"
+  		android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom"
+        android:layout_margin="20dp">
+	   	
+    	<GridView android:id="@+id/mainNavigationGrid"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:numColumns="3">
+    	</GridView>
+    </LinearLayout>
+
 </LinearLayout>

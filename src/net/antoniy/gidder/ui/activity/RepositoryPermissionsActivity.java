@@ -9,6 +9,7 @@ import com.markupartist.android.widget.ActionBar.IntentAction;
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.adapter.RepositoryPermissionsAdapter;
+import net.antoniy.gidder.ui.util.C;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,9 +50,9 @@ public class RepositoryPermissionsActivity extends BaseActivity {
 		doneButton.setOnClickListener(this);
 		
 		ActionBar actionBar = (ActionBar) findViewById(R.id.repositoryPermissionsActionBar);
-        actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
+        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
+        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
        	actionBar.setTitle("Repository permissions");
 	}
 

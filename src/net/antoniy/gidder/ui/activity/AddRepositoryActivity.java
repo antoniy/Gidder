@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
+import net.antoniy.gidder.ui.util.C;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,9 +69,9 @@ public class AddRepositoryActivity extends BaseActivity {
 		descriptionEditText = (EditText) findViewById(R.id.addRepositoryDescription);
 		
 		actionBar = (ActionBar) findViewById(R.id.addRepositoryActionBar);
-        actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
+        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
+        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
 
         if(editMode) {
         	actionBar.setTitle(R.string.add_repository_edittitle);

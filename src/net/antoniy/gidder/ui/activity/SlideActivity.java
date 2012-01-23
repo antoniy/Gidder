@@ -2,6 +2,7 @@ package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.ui.adapter.SlideAdapter;
+import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.FragmentType;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,10 +51,10 @@ public class SlideActivity extends FragmentActivity {
 		ActionBar actionBar = (ActionBar) findViewById(R.id.slideActionBar);
 //		actionBar.setHomeLogo(R.drawable.ic_actionbar_home);
 		actionBar.setTitle("Gidder");
-        actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
+        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_HOME_ACTIVITY), R.drawable.ic_actionbar_home));
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.addAction(new IntentAction(this, new Intent("net.antoniy.gidder.START_ADD_USER_ACTIVITY"), R.drawable.ic_actionbar_add));
-        actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
+        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_ADD_USER_ACTIVITY), R.drawable.ic_actionbar_add));
+        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
 	}
 	
 	public FragmentType getCurrentFragment() {

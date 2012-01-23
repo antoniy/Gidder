@@ -20,11 +20,21 @@
 
 	<Button 
 	    android:id="@+id/usersAddButton"
-		android:layout_width="fill_parent"
+		android:layout_width="200dp"
 		android:layout_height="wrap_content" 
-		android:text="@string/btn_add_user"
 		android:gravity="center" 
+		android:layout_gravity="center"
+        android:background="@drawable/blue_btn_selector"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+  		android:textSize="20sp"
+		android:text="@string/btn_add_user"
+        android:shadowColor="@android:color/black" 
+  		android:shadowDx="1.0"
+  		android:shadowDy="1.0" 
+  		android:shadowRadius="1.0"
 		android:layout_marginLeft="5dp"
-		android:layout_marginRight="5dp"/>
+		android:layout_marginRight="5dp"
+		android:layout_marginBottom="5dp"/>
 
 </LinearLayout>
