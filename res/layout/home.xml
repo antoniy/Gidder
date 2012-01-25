@@ -7,7 +7,7 @@
 <!-- android:background="#D4D4D4" -->
 
     <com.markupartist.android.widget.ActionBar
-        android:id="@+id/mainActionBar"
+        android:id="@+id/homeActionBar"
         style="@style/ActionBar"/>
     
     <LinearLayout
@@ -18,6 +18,7 @@
 	   	android:layout_marginBottom="10dp">
 	   	
 	   	<TextView 
+	   	    android:id="@+id/homeWifiStatus"
 	   	    android:layout_width="wrap_content"
 	   		android:layout_height="wrap_content"
 	   		android:text="WiFi connected to"
@@ -30,6 +31,7 @@
 	   		android:layout_gravity="center" />
 	
 	   	<TextView 
+	   	    android:id="@+id/homeWifiSSID"
 	   	    android:layout_width="wrap_content"
 	   		android:layout_height="wrap_content" 
 	   		android:text="Underworld"
@@ -41,14 +43,14 @@
     </LinearLayout>
     
     <ImageView 
-        android:id="@+id/mainWirelessImage"
+        android:id="@+id/homeWirelessImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/ic_wireless_disabled"/>
     
     <Button 
-        android:id="@+id/mainBtnStartStop"
+        android:id="@+id/homeBtnStartStop"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -69,7 +71,7 @@
         android:gravity="bottom"
         android:layout_margin="20dp">
 	   	
-    	<GridView android:id="@+id/mainNavigationGrid"
+    	<GridView android:id="@+id/homeNavigationGrid"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
     		android:numColumns="3">

@@ -11,17 +11,24 @@ import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.AbstractAction;
@@ -35,6 +42,27 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	private ImageView wirelessImageView;
 	private NavigationAdapter navigationAdapter;
 	private GridView navigationGridView; 
+	private TextView wifiStatusTextView;
+	private TextView wifiSSIDTextView;
+	private BroadcastReceiver connectivityChangeBroadcastReceiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			final String action = intent.getAction();
+
+			if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+				if (isWifiReady(context)) {
+					wifiStatusTextView.setText("WiFi connected to");
+		        	wifiSSIDTextView.setText(getWifiSSID());
+		        	Log.i(TAG, "[" + getWifiSSID() + "] WiFi is active!");
+				} else {
+					wifiStatusTextView.setText("WiFi is NOT connected");
+		        	wifiSSIDTextView.setText("");
+					Log.i(TAG, "WiFi is NOT active!");
+				}
+			}
+		}
+	};
 
 	@Override
 	protected void setup() {
@@ -43,7 +71,7 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		ActionBar actionBar = (ActionBar) findViewById(R.id.mainActionBar);
+		ActionBar actionBar = (ActionBar) findViewById(R.id.homeActionBar);
 		actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
 		actionBar.setHomeAction(new AbstractAction(R.drawable.ic_gidder) {
 			@Override
@@ -56,7 +84,7 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 
         boolean isSshServiceRunning = isSshServiceRunning();
         
-        startStopButton = (Button) findViewById(R.id.mainBtnStartStop);
+        startStopButton = (Button) findViewById(R.id.homeBtnStartStop);
         startStopButton.setOnClickListener(this);
         if(isSshServiceRunning) {
         	startStopButton.setText("Stop");
@@ -64,7 +92,7 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
         	startStopButton.setText("Start");
         }
         
-        wirelessImageView = (ImageView) findViewById(R.id.mainWirelessImage);
+        wirelessImageView = (ImageView) findViewById(R.id.homeWirelessImage);
         if(isSshServiceRunning) {
         	wirelessImageView.setImageResource(R.drawable.ic_wireless_enabled);
         } else {
@@ -73,17 +101,70 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
         
         navigationAdapter = new NavigationAdapter(this);
         
-        navigationGridView = (GridView) findViewById(R.id.mainNavigationGrid);
+        navigationGridView = (GridView) findViewById(R.id.homeNavigationGrid);
         navigationGridView.setAdapter(navigationAdapter);
 //        navigationGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         navigationGridView.setOnItemClickListener(this);
+        
+        wifiStatusTextView = (TextView) findViewById(R.id.homeWifiStatus);
+        wifiSSIDTextView = (TextView) findViewById(R.id.homeWifiSSID);
+        
+        if(isWifiReady(this)) {
+        	wifiStatusTextView.setText("WiFi connected to");
+        	wifiSSIDTextView.setText(getWifiSSID());
+        } else {
+        	wifiStatusTextView.setText("WiFi is NOT connected");
+        	wifiSSIDTextView.setText("");
+        }
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		registerReceiver(connectivityChangeBroadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		unregisterReceiver(connectivityChangeBroadcastReceiver);
+	}
+	
+	private boolean isWifiReady(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		String ssid = getWifiSSID();
+		
+		if (info.isConnected() && ssid != null && !"".equals(ssid)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean isWifiConnected() {
+		ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (mWifi.isConnected()) {
+		    return true;
+		}
+		
+		return false;
+	}
+	
+	private String getWifiSSID() {
+		WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		return wifiManager.getConnectionInfo().getSSID();
 	}
 	
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
 
-		if(id == R.id.mainBtnStartStop) {
+		if(id == R.id.homeBtnStartStop) {
 			boolean isSshServiceRunning = isSshServiceRunning();
 			
 			Intent intent = new Intent(HomeActivity.this, SSHDaemonService.class);
