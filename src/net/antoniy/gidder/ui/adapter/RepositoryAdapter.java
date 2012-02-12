@@ -1,12 +1,20 @@
 package net.antoniy.gidder.ui.adapter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
-
-import org.eclipse.jgit.lib.Constants;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.transport.RemoteConfig;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +27,10 @@ public class RepositoryAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<Repository> items;
 	private final int itemResourceId;
+	private final Context context;
 	
 	public RepositoryAdapter(Context context, int textViewResourceId, List<Repository> items) {
+		this.context = context;
 		this.itemResourceId = textViewResourceId;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.items = items;
@@ -66,6 +76,23 @@ public class RepositoryAdapter extends BaseAdapter {
 		int userWithPermissionsCount = repository.getPermissions().size();
 		TextView repositoryUserCount = (TextView) v.findViewById(R.id.repositoriesItemUserCount);
 		repositoryUserCount.setText(String.valueOf(userWithPermissionsCount));
+		
+		// TODO: Remove next lines - they are just for testing.
+//		GitRepositoryDao gitRepositoryDao = new GitRepositoryDao(context);
+		try {
+			Git git = Git.open(new File("/sdcard/gidder/repositories/" + mapping));
+//			org.eclipse.jgit.lib.Repository gitRepo = gitRepositoryDao.openRepository(mapping.split("\\.")[0]);
+			List<Ref> branches = git.branchList().call();
+			git.push().setReceivePack(RemoteConfig.DEFAULT_RECEIVE_PACK);
+			for (Ref ref : branches) {
+				Log.i("asd", "Branch: " + ref.getName() + ", Flags: " + ref.isPeeled() + ", " + ref.isSymbolic());
+			}
+			
+		} catch (RepositoryNotFoundException e) {
+			Log.e("asd", "Couldn't open repository with mapping: " + mapping, e);
+		} catch (IOException e) {
+			Log.e("asd", "Couldn't open repository with mapping2: " + mapping, e);
+		}
 		
 		return v;
 	}

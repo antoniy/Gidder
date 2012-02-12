@@ -44,6 +44,10 @@
         </activity>
         
         <activity android:name=".ui.activity.RepositoryPermissionsActivity">
+            <intent-filter >
+                <action android:name="net.antoniy.gidder.START_REPOSITORY_PERMISSIONS_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
 		</activity>
 		
         <activity android:name=".ui.activity.GidderPreferencesActivity">
@@ -60,7 +64,20 @@
             </intent-filter>
         </activity>
         
+        <activity android:name=".ui.activity.DynamicDNSActivity">
+            <intent-filter >
+                <action android:name="net.antoniy.gidder.START_DYNAMIC_DNS_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
         <service android:name=".service.SSHDaemonService"/>
+        
+        <receiver android:name=".receiver.ConnectivityChangeBroadcastReceiver" android:enabled="true" android:exported="false">
+        	<intent-filter >
+        	    <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+        	</intent-filter>    
+		</receiver>
     </application>
 
 </manifest>

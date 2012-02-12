@@ -5,6 +5,7 @@ import net.antoniy.gidder.service.SSHDaemonService;
 import net.antoniy.gidder.ui.adapter.NavigationAdapter;
 import net.antoniy.gidder.ui.adapter.NavigationAdapter.NavigationItem;
 import net.antoniy.gidder.ui.util.C;
+import net.antoniy.gidder.ui.util.GidderCommons;
 import net.antoniy.gidder.ui.util.PrefsConstants;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -17,11 +18,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -51,14 +49,14 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 			final String action = intent.getAction();
 
 			if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-				if (isWifiReady(context)) {
+				if (GidderCommons.isWifiReady(context)) {
 					wifiStatusTextView.setText("WiFi connected to");
-		        	wifiSSIDTextView.setText(getWifiSSID());
-		        	Log.i(TAG, "[" + getWifiSSID() + "] WiFi is active!");
+		        	wifiSSIDTextView.setText(GidderCommons.getWifiSSID(context));
+//		        	Log.i(TAG, "[" + getWifiSSID() + "] WiFi is active!");
 				} else {
 					wifiStatusTextView.setText("WiFi is NOT connected");
 		        	wifiSSIDTextView.setText("");
-					Log.i(TAG, "WiFi is NOT active!");
+//					Log.i(TAG, "WiFi is NOT active!");
 				}
 			}
 		}
@@ -72,14 +70,13 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
 		ActionBar actionBar = (ActionBar) findViewById(R.id.homeActionBar);
-		actionBar.setHomeAction(new IntentAction(this, new Intent(this, SlideActivity.class), R.drawable.ic_actionbar_home));
-		actionBar.setHomeAction(new AbstractAction(R.drawable.ic_gidder) {
+		actionBar.setHomeAction(new AbstractAction(R.drawable.ic_actionbar_home) {
 			@Override
 			public void performAction(View view) {
 				// do nothing
 			}
 		});
-        actionBar.addAction(new IntentAction(this, new Intent(this, GidderPreferencesActivity.class), R.drawable.ic_actionbar_settings));
+        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
         actionBar.setTitle("Gidder");
 
         boolean isSshServiceRunning = isSshServiceRunning();
@@ -109,9 +106,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
         wifiStatusTextView = (TextView) findViewById(R.id.homeWifiStatus);
         wifiSSIDTextView = (TextView) findViewById(R.id.homeWifiSSID);
         
-        if(isWifiReady(this)) {
+        if(GidderCommons.isWifiReady(this)) {
         	wifiStatusTextView.setText("WiFi connected to");
-        	wifiSSIDTextView.setText(getWifiSSID());
+        	wifiSSIDTextView.setText(GidderCommons.getWifiSSID(this));
         } else {
         	wifiStatusTextView.setText("WiFi is NOT connected");
         	wifiSSIDTextView.setText("");
@@ -130,34 +127,6 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 		super.onPause();
 		
 		unregisterReceiver(connectivityChangeBroadcastReceiver);
-	}
-	
-	private boolean isWifiReady(Context context) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo info = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		String ssid = getWifiSSID();
-		
-		if (info.isConnected() && ssid != null && !"".equals(ssid)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	private boolean isWifiConnected() {
-		ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-		if (mWifi.isConnected()) {
-		    return true;
-		}
-		
-		return false;
-	}
-	
-	private String getWifiSSID() {
-		WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		return wifiManager.getConnectionInfo().getSSID();
 	}
 	
 	@Override
@@ -188,6 +157,8 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 				startStopButton.setText("Start");
 				wirelessImageView.setImageResource(R.drawable.ic_wireless_disabled);
 			}
+			
+//			new DynDNSStrategy().update("http://members.dyndns.org/nic/update?hostname=test8.customtest.dyndns.org&myip=127.0.0.1&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG", "test", "test");
 		}
 	}
 	
@@ -199,12 +170,16 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 		case SETUP: {
 			Intent intent = new Intent(C.action.START_SLIDE_ACTIVITY);
 			startActivity(intent);
+			break;
 		}
 		case DNS: {
-			// TODO: ...
+			Intent intent = new Intent(C.action.START_DYNAMIC_DNS_ACTIVITY);
+			startActivity(intent);
+			break;
 		}
 		case LOGS: {
 			// TODO: ...
+			break;
 		}
 		}
 	}

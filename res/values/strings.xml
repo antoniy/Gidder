@@ -15,6 +15,7 @@
     <string name="btn_edit">Edit</string>
     <string name="add_user_title">Add new user</string>
     <string name="add_user_edittitle">Edit user</string>
+	<string name="add_user_activate">Activate user</string>
     <string name="btn_add_user">Add user</string>
     <string name="btn_add_repository">Add repository</string>
     <string name="add_repository_title">Add repository</string>
@@ -31,5 +32,17 @@
     <string name="settings_git_repositories_directory">Git repositories directory</string>
     <string name="settings_ssh_server_port">SSH server port</string>
     <string name="settings_start_on_boot">Start SSH server on boot</string>
-
+	<string name="dns_provider_title">Choose DNS provider</string>
+    <string-array name="dns_providers">
+        <item>DynDNS.com</item>
+        <item>No-Ip.com</item>
+    </string-array>
+        <string name="show_password">Show password</string>
+        <string name="dns_password">Password</string>
+        <string name="dns_username">Username</string>
+        <string name="dns_domain_name">Domain Name</string>
+        <string name="dns_provider">Provider</string>
+        <string name="dns_activate">Activate Dynamic DNS service</string>
+        <string name="dns_deactivate">Deactivate Dynamic DNS service</string>
+        <string name="btn_save">Save</string>
 </resources>

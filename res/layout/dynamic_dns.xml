@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#D4D4D4"
+    android:orientation="vertical">
+
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/dynamicDnsActionBar"
+        style="@style/ActionBar" />
+    
+    <LinearLayout
+        android:id="@+id/dynamicDnsDummy"
+		android:focusable="true" 
+		android:focusableInTouchMode="true"
+		android:layout_width="0px" 
+		android:layout_height="0px"/>
+    
+    <ScrollView 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+    
+        <LinearLayout
+	        android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical">
+        
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+		    	android:layout_height="wrap_content"
+		    	android:background="@drawable/bg_box"
+		    	android:layout_margin="5dp">
+		    
+		        <CheckBox
+				    android:id="@+id/dynamicDnsActivate"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:text="@string/dns_activate" 
+				    android:textColor="#000000"
+				    android:paddingLeft="48sp"
+				    android:checked="false"/>
+		        	
+			</LinearLayout>
+		    
+			<LinearLayout
+			    android:id="@+id/dynamicDnsMainContainer"
+		        android:layout_width="fill_parent"
+		    	android:layout_height="0dip"
+		    	android:padding="5dp"
+		    	android:background="@drawable/bg_box"
+			   	android:layout_margin="5dp"
+			   	android:layout_weight="1"
+			   	android:orientation="vertical">
+			
+		        <TextView 
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:textColor="@android:color/darker_gray"
+			  		android:textSize="16sp"
+					android:text="@string/dns_provider"
+					android:layout_marginTop="5dp"/>
+			          
+				<Spinner
+					android:id="@+id/dynamicDnsProvider"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:prompt="@string/dns_provider_title"
+					android:entries="@array/dns_providers"/>
+			          
+				<TextView 
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:textColor="@android:color/darker_gray"
+			  		android:textSize="16sp"
+					android:text="@string/dns_domain_name"
+					android:layout_marginTop="5dp"/>
+			          
+				<EditText 
+				    android:id="@+id/dynamicDnsDomain"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:inputType="textUri"/>
+				
+				<TextView 
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:textColor="@android:color/darker_gray"
+			  		android:textSize="16sp"
+					android:text="@string/dns_username"
+					android:layout_marginTop="5dp"/>
+			          
+				<EditText 
+				    android:id="@+id/dynamicDnsUsername"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:inputType="text"/>
+				
+				<TextView 
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:textColor="@android:color/darker_gray"
+			  		android:textSize="16sp"
+					android:text="@string/dns_password"
+					android:layout_marginTop="5dp"/>
+			          
+				<EditText 
+				    android:id="@+id/dynamicDnsPassword"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:inputType="textPassword"/>
+				
+				<CheckBox
+				    android:id="@+id/dynamicDnsShowPassword"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:text="@string/show_password" 
+				    android:textColor="#000000"
+				    android:paddingLeft="48sp"
+				    android:checked="false"/>
+			         
+			</LinearLayout>
+				
+			<LinearLayout
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:layout_margin="5dp">
+			    
+				<Button 
+				    android:id="@+id/dynamicDnsSaveButton"
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"
+					android:background="@drawable/blue_btn_selector"
+					android:textColor="#FFFFFF" 
+					android:textStyle="bold"
+					android:textSize="20sp" 
+					android:text="@string/btn_save"
+					android:shadowColor="@android:color/black" 
+					android:shadowDx="1.0"
+					android:shadowDy="1.0" 
+					android:shadowRadius="1.0"
+					android:layout_weight="1"
+					android:layout_marginRight="3dp"/>
+				
+				<Button 
+				    android:id="@+id/dynamicDnsCancelButton"
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"
+					android:background="@drawable/blue_btn_selector"
+					android:textColor="#FFFFFF" 
+					android:textStyle="bold"
+					android:textSize="20sp" 
+					android:text="@string/btn_cancel"
+					android:shadowColor="@android:color/black" 
+					android:shadowDx="1.0"
+					android:shadowDy="1.0" 
+					android:shadowRadius="1.0"
+					android:layout_weight="1"
+					android:layout_marginLeft="3dp"/>
+				
+			</LinearLayout>
+
+        </LinearLayout>
+
+	</ScrollView>
+	
+</LinearLayout>

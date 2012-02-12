@@ -11,6 +11,7 @@ import net.antoniy.gidder.ui.activity.RepositoryPermissionsActivity;
 import net.antoniy.gidder.ui.adapter.RepositoryAdapter;
 import net.antoniy.gidder.ui.quickactions.ActionItem;
 import net.antoniy.gidder.ui.quickactions.QuickAction;
+import net.antoniy.gidder.ui.util.C;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -123,7 +124,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Repository repository = repositoriesListAdapter.getItem(position);
 
-		Intent intent = new Intent(getActivity(), RepositoryPermissionsActivity.class);
+		Intent intent = new Intent(C.action.START_REPOSITORY_PERMISSIONS_ACTIVITY);
 		intent.putExtra("repositoryId", repository.getId());
 
 		startActivityForResult(intent, 0);

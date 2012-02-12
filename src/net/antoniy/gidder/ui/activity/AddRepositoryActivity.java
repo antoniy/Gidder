@@ -2,6 +2,8 @@ package net.antoniy.gidder.ui.activity;
 
 import java.sql.SQLException;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
@@ -122,7 +124,12 @@ public class AddRepositoryActivity extends BaseActivity {
 					getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
 					
 					// TODO: create repo WITH LOADING
-					repositoryDao.createRepository(mapping);
+					try {
+						repositoryDao.createRepository(mapping);
+					} catch (RepositoryNotFoundException e) {
+						Log.e(TAG, "Problem while creating repository.", e);
+						// TODO: Make some toast message or something.
+					}
 				}
 				actionBar.setProgressBarVisibility(View.GONE);
 			} catch (SQLException e) {

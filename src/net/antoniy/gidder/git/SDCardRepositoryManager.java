@@ -3,10 +3,11 @@ package net.antoniy.gidder.git;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.InitCommand;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import android.util.Log;
 
@@ -22,55 +23,32 @@ class SDCardRepositoryManager implements GitRepositoryManager {
 		}
 	}
 	
+
 	@Override
-	public Repository openRepository(String name) throws RepositoryNotFoundException {
-		Repository repository = null;
+	public Git openRepository(String name) throws RepositoryNotFoundException {
+		Git git = null;
 		try {
-			FileRepositoryBuilder builder = new FileRepositoryBuilder();
-			builder.setGitDir(getRepositoryPath(name + Constants.DOT_GIT_EXT));
-			builder.setBare();	
-			builder.setup();
-			
-			repository = builder.build();
-			
-			Log.i(TAG, "Repository created: " + repository.getDirectory().getCanonicalPath());
-		} catch (IllegalArgumentException e) {
-			throw new RepositoryNotFoundException("Error while configuring repository.", e);
+			git = Git.open(getRepositoryPath(name + Constants.DOT_GIT_EXT));
 		} catch (IOException e) {
-			throw new RepositoryNotFoundException("Error while reading the repository.", e);
-		} finally {
-			if(repository != null) {
-				repository.close();
-			}
+			throw new RepositoryNotFoundException("Error while opening the repository.", e);
 		}
 		
-		return repository;
+		return git;
 	}
 
 	@Override
-	public void createRepository(String name) throws RepositoryNotFoundException {
-		Repository repository = null;
+	public Git createRepository(String name) throws RepositoryNotFoundException {
 		try {
-			FileRepositoryBuilder builder = new FileRepositoryBuilder();
-			builder.setGitDir(getRepositoryPath(name + Constants.DOT_GIT_EXT));
-			builder.setBare();	
-			builder.setup();
+			InitCommand initCommand = Git.init();
+			initCommand.setBare(true);
+			initCommand.setDirectory(getRepositoryPath(name + Constants.DOT_GIT_EXT));
 			
-			repository = builder.build();
-			repository.create(true);
-
-			Log.i(TAG, "Repository created: " + repository.getDirectory().getCanonicalPath());
-		} catch (IllegalArgumentException e) {
-			throw new RepositoryNotFoundException("Error while configuring repository.", e);
-		} catch (IOException e) {
-			throw new RepositoryNotFoundException("Error while reading the repository.", e);
-		} finally {
-			if(repository != null) {
-				repository.close();
-			}
+			Git git = initCommand.call();
+			
+			return git;
+		} catch (JGitInternalException e) {
+			throw new RepositoryNotFoundException("Error while creating repository.", e);
 		}
-		
-		return;
 	}
 	
 	public void renameRepository(String oldMapping, String newMapping) throws RepositoryNotFoundException {

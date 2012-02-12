@@ -28,7 +28,7 @@ public class GitRepositoryDao {
 	}
 	
 	public org.eclipse.jgit.lib.Repository openRepository(final String mapping) throws RepositoryNotFoundException {
-		return repositoryManager.openRepository(mapping);
+		return repositoryManager.openRepository(mapping).getRepository();
 	}
 	
 	public void renameRepository(final int repositoryId, final String newMapping) {
@@ -56,18 +56,18 @@ public class GitRepositoryDao {
 		}
 	}
 	
-	public void createRepository(final String mapping) {
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					repositoryManager.createRepository(mapping);
-				} catch (RepositoryNotFoundException e) {
-					Log.e(TAG, "Problem while creating repository.", e);
-					// TODO: Put some dialog message here perhaps.
-				}
-			}
-		}.start();
+	public org.eclipse.jgit.lib.Repository createRepository(final String mapping) throws RepositoryNotFoundException {
+//		new Thread() {
+//			@Override
+//			public void run() {
+//				try {
+		return repositoryManager.createRepository(mapping).getRepository();
+//				} catch (RepositoryNotFoundException e) {
+//					Log.e(TAG, "Problem while creating repository.", e);
+//					// TODO: Put some dialog message here perhaps.
+//				}
+//			}
+//		}.start();
 	}
 	
 	public void deleteRepository(final String mapping) {
@@ -82,4 +82,10 @@ public class GitRepositoryDao {
 			}
 		}.start();
 	}
+	
+//	public int getNumberOfBranches(final String mapping) {
+//		ReporepositoryManager.openRepository(mapping);
+//		
+//		return 0;
+//	}
 }

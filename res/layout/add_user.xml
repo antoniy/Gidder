@@ -57,7 +57,7 @@
 		    android:id="@+id/addUserActivate"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:text="Activate user" 
+		    android:text="@string/add_user_activate" 
 		    android:textColor="#000000"
 		    android:paddingLeft="48sp"
 		    android:checked="true"/>
