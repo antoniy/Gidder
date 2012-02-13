@@ -1,10 +1,10 @@
 package net.antoniy.gidder.dns;
 
-public class DynDNSStrategy extends DynamicDNS {
+public class NoIpStrategy extends DynamicDNS {
 
-	private final static String TAG = DynDNSStrategy.class.getSimpleName();
+	private final static String TAG = NoIpStrategy.class.getSimpleName();
 	
-	public DynDNSStrategy(String hostname) {
+	public NoIpStrategy(String hostname) {
 		super(hostname);
 	}
 
