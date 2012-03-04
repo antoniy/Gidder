@@ -45,4 +45,6 @@
         <string name="dns_activate">Activate Dynamic DNS service</string>
         <string name="dns_deactivate">Deactivate Dynamic DNS service</string>
         <string name="btn_save">Save</string>
+        <string name="repositories_no_repositories_label">No repositories</string>
+        <string name="users_no_users_label">No users</string>
 </resources>

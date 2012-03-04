@@ -15,6 +15,21 @@
     		style="@style/general_list_style"
     		android:layout_width="fill_parent"
     		android:layout_height="fill_parent"/>
+    	
+    	<TextView 
+    	    android:id="@+id/usersNoUsersTextView"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="fill_parent"
+    	    android:background="@drawable/bg_box"
+    	    android:gravity="center"
+    	    android:layout_margin="5dp"
+    	    android:textColor="@android:color/black"
+    	    android:textSize="20sp"
+    	    android:text="@string/users_no_users_label"
+    	    android:shadowColor="#CCCCCC"
+			android:shadowDx="1.0"
+			android:shadowDy="1.0"
+			android:shadowRadius="1.0"/>
 
 	</LinearLayout>
 

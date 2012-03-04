@@ -1,12 +1,7 @@
 package net.antoniy.gidder.dns;
 
-public abstract class DynamicDNS {
-	protected final String hostname;
-
-	public DynamicDNS(String hostname) {
-		this.hostname = hostname;
-	}
+public interface DynamicDNS {
 	
-	public abstract void update(String address, String username, String password);
+	public abstract void update(String hostname, String address, String username, String password);
 
 }

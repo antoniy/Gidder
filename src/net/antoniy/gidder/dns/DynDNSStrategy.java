@@ -1,14 +1,13 @@
 package net.antoniy.gidder.dns;
 
-public class DynDNSStrategy extends DynamicDNS {
+public class DynDNSStrategy implements DynamicDNS {
 
 	private final static String TAG = DynDNSStrategy.class.getSimpleName();
 	
-	public DynDNSStrategy(String hostname) {
-		super(hostname);
+	public DynDNSStrategy() {
 	}
 
-	public void update(String address, String username, String password) {
+	public void update(String hostname, String address, String username, String password) {
 //		DefaultHttpClient httpclient = new DefaultHttpClient();
 //        try {
 //            httpclient.getCredentialsProvider().setCredentials(AuthScope.ANY,

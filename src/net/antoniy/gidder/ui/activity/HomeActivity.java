@@ -1,6 +1,7 @@
 package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
+import net.antoniy.gidder.dns.DynamicDNSManager;
 import net.antoniy.gidder.service.SSHDaemonService;
 import net.antoniy.gidder.ui.adapter.NavigationAdapter;
 import net.antoniy.gidder.ui.adapter.NavigationAdapter.NavigationItem;
@@ -18,8 +19,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -114,6 +119,28 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
         	wifiSSIDTextView.setText("");
         }
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.home_menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+	    case R.id.homeMenuSettings:
+	    	Intent intent = new Intent(this, GidderPreferencesActivity.class);
+			startActivity(intent);
+	        return true;
+	    case R.id.homeMenuUpdateDns:
+			new DynamicDNSManager(HomeActivity.this).update();
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
 
 	@Override
 	protected void onResume() {
@@ -138,6 +165,13 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 			
 			Intent intent = new Intent(HomeActivity.this, SSHDaemonService.class);
 			if(!isSshServiceRunning) {
+				ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+				NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+				if (!wifi.isConnected()) {
+				    return;
+				}
+				
 				startService(intent);
 				
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
@@ -157,8 +191,6 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 				startStopButton.setText("Start");
 				wirelessImageView.setImageResource(R.drawable.ic_wireless_disabled);
 			}
-			
-//			new DynDNSStrategy().update("http://members.dyndns.org/nic/update?hostname=test8.customtest.dyndns.org&myip=127.0.0.1&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG", "test", "test");
 		}
 	}
 	
@@ -191,11 +223,11 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 //		notification.flags = Notification.FLAG_AUTO_CANCEL;
 		notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
 		
-		Intent notificationIntent = new Intent(HomeActivity.this, SlideActivity.class);
+		Intent notificationIntent = new Intent(C.action.START_HOME_ACTIVITY);
 		PendingIntent contentIntent = PendingIntent.getActivity(HomeActivity.this, 1, notificationIntent, 0);
 
 //		notification.setLatestEventInfo(getActivity(), "Gidder", "SSH server is running", contentIntent);
-		notification.setLatestEventInfo(HomeActivity.this, "SSH server is running", "192.168.1.100:6666", contentIntent);
+		notification.setLatestEventInfo(HomeActivity.this, "SSH server is running", GidderCommons.getCurrentWifiIpAddress(HomeActivity.this) + ":6666", contentIntent);
 		
 		NotificationManager notificationManager = (NotificationManager) HomeActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(SSH_STARTED_NOTIFICATION_ID, notification);

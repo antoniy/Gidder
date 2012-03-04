@@ -8,102 +8,125 @@
     <com.markupartist.android.widget.ActionBar
         android:id="@+id/addUserActionBar"
         style="@style/ActionBar"/>
-    
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_box"
-        android:layout_margin="5dp"
-    	android:padding="5dp"
-    	android:orientation="vertical">
 
-    	<EditText android:id="@+id/addUserFullname"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:layout_marginTop="5dp" android:inputType="textCapWords"
-    		android:hint="@string/add_user_fullname">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        
+    	<LinearLayout
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:orientation="vertical">
+    	    
+    		<LinearLayout 
+    		    android:layout_width="fill_parent"
+    			android:layout_height="wrap_content"
+    			android:background="@drawable/bg_box" 
+    			android:layout_margin="5dp"
+    			android:padding="5dp" 
+    			android:orientation="vertical">
+
+    		    <TextView 
+    		        android:layout_width="fill_parent"
+    		        android:layout_height="wrap_content"
+    		        android:text="@string/add_user_fullname"
+    		        android:layout_margin="5dp"/>
+    		    
+    			<EditText 
+    			    android:id="@+id/addUserFullname"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:inputType="textCapWords">
+
+    				<requestFocus />
+    			</EditText>
+
+    			<TextView 
+    		        android:layout_width="fill_parent"
+    		        android:layout_height="wrap_content"
+    		        android:text="@string/add_user_email"
+    		        android:layout_margin="5dp"/>
+    			
+    			<EditText 
+    			    android:id="@+id/addUserEmail"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:inputType="textEmailAddress"/>
+
+    			<TextView 
+    		        android:layout_width="fill_parent"
+    		        android:layout_height="wrap_content"
+    		        android:text="@string/add_user_username"
+    		        android:layout_margin="5dp"/>
+    			
+    			<EditText 
+    			    android:id="@+id/addUserUsername"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content" 
+    				android:inputType="text"/>
+
+    			<TextView 
+    		        android:layout_width="fill_parent"
+    		        android:layout_height="wrap_content"
+    		        android:text="@string/add_user_password"
+    		        android:layout_margin="5dp"/>
+    			
+    			<EditText 
+    			    android:id="@+id/addUserPassword"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:inputType="textPassword"/>
+
+    		</LinearLayout>
+
+    		<LinearLayout android:layout_width="fill_parent"
+    			android:layout_height="wrap_content"
+    			android:background="@drawable/bg_box" android:layout_margin="5dp"
+    			android:padding="5dp" android:orientation="vertical">
+
+    			<CheckBox android:id="@+id/addUserActivate"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:text="@string/add_user_activate"
+    				android:textColor="#000000" android:paddingLeft="48sp"
+    				android:checked="true" />
+
+    		</LinearLayout>
+
+    		<LinearLayout android:layout_width="fill_parent"
+    			android:layout_height="wrap_content"
+    			android:orientation="horizontal"
+    			android:background="@android:color/transparent"
+    			android:gravity="bottom">
+
+    			<Button android:id="@+id/addUserBtnAddEdit"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content" android:layout_weight="1"
+    				android:background="@drawable/blue_btn_selector"
+    				android:textColor="#FFFFFF" android:textStyle="bold"
+    				android:textSize="20sp"
+    				android:shadowColor="@android:color/black"
+    				android:shadowDx="1.0" android:shadowDy="1.0"
+    				android:shadowRadius="1.0" android:layout_marginLeft="5dp"
+    				android:layout_marginRight="3dp" />
+
+    			<Button android:id="@+id/addUserBtnCancel"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:text="@string/btn_cancel"
+    				android:background="@drawable/blue_btn_selector"
+    				android:textColor="#FFFFFF" android:textStyle="bold"
+    				android:textSize="20sp"
+    				android:shadowColor="@android:color/black"
+    				android:shadowDx="1.0" android:shadowDy="1.0"
+    				android:shadowRadius="1.0" android:layout_weight="1"
+    				android:layout_marginLeft="3dp"
+    				android:layout_marginRight="5dp" />
+
+    		</LinearLayout>
     		
-    	   <requestFocus />
-    	</EditText>
-
-    	<EditText android:id="@+id/addUserEmail"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:inputType="textEmailAddress"
-    		android:hint="@string/add_user_email" />
-
-    	<EditText android:id="@+id/addUserUsername"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content" android:inputType="text"
-    		android:hint="@string/add_user_username" />
-
-    	<EditText android:id="@+id/addUserPassword"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:inputType="textPassword"
-    		android:hint="@string/add_user_password" />
+    	</LinearLayout>
     	
-    </LinearLayout>
-
-	<LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_box"
-        android:layout_margin="5dp"
-    	android:padding="5dp"
-    	android:orientation="vertical">
-
-		<CheckBox
-		    android:id="@+id/addUserActivate"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="@string/add_user_activate" 
-		    android:textColor="#000000"
-		    android:paddingLeft="48sp"
-		    android:checked="true"/>
-    	
-    </LinearLayout>       
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:orientation="horizontal"
-        android:background="@android:color/transparent"
-        android:gravity="bottom">
-
-        <Button
-            android:id="@+id/addUserBtnAddEdit"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/blue_btn_selector"
-	        android:textColor="#FFFFFF"
-	        android:textStyle="bold"
-	  		android:textSize="20sp"
-	        android:shadowColor="@android:color/black" 
-	  		android:shadowDx="1.0"
-	  		android:shadowDy="1.0" 
-	  		android:shadowRadius="1.0"
-	  		android:layout_marginLeft="5dp"
-	  		android:layout_marginRight="3dp"/>
-
-        <Button
-            android:id="@+id/addUserBtnCancel"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_cancel"
-            android:background="@drawable/blue_btn_selector"
-	        android:textColor="#FFFFFF"
-	        android:textStyle="bold"
-	  		android:textSize="20sp"
-	        android:shadowColor="@android:color/black" 
-	  		android:shadowDx="1.0"
-	  		android:shadowDy="1.0" 
-	  		android:shadowRadius="1.0"
-            android:layout_weight="1"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="5dp"/>
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

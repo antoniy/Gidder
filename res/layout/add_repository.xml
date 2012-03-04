@@ -9,80 +9,84 @@
         android:id="@+id/addRepositoryActionBar"
         style="@style/ActionBar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/bg_box"
-        android:orientation="vertical"
-        android:padding="5dp" >
+        android:layout_height="fill_parent">
+        
+    	<LinearLayout
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:orientation="vertical">
+    	    
+    		<LinearLayout android:layout_width="fill_parent"
+    			android:layout_height="wrap_content" android:layout_margin="5dp"
+    			android:background="@drawable/bg_box"
+    			android:orientation="vertical" android:padding="5dp">
 
-        <EditText
-            android:id="@+id/addRepositoryName"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="@string/add_repository_name"
-            android:inputType="textCapWords" >
+    			<TextView android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:text="@string/add_repository_name"
+    				android:layout_margin="5dp" />
 
-            <requestFocus />
-        </EditText>
+    			<EditText android:id="@+id/addRepositoryName"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:inputType="textCapWords">
 
-        <EditText
-            android:id="@+id/addRepositoryMapping"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/add_repository_mapping"
-            android:inputType="text" />
+    				<requestFocus />
+    			</EditText>
 
-        <EditText
-            android:id="@+id/addRepositoryDescription"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/add_repository_description"
-            android:inputType="text" />
-    </LinearLayout>
+    			<TextView android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:text="@string/add_repository_mapping"
+    				android:layout_margin="5dp" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:gravity="bottom"
-        android:orientation="horizontal" >
+    			<EditText android:id="@+id/addRepositoryMapping"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content" android:inputType="text" />
 
-        <Button
-            android:id="@+id/addRepositoryBtnAdd"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/blue_btn_selector"
-	        android:textColor="#FFFFFF"
-	        android:textStyle="bold"
-	  		android:textSize="20sp"
-	  		android:text="@string/btn_add"
-	        android:shadowColor="@android:color/black" 
-	  		android:shadowDx="1.0"
-	  		android:shadowDy="1.0" 
-	  		android:shadowRadius="1.0"
-	  		android:layout_weight="1"
-	  		android:layout_marginLeft="5dp"
-	  		android:layout_marginRight="3dp"/>
+    			<TextView android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:text="@string/add_repository_description"
+    				android:layout_margin="5dp" />
 
-        <Button
-            android:id="@+id/addRepositoryBtnCancel"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/blue_btn_selector"
-	        android:textColor="#FFFFFF"
-	        android:textStyle="bold"
-	  		android:textSize="20sp"
-	  		android:text="@string/btn_cancel"
-	        android:shadowColor="@android:color/black" 
-	  		android:shadowDx="1.0"
-	  		android:shadowDy="1.0" 
-	  		android:shadowRadius="1.0"
-            android:layout_weight="1"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="5dp"/>
-    </LinearLayout>
+    			<EditText android:id="@+id/addRepositoryDescription"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content" android:inputType="text" />
+    		</LinearLayout>
+
+    		<LinearLayout android:layout_width="fill_parent"
+    			android:layout_height="wrap_content"
+    			android:background="@android:color/transparent"
+    			android:gravity="bottom" android:orientation="horizontal">
+
+    			<Button android:id="@+id/addRepositoryBtnAdd"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:background="@drawable/blue_btn_selector"
+    				android:textColor="#FFFFFF" android:textStyle="bold"
+    				android:textSize="20sp" android:text="@string/btn_add"
+    				android:shadowColor="@android:color/black"
+    				android:shadowDx="1.0" android:shadowDy="1.0"
+    				android:shadowRadius="1.0" android:layout_weight="1"
+    				android:layout_marginLeft="5dp"
+    				android:layout_marginRight="3dp" />
+
+    			<Button android:id="@+id/addRepositoryBtnCancel"
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:background="@drawable/blue_btn_selector"
+    				android:textColor="#FFFFFF" android:textStyle="bold"
+    				android:textSize="20sp" android:text="@string/btn_cancel"
+    				android:shadowColor="@android:color/black"
+    				android:shadowDx="1.0" android:shadowDy="1.0"
+    				android:shadowRadius="1.0" android:layout_weight="1"
+    				android:layout_marginLeft="3dp"
+    				android:layout_marginRight="5dp" />
+    		</LinearLayout>
+    		
+    	</LinearLayout>
+    	
+    </ScrollView>
 
 </LinearLayout>

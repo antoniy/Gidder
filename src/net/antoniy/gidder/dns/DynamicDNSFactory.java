@@ -1,12 +1,14 @@
 package net.antoniy.gidder.dns;
 
+import android.content.Context;
+
 public class DynamicDNSFactory {
 
-	public static DynamicDNS createDynDNSStrategy(String hostname) {
-		return new DynDNSStrategy(hostname);
+	public static DynamicDNS createDynDNSStrategy() {
+		return new DynDNSStrategy();
 	}
 	
-	public static DynamicDNS createNoIpStrategy(String hostname) {
-		return new NoIpStrategy(hostname);
+	public static DynamicDNS createNoIpStrategy(Context context) {
+		return new NoIpStrategy(context);
 	}
 }

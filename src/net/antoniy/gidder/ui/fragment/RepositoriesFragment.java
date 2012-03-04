@@ -7,7 +7,6 @@ import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
 import net.antoniy.gidder.ui.activity.AddRepositoryActivity;
-import net.antoniy.gidder.ui.activity.RepositoryPermissionsActivity;
 import net.antoniy.gidder.ui.adapter.RepositoryAdapter;
 import net.antoniy.gidder.ui.quickactions.ActionItem;
 import net.antoniy.gidder.ui.quickactions.QuickAction;
@@ -29,6 +28,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 public class RepositoriesFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnItemClickListener, QuickAction.OnActionItemClickListener, PopupWindow.OnDismissListener {
 	private final static String TAG = RepositoriesFragment.class.getSimpleName();
@@ -42,6 +42,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	private RepositoryAdapter repositoriesListAdapter;
 	private QuickAction quickAction;
 	private int selectedRow;
+	private TextView noRepositoriesTextView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 		addButton = (Button) mainContainer.findViewById(R.id.repositoriesAddButton);
 		addButton.setOnClickListener(this);
 
+		noRepositoriesTextView = (TextView) mainContainer.findViewById(R.id.repositoriesNoRepositoriesTextView);
+		
 		repositoriesListView = (ListView) mainContainer.findViewById(R.id.repositoriesListView);
 		loadRepositoriesListContent();
 		repositoriesListView.setOnItemLongClickListener(this);
@@ -68,6 +71,16 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 		return mainContainer;
 	}
 
+	private void showRepositoryList(boolean show) {
+		if(show) {
+			repositoriesListView.setVisibility(View.VISIBLE);
+			noRepositoriesTextView.setVisibility(View.GONE);
+		} else {
+			repositoriesListView.setVisibility(View.GONE);
+			noRepositoriesTextView.setVisibility(View.VISIBLE);
+		}
+	}
+	
 	private void loadRepositoriesListContent() {
 		List<Repository> repositories = null;
 		try {
@@ -76,6 +89,8 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 			Log.e(TAG, "Could not retrieve repositories.", e);
 			return;
 		}
+		
+		showRepositoryList(repositories.size() > 0);
 
 		repositoriesListAdapter = new RepositoryAdapter(getActivity(), R.layout.repositories_item, repositories);
 		repositoriesListView.setAdapter(repositoriesListAdapter);
@@ -107,6 +122,8 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 			Log.e(TAG, "Could not retrieve repositories.", e);
 			return;
 		}
+		
+		showRepositoryList(repositories.size() > 0);
 
 		repositoriesListAdapter.setItems(repositories);
 		repositoriesListAdapter.notifyDataSetChanged();

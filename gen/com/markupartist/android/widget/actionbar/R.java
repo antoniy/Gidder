@@ -370,11 +370,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__tab_unselected_pressed_holo=0x7f020037;
     }
     public static final class id {
-        public static final int actionPopupActivateDeactivate=0x7f0a0050;
-        public static final int actionPopupActivateDeactivateImage=0x7f0a0051;
-        public static final int actionPopupActivateDeactivateText=0x7f0a0052;
-        public static final int actionPopupDelete=0x7f0a003b;
-        public static final int actionPopupEdit=0x7f0a003a;
+        public static final int actionPopupActivateDeactivate=0x7f0a0052;
+        public static final int actionPopupActivateDeactivateImage=0x7f0a0053;
+        public static final int actionPopupActivateDeactivateText=0x7f0a0054;
+        public static final int actionPopupDelete=0x7f0a003c;
+        public static final int actionPopupEdit=0x7f0a003b;
         public static final int actionbar_actions=0x7f0a000b;
         public static final int actionbar_home=0x7f0a0006;
         public static final int actionbar_home_bg=0x7f0a0008;
@@ -415,6 +415,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int header2=0x7f0a0030;
         public static final int homeActionBar=0x7f0a0028;
         public static final int homeBtnStartStop=0x7f0a002c;
+        public static final int homeMenuSettings=0x7f0a005a;
+        public static final int homeMenuUpdateDns=0x7f0a0059;
         public static final int homeNavigationGrid=0x7f0a002d;
         public static final int homeWifiSSID=0x7f0a002a;
         public static final int homeWifiStatus=0x7f0a0029;
@@ -424,39 +426,41 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int navigationItemImage=0x7f0a002e;
         public static final int navigationItemTitle=0x7f0a002f;
         public static final int none=0x7f0a0002;
-        public static final int repositoriesAddButton=0x7f0a0039;
-        public static final int repositoriesItemDescription=0x7f0a003f;
-        public static final int repositoriesItemMapping=0x7f0a003d;
-        public static final int repositoriesItemName=0x7f0a003c;
-        public static final int repositoriesItemUserCount=0x7f0a003e;
+        public static final int repositoriesAddButton=0x7f0a003a;
+        public static final int repositoriesItemDescription=0x7f0a0040;
+        public static final int repositoriesItemMapping=0x7f0a003e;
+        public static final int repositoriesItemName=0x7f0a003d;
+        public static final int repositoriesItemUserCount=0x7f0a003f;
         public static final int repositoriesListView=0x7f0a0038;
-        public static final int repositoryPermissionGroupItemFullname=0x7f0a0045;
-        public static final int repositoryPermissionsActionBar=0x7f0a0040;
-        public static final int repositoryPermissionsDone=0x7f0a0042;
-        public static final int repositoryPermissionsListView=0x7f0a0041;
-        public static final int repositoryPermissionsPullImage=0x7f0a0043;
-        public static final int repositoryPermissionsPushImage=0x7f0a0044;
+        public static final int repositoriesNoRepositoriesTextView=0x7f0a0039;
+        public static final int repositoryPermissionGroupItemFullname=0x7f0a0046;
+        public static final int repositoryPermissionsActionBar=0x7f0a0041;
+        public static final int repositoryPermissionsDone=0x7f0a0043;
+        public static final int repositoryPermissionsListView=0x7f0a0042;
+        public static final int repositoryPermissionsPullImage=0x7f0a0044;
+        public static final int repositoryPermissionsPushImage=0x7f0a0045;
         public static final int screen=0x7f0a0005;
         public static final int scroll=0x7f0a0032;
-        public static final int slideActionBar=0x7f0a0048;
-        public static final int slideIndicator=0x7f0a0049;
-        public static final int slideMenuSettings=0x7f0a0057;
-        public static final int slidePager=0x7f0a004a;
-        public static final int splashScreenImageView=0x7f0a004b;
-        public static final int splashScreenSubtitleTextView=0x7f0a004d;
-        public static final int splashScreenTitleTextView=0x7f0a004c;
-        public static final int startSshdButton=0x7f0a0046;
-        public static final int stopSshdButton=0x7f0a0047;
+        public static final int slideActionBar=0x7f0a0049;
+        public static final int slideIndicator=0x7f0a004a;
+        public static final int slideMenuSettings=0x7f0a005b;
+        public static final int slidePager=0x7f0a004b;
+        public static final int splashScreenImageView=0x7f0a004c;
+        public static final int splashScreenSubtitleTextView=0x7f0a004e;
+        public static final int splashScreenTitleTextView=0x7f0a004d;
+        public static final int startSshdButton=0x7f0a0047;
+        public static final int stopSshdButton=0x7f0a0048;
         public static final int tracks=0x7f0a0033;
         public static final int triangle=0x7f0a0003;
         public static final int tv_title=0x7f0a0037;
         public static final int underline=0x7f0a0004;
-        public static final int usersAddButton=0x7f0a004f;
-        public static final int usersItemEmail=0x7f0a0056;
-        public static final int usersItemFullname=0x7f0a0054;
-        public static final int usersItemImage=0x7f0a0053;
-        public static final int usersItemUsername=0x7f0a0055;
-        public static final int usersListView=0x7f0a004e;
+        public static final int usersAddButton=0x7f0a0051;
+        public static final int usersItemEmail=0x7f0a0058;
+        public static final int usersItemFullname=0x7f0a0056;
+        public static final int usersItemImage=0x7f0a0055;
+        public static final int usersItemUsername=0x7f0a0057;
+        public static final int usersListView=0x7f0a004f;
+        public static final int usersNoUsersTextView=0x7f0a0050;
         public static final int vertical=0x7f0a0001;
     }
     public static final class integer {
@@ -488,7 +492,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__tab=0x7f030015;
     }
     public static final class menu {
-        public static final int slide_menu=0x7f0e0000;
+        public static final int home_menu=0x7f0e0000;
+        public static final int slide_menu=0x7f0e0001;
     }
     public static final class string {
         public static final int action_popup_activate=0x7f080016;
@@ -526,12 +531,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int dns_provider_title=0x7f080020;
         public static final int dns_username=0x7f080023;
         public static final int hello=0x7f080000;
+        public static final int repositories_no_repositories_label=0x7f080029;
         public static final int repository_permissions_item_pull=0x7f080019;
         public static final int repository_permissions_item_push=0x7f08001a;
         public static final int settings_git_repositories_directory=0x7f08001d;
         public static final int settings_ssh_server_port=0x7f08001e;
         public static final int settings_start_on_boot=0x7f08001f;
         public static final int show_password=0x7f080021;
+        public static final int users_no_users_label=0x7f08002a;
     }
     public static final class style {
         public static final int ActionBar=0x7f090000;

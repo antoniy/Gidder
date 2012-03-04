@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, QuickAction.OnActionItemClickListener, PopupWindow.OnDismissListener {
 	private final static String TAG = UsersFragment.class.getSimpleName();
@@ -40,6 +41,7 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 	private UsersAdapter usersListAdapter;
 	private int selectedRow;
 	private QuickAction quickAction;
+	private TextView noUsersTextView;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 
 		addButton = (Button) mainContainer.findViewById(R.id.usersAddButton);
 		addButton.setOnClickListener(this);
+		
+		noUsersTextView = (TextView) mainContainer.findViewById(R.id.usersNoUsersTextView);
 		
 		usersListView = (ListView) mainContainer.findViewById(R.id.usersListView);
 		loadUsersListContent();
@@ -65,6 +69,16 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		return mainContainer;
 	}
 	
+	private void showUsersList(boolean show) {
+		if(show) {
+			usersListView.setVisibility(View.VISIBLE);
+			noUsersTextView.setVisibility(View.GONE);
+		} else {
+			usersListView.setVisibility(View.GONE);
+			noUsersTextView.setVisibility(View.VISIBLE);
+		}
+	}
+	
 	private void loadUsersListContent() {
 		List<User> users = null;
 		try {
@@ -73,6 +87,8 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 			Log.e(TAG, "Could not retrieve users.", e);
 			return;
 		}
+		
+		showUsersList(users.size() > 0);
 		
 		usersListAdapter = new UsersAdapter(getActivity(), R.layout.users_item, users);
 		usersListView.setAdapter(usersListAdapter);
@@ -104,6 +120,8 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 			Log.e(TAG, "Could not retrieve users.", e);
 			return;
 		}
+		
+		showUsersList(users.size() > 0);
 		
 		usersListAdapter.setItems(users);
 		usersListAdapter.notifyDataSetChanged();
