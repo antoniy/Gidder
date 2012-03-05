@@ -1,6 +1,7 @@
 package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
+import net.antoniy.gidder.app.GidderApplication;
 import net.antoniy.gidder.dns.DynamicDNSManager;
 import net.antoniy.gidder.service.SSHDaemonService;
 import net.antoniy.gidder.ui.adapter.NavigationAdapter;
@@ -136,6 +137,7 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	        return true;
 	    case R.id.homeMenuUpdateDns:
 			new DynamicDNSManager(HomeActivity.this).update();
+			((GidderApplication)((Context)HomeActivity.this).getApplicationContext()).setUpdateDynDnsTime(System.currentTimeMillis());
 	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);

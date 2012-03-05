@@ -8,8 +8,8 @@ import android.util.Log;
 public class GidderApplication extends Application {
 	private final static String TAG = GidderApplication.class.getSimpleName();
 	
-//	public final static long UPDATE_DYNDNS_INTERVAL = 10L * 60L * 1000L;
-	public final static long UPDATE_DYNDNS_INTERVAL = 2L * 60L * 1000L;
+	public final static long UPDATE_DYNDNS_INTERVAL = 10L * 60L * 1000L;
+//	public final static long UPDATE_DYNDNS_INTERVAL = 2L * 60L * 1000L;
 	
 	private long updateDynDnsTime = 0;
 	
