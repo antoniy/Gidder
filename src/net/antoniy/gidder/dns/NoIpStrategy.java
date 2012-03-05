@@ -2,17 +2,26 @@ package net.antoniy.gidder.dns;
 
 import java.io.IOException;
 
+import net.antoniy.gidder.ui.util.C;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,23 +47,21 @@ public class NoIpStrategy implements DynamicDNS {
 	}
 
 	public void update(String hostname, String address, String username, String password) {
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpParams httpParams = new BasicHttpParams();
+		HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
+		HttpConnectionParams.setSoTimeout(httpParams, 3000);
+		
+		DefaultHttpClient httpClient = new DefaultHttpClient(httpParams  );
         try {
             httpClient.getCredentialsProvider().setCredentials(AuthScope.ANY,
-                    //new AuthScope("localhost", 443),
                     new UsernamePasswordCredentials(username, password));
+            
 
             String url = String.format(URL_TEMPLATE, hostname, address);
             
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader("User-Agent", "Gidder/1.0 antoniy@gmail.com");
             
-//            HttpParams params = new BasicHttpParams();
-//            params.setParameter("hostname", hostname);
-//            params.setParameter("address", address);
-//            
-//            httpGet.setParams(params);
-
             Log.i(TAG, "executing request " + httpGet.getRequestLine());
             HttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
@@ -75,27 +82,35 @@ public class NoIpStrategy implements DynamicDNS {
             Log.i(TAG, "Content: " + content);
             
             if(content.startsWith(RETURN_CODE_GOOD)) {
-//            	Toast.makeText(context.getApplicationContext(), "Dynamic DNS was successfully updated.", Toast.LENGTH_SHORT).show();
             	runToast("Dynamic DNS was successfully updated.");
             } else if(content.startsWith(RETURN_CODE_NOCHG)) {
-//            	Toast.makeText(context.getApplicationContext(), "Dynamic DNS was successfully updated.", Toast.LENGTH_SHORT).show();
             	runToast("Dynamic DNS was successfully updated.");
             } else if(content.startsWith(RETURN_CODE_NOHOST)) {
-            	Toast.makeText(context, "Dynamic DNS hostname is incorrect.", Toast.LENGTH_SHORT).show();
+            	runToast("Dynamic DNS hostname is incorrect.");
             } else if(content.startsWith(RETURN_CODE_BADAUTH)) {
-            	Toast.makeText(context, "Dynamic DNS authentication failed.", Toast.LENGTH_SHORT).show();
+            	runToast("Dynamic DNS authentication failed.");
             } else if(content.startsWith(RETURN_CODE_BADAGENT)) {
             	Log.e(TAG, "Agent information is not correct!");
             } else if(content.startsWith(RETURN_CODE_DONATOR)) {
             	Log.w(TAG, "Update request include feature that is not available for the user!");
             } else if(content.startsWith(RETURN_CODE_ABUSE)) {
-            	Toast.makeText(context, "Dynamic DNS username abuse problem.", Toast.LENGTH_SHORT).show();
+            	runToast("Dynamic DNS username abuse problem.");
             } else if(content.startsWith(RETURN_CODE_911)) {
-            	Toast.makeText(context, "Dynamic DNS provider has fatal problem.", Toast.LENGTH_SHORT).show();
+            	runToast("Dynamic DNS provider has fatal problem.");
             }
             	
         } catch (ClientProtocolException e) {
         	Log.e(TAG, e.getLocalizedMessage(), e);
+		} catch (ConnectTimeoutException e) {
+			Log.w(TAG, "WiFi is not yet connected! Try again in a minute.", e);
+			
+			Intent broadcastIntent = new Intent(C.action.UPDATE_DYNAMIC_DNS_ADDRESS);
+			broadcastIntent.putExtra("scheduled", true);
+			
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0);
+			
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60L * 1000L, pendingIntent);
 		} catch (IOException e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);
 		} finally {
@@ -105,13 +120,17 @@ public class NoIpStrategy implements DynamicDNS {
 	}
 	
 	private void runToast(final String text) {
-		((Activity)context).runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				Toast.makeText(context.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-			}
-		});
+		if(context instanceof Activity) {
+			((Activity)context).runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+				}
+			});
+		} else {
+			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 }

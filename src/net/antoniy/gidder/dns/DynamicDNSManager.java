@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 
 import net.antoniy.gidder.ui.util.GidderCommons;
 import net.antoniy.gidder.ui.util.PrefsConstants;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Looper;
@@ -45,24 +46,44 @@ public class DynamicDNSManager {
 		final String address = GidderCommons.getCurrentWifiIpAddress(context);
 		
 		if(providerIndex == PROVIDER_INDEX_NOIP) {
-			new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					Looper.prepare();
-					try {
-						DynamicDNSFactory.createNoIpStrategy(context).update(
-								URLEncoder.encode(hostname, "UTF-8"), 
-								URLEncoder.encode(address, "UTF-8"), 
-								URLEncoder.encode(username), 
-								URLEncoder.encode(password));
-					} catch (UnsupportedEncodingException e) {
-						Log.e(TAG, "Problem using UTF-8 encoding.", e);
-					}
-				}
-			}).start();
+			if(context instanceof Activity) {
+				updateOnNewThread(hostname, address, username, password);
+			} else {
+				updataOnSameThread(hostname, address, username, password);
+			}
 		} else if(providerIndex == PROVIDER_INDEX_DYNDNS) {
 			// TODO: implement dyndns integration
+		}
+	}
+	
+	private void updateOnNewThread(final String hostname, final String address, final String username, final String password) {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				Looper.prepare();
+				try {
+					DynamicDNSFactory.createNoIpStrategy(context).update(
+							URLEncoder.encode(hostname, "UTF-8"), 
+							URLEncoder.encode(address, "UTF-8"), 
+							URLEncoder.encode(username), 
+							URLEncoder.encode(password));
+				} catch (UnsupportedEncodingException e) {
+					Log.e(TAG, "Problem using UTF-8 encoding.", e);
+				}
+			}
+		}).start();
+	}
+	
+	private void updataOnSameThread(final String hostname, final String address, final String username, final String password) {
+		try {
+			DynamicDNSFactory.createNoIpStrategy(context).update(
+					URLEncoder.encode(hostname, "UTF-8"), 
+					URLEncoder.encode(address, "UTF-8"), 
+					URLEncoder.encode(username), 
+					URLEncoder.encode(password));
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, "Problem using UTF-8 encoding.", e);
 		}
 	}
 }

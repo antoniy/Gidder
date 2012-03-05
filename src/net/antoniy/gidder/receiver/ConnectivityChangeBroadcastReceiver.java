@@ -1,6 +1,7 @@
 package net.antoniy.gidder.receiver;
 
 import net.antoniy.gidder.app.GidderApplication;
+import net.antoniy.gidder.dns.DynamicDNSManager;
 import net.antoniy.gidder.ui.util.GidderCommons;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,7 +23,7 @@ public class ConnectivityChangeBroadcastReceiver extends BroadcastReceiver {
 	        	GidderApplication application = (GidderApplication)context.getApplicationContext();
 	        	long lastDynDnsUpdateTime = application.getUpdateDynDnsTime();
 	        	if((System.currentTimeMillis() - lastDynDnsUpdateTime > GidderApplication.UPDATE_DYNDNS_INTERVAL)) {
-	        		Log.i(TAG, "Time to update!");
+	        		new DynamicDNSManager(context).update();
 	        		application.setUpdateDynDnsTime(System.currentTimeMillis());
 	        	}
 			} else {

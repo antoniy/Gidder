@@ -78,6 +78,12 @@
         	    <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
         	</intent-filter>    
 		</receiver>
+		
+        <receiver android:name=".receiver.DynamicDNSReceiver" android:enabled="true" android:exported="false">
+        	<intent-filter >
+        	    <action android:name="net.antoniy.gidder.UPDATE_DYNAMIC_DNS" />
+        	</intent-filter>    
+		</receiver>
     </application>
 
 </manifest>

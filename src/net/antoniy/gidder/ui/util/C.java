@@ -9,5 +9,6 @@ public abstract class C {
 		public final static String START_PREFERENCE_ACTIVITY = "net.antoniy.gidder.START_PREFERENCE_ACTIVITY";
 		public final static String START_DYNAMIC_DNS_ACTIVITY = "net.antoniy.gidder.START_DYNAMIC_DNS_ACTIVITY";
 		public final static String START_REPOSITORY_PERMISSIONS_ACTIVITY = "net.antoniy.gidder.START_REPOSITORY_PERMISSIONS_ACTIVITY";
+		public final static String UPDATE_DYNAMIC_DNS_ADDRESS = "net.antoniy.gidder.UPDATE_DYNAMIC_DNS";
 	}
 }
