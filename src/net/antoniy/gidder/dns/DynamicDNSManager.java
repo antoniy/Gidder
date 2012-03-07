@@ -37,7 +37,7 @@ public class DynamicDNSManager {
 		
 		if(!active) {
 			return;
-		}
+		} 
 
 		if("".equals(username.trim()) || "".equals(password.trim()) || "".equals(hostname.trim())) {
 			Toast.makeText(context, "Dynamic DNS information is NOT valid!", Toast.LENGTH_SHORT);

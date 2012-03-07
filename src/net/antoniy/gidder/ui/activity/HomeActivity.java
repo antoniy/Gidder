@@ -228,8 +228,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 		Intent notificationIntent = new Intent(C.action.START_HOME_ACTIVITY);
 		PendingIntent contentIntent = PendingIntent.getActivity(HomeActivity.this, 1, notificationIntent, 0);
 
-//		notification.setLatestEventInfo(getActivity(), "Gidder", "SSH server is running", contentIntent);
-		notification.setLatestEventInfo(HomeActivity.this, "SSH server is running", GidderCommons.getCurrentWifiIpAddress(HomeActivity.this) + ":6666", contentIntent);
+		String currentIpAddress = GidderCommons.getCurrentWifiIpAddress(HomeActivity.this);
+		String sshPort = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this).getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
+		notification.setLatestEventInfo(HomeActivity.this, "SSH server is running", currentIpAddress + ":" + sshPort, contentIntent);
 		
 		NotificationManager notificationManager = (NotificationManager) HomeActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(SSH_STARTED_NOTIFICATION_ID, notification);
