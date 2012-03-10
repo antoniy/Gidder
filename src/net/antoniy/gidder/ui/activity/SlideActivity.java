@@ -49,11 +49,9 @@ public class SlideActivity extends FragmentActivity {
 		titleIndicator.setCurrentItem(titleAdapter.getCount() / 2);
 		
 		ActionBar actionBar = (ActionBar) findViewById(R.id.slideActionBar);
-//		actionBar.setHomeLogo(R.drawable.ic_actionbar_home);
 		actionBar.setTitle("Setup");
         actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_HOME_ACTIVITY), R.drawable.ic_actionbar_home));
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_ADD_USER_ACTIVITY), R.drawable.ic_actionbar_add));
         actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
 	}
 	
