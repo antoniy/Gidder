@@ -47,23 +47,27 @@ public class DynamicDNSManager {
 		
 		if(providerIndex == PROVIDER_INDEX_NOIP) {
 			if(context instanceof Activity) {
-				updateOnNewThread(hostname, address, username, password);
+				updateOnNewThread(DynamicDNSFactory.createNoIpStrategy(context), hostname, address, username, password);
 			} else {
-				updataOnSameThread(hostname, address, username, password);
+				updataOnSameThread(DynamicDNSFactory.createNoIpStrategy(context), hostname, address, username, password);
 			}
 		} else if(providerIndex == PROVIDER_INDEX_DYNDNS) {
-			// TODO: implement dyndns integration
+			if(context instanceof Activity) {
+				updateOnNewThread(DynamicDNSFactory.createDynDNSStrategy(context), hostname, address, username, password);
+			} else {
+				updataOnSameThread(DynamicDNSFactory.createDynDNSStrategy(context), hostname, address, username, password);
+			}
 		}
 	}
 	
-	private void updateOnNewThread(final String hostname, final String address, final String username, final String password) {
+	private void updateOnNewThread(final DynamicDNS strategy, final String hostname, final String address, final String username, final String password) {
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
 				Looper.prepare();
 				try {
-					DynamicDNSFactory.createNoIpStrategy(context).update(
+					strategy.update(
 							URLEncoder.encode(hostname, "UTF-8"), 
 							URLEncoder.encode(address, "UTF-8"), 
 							URLEncoder.encode(username), 
@@ -75,9 +79,9 @@ public class DynamicDNSManager {
 		}).start();
 	}
 	
-	private void updataOnSameThread(final String hostname, final String address, final String username, final String password) {
+	private void updataOnSameThread(final DynamicDNS strategy, final String hostname, final String address, final String username, final String password) {
 		try {
-			DynamicDNSFactory.createNoIpStrategy(context).update(
+			strategy.update(
 					URLEncoder.encode(hostname, "UTF-8"), 
 					URLEncoder.encode(address, "UTF-8"), 
 					URLEncoder.encode(username), 

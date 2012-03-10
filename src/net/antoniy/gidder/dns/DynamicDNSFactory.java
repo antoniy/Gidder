@@ -4,8 +4,8 @@ import android.content.Context;
 
 public class DynamicDNSFactory {
 
-	public static DynamicDNS createDynDNSStrategy() {
-		return new DynDNSStrategy();
+	public static DynamicDNS createDynDNSStrategy(Context context) {
+		return new DynDnsStrategy(context);
 	}
 	
 	public static DynamicDNS createNoIpStrategy(Context context) {
