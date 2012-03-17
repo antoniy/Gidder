@@ -8,11 +8,14 @@ import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ssh.GidderCommandFactory;
 import net.antoniy.gidder.ssh.GidderHostKeyProvider;
 import net.antoniy.gidder.ssh.NoShell;
+import net.antoniy.gidder.ui.util.GidderCommons;
 import net.antoniy.gidder.ui.util.PrefsConstants;
 
 import org.apache.sshd.SshServer;
 import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
+import org.bouncycastle.crypto.digests.SHA1Digest;
+import org.bouncycastle.util.encoders.Hex;
 
 import android.app.Service;
 import android.content.Intent;
@@ -109,7 +112,10 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 				return false;
 			}
 			
-			if(password.equals(user.getPassword())) {
+			String passwordSha1 = GidderCommons.generateSha1(password);
+			Log.i(TAG, "Password SHA1: " + passwordSha1);
+			
+			if(passwordSha1.equals(user.getPassword())) {
 				return true;
 			}
 		} catch (SQLException e) {

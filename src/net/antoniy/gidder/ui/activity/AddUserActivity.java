@@ -4,20 +4,21 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
-
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.util.C;
+import net.antoniy.gidder.ui.util.GidderCommons;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class AddUserActivity extends BaseActivity {
 	private final static String TAG = AddUserActivity.class.getSimpleName();
@@ -99,7 +100,7 @@ public class AddUserActivity extends BaseActivity {
 		fullnameEditText.setText(user.getFullname());
 		emailEditText.setText(user.getEmail());
 		usernameEditText.setText(user.getUsername());
-		passwordEditText.setText(user.getPassword());
+		passwordEditText.setHint("SHA1: " + user.getPassword());
 		activateCheckox.setChecked(user.isActive());
 		
 	}
@@ -109,7 +110,7 @@ public class AddUserActivity extends BaseActivity {
 		super.onClick(v);
 		
 		if(v.getId() == R.id.addUserBtnAddEdit) {
-			if(!isFieldsValid()) {
+			if(!isFieldsValid(editMode)) {
 				return;
 			}
 			
@@ -124,13 +125,16 @@ public class AddUserActivity extends BaseActivity {
 					User user = getHelper().getUserDao().queryForId(userId);
 					user.setFullname(fullname);
 					user.setEmail(email);
-					user.setPassword(password);
+					
+					if(password != null && !"".equals(password.trim())) {
+						user.setPassword(GidderCommons.generateSha1(password));
+					}
 					user.setUsername(username);
 					user.setActive(active);
 					
 					getHelper().getUserDao().update(user);
 				} else {
-					getHelper().getUserDao().create(new User(0, fullname, email, username, password, active, System.currentTimeMillis()));
+					getHelper().getUserDao().create(new User(0, fullname, email, username, GidderCommons.generateSha1(password), active, System.currentTimeMillis()));
 				}
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem when add new user.", e);
@@ -145,7 +149,7 @@ public class AddUserActivity extends BaseActivity {
 		}
 	}
 	
-	private boolean isFieldsValid() {
+	private boolean isFieldsValid(boolean doNotValidatePassword) {
 		boolean isAllFieldsValid = true;
 		
 		if(!isFullnameValid()) {
@@ -160,7 +164,7 @@ public class AddUserActivity extends BaseActivity {
 			isAllFieldsValid = false;
 		}
 		
-		if(!isPasswordValid()) {
+		if(!doNotValidatePassword && !isPasswordValid()) {
 			isAllFieldsValid = false;
 		}
 		
