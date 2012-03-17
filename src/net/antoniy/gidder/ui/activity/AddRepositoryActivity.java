@@ -8,6 +8,7 @@ import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
 import net.antoniy.gidder.ui.util.C;
+import net.antoniy.gidder.ui.util.GidderCommons;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,6 +68,15 @@ public class AddRepositoryActivity extends BaseActivity {
 		cancelButton.setOnClickListener(this);
 		
 		nameEditText = (EditText) findViewById(R.id.addRepositoryName);
+		nameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(!hasFocus && nameEditText.getText().length() > 0 && mappingEditText.getText().length() == 0) {
+					mappingEditText.setText(GidderCommons.toCamelCase(nameEditText.getText().toString()));
+				}
+			}
+		});
+		
 		mappingEditText = (EditText) findViewById(R.id.addRepositoryMapping);
 		descriptionEditText = (EditText) findViewById(R.id.addRepositoryDescription);
 		
