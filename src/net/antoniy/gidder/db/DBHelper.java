@@ -8,6 +8,7 @@ import net.antoniy.gidder.db.dao.UserDao;
 import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
+import net.antoniy.gidder.ui.util.GidderCommons;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -23,11 +24,8 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	private final static String DB_NAME = "gidder.db";
 	private final static int DB_VERSION = 20111127;
 	
-//	private Dao<User, Integer> userDao;
 	private UserDao userDao;
-//	private Dao<Repository, Integer> repositoryDao;
 	private RepositoryDao repositoryDao;
-//	private Dao<Permission, Integer> permissionDao;
 	private PermissionDao permissionDao;
 	
 	public DBHelper(Context context) {
@@ -59,10 +57,10 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	}
 	
 	private void initDevelopmentData(SQLiteDatabase database) throws SQLException {
-		getUserDao().create(new User(0, "Antoniy Chonkov", "antoniy@gmail.com", "antoniy", "asdasd", true, System.currentTimeMillis()));
-		getUserDao().create(new User(0, "Dimitar Kalinov", "dkalinoff@gmail.com", "miteto", "asdasd", true, System.currentTimeMillis()));
-		getUserDao().create(new User(0, "Liliya Besaleva", "liliya_besaleva@hotmail.com", "lia", "asdasd", true, System.currentTimeMillis()));
-		getUserDao().create(new User(0, "Jordan Grancharov", "phrone@gmail.com", "dakel", "asdasd", true, System.currentTimeMillis()));
+		getUserDao().create(new User(0, "Antoniy Chonkov", "antoniy@gmail.com", "antoniy", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
+		getUserDao().create(new User(0, "Dimitar Kalinov", "dkalinoff@gmail.com", "miteto", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
+		getUserDao().create(new User(0, "Liliya Besaleva", "liliya_besaleva@hotmail.com", "lia", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
+		getUserDao().create(new User(0, "Jordan Grancharov", "phrone@gmail.com", "dakel", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
 	}
 	
 	@Override
