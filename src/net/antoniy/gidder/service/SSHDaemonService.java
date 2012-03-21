@@ -8,14 +8,13 @@ import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ssh.GidderCommandFactory;
 import net.antoniy.gidder.ssh.GidderHostKeyProvider;
 import net.antoniy.gidder.ssh.NoShell;
+import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.GidderCommons;
 import net.antoniy.gidder.ui.util.PrefsConstants;
 
 import org.apache.sshd.SshServer;
 import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
-import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.util.encoders.Hex;
 
 import android.app.Service;
 import android.content.Intent;
@@ -62,6 +61,7 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 		try {
 			if(sshServer != null) {
 				sshServer.stop(true);
+				sendBroadcast(new Intent(C.action.SSHD_STOPPED));
 			}
 			Log.i(TAG, "SSHd stopped!");
 		} catch (InterruptedException e) {
@@ -90,6 +90,7 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 		
 		try {
 			sshServer.start();
+			sendBroadcast(new Intent(C.action.SSHD_STARTED));
 			Log.i(TAG, "SSHd started!");
 		} catch (IOException e) {
 			Log.e(TAG, "Problem when starting SSHd.", e);

@@ -10,5 +10,7 @@ public abstract class C {
 		public final static String START_DYNAMIC_DNS_ACTIVITY = "net.antoniy.gidder.START_DYNAMIC_DNS_ACTIVITY";
 		public final static String START_REPOSITORY_PERMISSIONS_ACTIVITY = "net.antoniy.gidder.START_REPOSITORY_PERMISSIONS_ACTIVITY";
 		public final static String UPDATE_DYNAMIC_DNS_ADDRESS = "net.antoniy.gidder.UPDATE_DYNAMIC_DNS";
+		public final static String SSHD_STARTED = "net.antoniy.gidder.SSHD_STARTED";
+		public final static String SSHD_STOPPED = "net.antoniy.gidder.SSHD_STOPPED";
 	}
 }

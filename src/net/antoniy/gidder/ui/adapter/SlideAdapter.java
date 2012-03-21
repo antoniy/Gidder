@@ -38,15 +38,17 @@ public class SlideAdapter extends FragmentPagerAdapter implements TitleProvider 
 	@Override
 	public int getCount() {
 		return count;
+//		return Integer.MAX_VALUE;
+//		return 10;
 	}
 	
-	public void setCount(int count) {
-		if (count > 0 && count <= 10) {
-			this.count = count;
-			
-			notifyDataSetChanged();
-		}
-	}
+//	public void setCount(int count) {
+//		if (count > 0 && count <= 10) {
+//			this.count = count;
+//			
+//			notifyDataSetChanged();
+//		}
+//	}
 
 	@Override
 	public String getTitle(int position) {

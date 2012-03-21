@@ -1,17 +1,28 @@
 package net.antoniy.gidder.ui.util;
 
+import net.antoniy.gidder.R;
+import net.antoniy.gidder.service.SSHDaemonService;
+
 import org.bouncycastle.crypto.digests.SHA1Digest;
 import org.bouncycastle.util.encoders.Hex;
 
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public abstract class GidderCommons {
-
+	private final static int SSH_STARTED_NOTIFICATION_ID = 1;
+	
 	public static boolean isWifiReady(Context context) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -128,5 +139,38 @@ public abstract class GidderCommons {
 		}
 		
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+	}
+	
+	public static void makeStatusBarNotification(Context context) {
+		Notification notification = new Notification(R.drawable.ic_launcher, "SSH server started!", System.currentTimeMillis());
+		notification.defaults |= Notification.DEFAULT_SOUND;
+//		notification.defaults |= Notification.DEFAULT_VIBRATE;
+//		notification.flags = Notification.FLAG_AUTO_CANCEL;
+		notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+		
+		Intent notificationIntent = new Intent(C.action.START_HOME_ACTIVITY);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, 0);
+
+		String currentIpAddress = GidderCommons.getCurrentWifiIpAddress(context);
+		String sshPort = PreferenceManager.getDefaultSharedPreferences(context).getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
+		notification.setLatestEventInfo(context, "SSH server is running", currentIpAddress + ":" + sshPort, contentIntent);
+		
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.notify(SSH_STARTED_NOTIFICATION_ID, notification);
+	}
+	
+	public static boolean isSshServiceRunning(Context context) {
+	    ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+	        if (SSHDaemonService.class.getName().equals(service.service.getClassName())) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	public static void stopStatusBarNotification(Context context) {
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancel(SSH_STARTED_NOTIFICATION_ID);
 	}
 }

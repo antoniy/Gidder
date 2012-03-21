@@ -11,7 +11,10 @@ public enum PrefsConstants {
 	DYNDNS_PROVIDER_INDEX("dyndns_provider_index", ""),
 	DYNDNS_DOMAIN("dyndns_domain", ""),
 	DYNDNS_PASSWORD("dyndns_username", ""),
-	DYNDNS_USERNAME("dyndns_password", "");
+	DYNDNS_USERNAME("dyndns_password", ""),
+	
+	AUTOSTART_ON_WIFI_ON("autostart_on_wifi_on", "false"),
+	AUTOSTOP_ON_WIFI_OFF("autostop_on_wifi_off", "false"),;
 	
 	private final String key;
 	private final String defaultValue;

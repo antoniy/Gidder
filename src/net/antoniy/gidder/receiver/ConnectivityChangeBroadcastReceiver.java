@@ -2,11 +2,15 @@ package net.antoniy.gidder.receiver;
 
 import net.antoniy.gidder.app.GidderApplication;
 import net.antoniy.gidder.dns.DynamicDNSManager;
+import net.antoniy.gidder.service.SSHDaemonService;
 import net.antoniy.gidder.ui.util.GidderCommons;
+import net.antoniy.gidder.ui.util.PrefsConstants;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class ConnectivityChangeBroadcastReceiver extends BroadcastReceiver {
@@ -17,6 +21,10 @@ public class ConnectivityChangeBroadcastReceiver extends BroadcastReceiver {
 		final String action = intent.getAction();
 
 		if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			boolean autostartOnWifiOn = prefs.getBoolean(PrefsConstants.AUTOSTART_ON_WIFI_ON.getKey(), false);
+			boolean autostopOnWifiOff = prefs.getBoolean(PrefsConstants.AUTOSTOP_ON_WIFI_OFF.getKey(), false);
+			
 			if (GidderCommons.isWifiReady(context)) {
 	        	Log.i(TAG, "[" + GidderCommons.getWifiSSID(context) + "] WiFi is active!");
 
@@ -26,8 +34,18 @@ public class ConnectivityChangeBroadcastReceiver extends BroadcastReceiver {
 	        		new DynamicDNSManager(context).update();
 	        		application.setUpdateDynDnsTime(System.currentTimeMillis());
 	        	}
+	        	
+	        	if(autostartOnWifiOn && !GidderCommons.isSshServiceRunning(context)) {
+	        		context.startService(new Intent(context, SSHDaemonService.class));
+	        		GidderCommons.makeStatusBarNotification(context);
+	        	}
 			} else {
 				Log.i(TAG, "WiFi is NOT active!");
+				Intent startServiceIntent = new Intent(context, SSHDaemonService.class);
+				if(autostopOnWifiOff && GidderCommons.isSshServiceRunning(context)) {
+					context.stopService(startServiceIntent);
+					GidderCommons.stopStatusBarNotification(context);
+				}
 			}
 		}
 		

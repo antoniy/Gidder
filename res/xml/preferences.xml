@@ -31,6 +31,20 @@
 		    android:summaryOff="@string/click_to_enable"
 		    android:defaultValue="false"/>
 		
+		<CheckBoxPreference 
+		    android:key="autostart_on_wifi_on"
+		    android:title="Autostart"
+		    android:summaryOn="Autostart on wifi ON"
+		    android:summaryOff="Autostart on wifi ON"
+		    android:defaultValue="true"/>
+        
+        <CheckBoxPreference 
+		    android:key="autostop_on_wifi_off"
+		    android:title="Autostop"
+		    android:summaryOn="Autostop on wifi OFF"
+		    android:summaryOff="Autostop on wifi OFF"
+		    android:defaultValue="true"/>
+		
     </PreferenceCategory>
 
 </PreferenceScreen>
