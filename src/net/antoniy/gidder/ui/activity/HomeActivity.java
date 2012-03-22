@@ -23,9 +23,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +47,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	private GridView navigationGridView; 
 	private TextView wifiStatusTextView;
 	private TextView wifiSSIDTextView;
+	private EditText homeServerInfoEditText;
+	private SharedPreferences prefs;
+	
 	private BroadcastReceiver connectivityChangeBroadcastReceiver = new BroadcastReceiver() {
 		
 		@Override
@@ -53,11 +60,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 				if (GidderCommons.isWifiReady(context)) {
 					wifiStatusTextView.setText("WiFi connected to");
 		        	wifiSSIDTextView.setText(GidderCommons.getWifiSSID(context));
-//		        	Log.i(TAG, "[" + getWifiSSID() + "] WiFi is active!");
 				} else {
 					wifiStatusTextView.setText("WiFi is NOT connected");
 		        	wifiSSIDTextView.setText("");
-//					Log.i(TAG, "WiFi is NOT active!");
 				}
 			}
 		}
@@ -70,9 +75,22 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 			final String action = intent.getAction();
 			
 			if(action.equals(C.action.SSHD_STARTED)) {
-				Log.i(TAG, "SSHd started - broadcast received!");
+				Animation animation = new ScaleAnimation(1.0f, 1.0f, 0.0f, 1.0f);
+				animation.setDuration(250);
+				
+				homeServerInfoEditText.setText(GidderCommons.getCurrentWifiIpAddress(HomeActivity.this) + ":" + 
+	        			prefs.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue()));
+				
+				homeServerInfoEditText.startAnimation(animation);
+				homeServerInfoEditText.setVisibility(View.VISIBLE);
+				wirelessImageView.setImageResource(R.drawable.ic_wireless_enabled);
 			} else if(action.equals(C.action.SSHD_STOPPED)) {
-				Log.i(TAG, "SSHd stopped - broadcast received!");
+				Animation animation = new ScaleAnimation(1.0f, 1.0f, 1.0f, 0.0f);
+				animation.setDuration(250);
+				
+				homeServerInfoEditText.startAnimation(animation);
+				homeServerInfoEditText.setVisibility(View.INVISIBLE);
+				wirelessImageView.setImageResource(R.drawable.ic_wireless_disabled);
 			}
 		}
 	};
@@ -84,6 +102,8 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		
 		ActionBar actionBar = (ActionBar) findViewById(R.id.homeActionBar);
 		actionBar.setHomeAction(new AbstractAction(R.drawable.ic_actionbar_home) {
 			@Override
@@ -127,6 +147,16 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
         } else {
         	wifiStatusTextView.setText("WiFi is NOT connected");
         	wifiSSIDTextView.setText("");
+        }
+        
+        homeServerInfoEditText = (EditText) findViewById(R.id.homeServerInfoEditText);
+        
+        if(isSshServiceRunning) {
+        	homeServerInfoEditText.setVisibility(View.VISIBLE);
+        	homeServerInfoEditText.setText(GidderCommons.getCurrentWifiIpAddress(this) + ":" + 
+        			prefs.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue()));
+        } else {
+        	homeServerInfoEditText.setVisibility(View.INVISIBLE);
         }
 	}
 	

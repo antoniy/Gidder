@@ -70,6 +70,21 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold" />
+    
+    <EditText
+        android:id="@+id/homeServerInfoEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/homeBtnStartStop"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_box"
+        android:editable="false"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/darker_gray"
+        android:focusable="false"
+        android:visibility="visible" />
 
     <GridView
 	    android:id="@+id/homeNavigationGrid"
