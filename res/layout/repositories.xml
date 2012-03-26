@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
+    	android:layout_height="0dip"
     	android:layout_weight="1">
         
     	<ListView 
@@ -37,17 +37,10 @@
         android:id="@+id/repositoriesAddButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        style="@style/blue_background_white_shadowed_font"
         android:gravity="center" 
         android:layout_gravity="center"
-        android:background="@drawable/blue_btn_selector"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-  		android:textSize="20sp"
         android:text="@string/btn_add_repository"
-        android:shadowColor="@android:color/black" 
-  		android:shadowDx="1.0"
-  		android:shadowDy="1.0" 
-  		android:shadowRadius="1.0"
 		android:layout_marginLeft="5dp"
 		android:layout_marginRight="5dp"
 		android:layout_marginBottom="5dp" />

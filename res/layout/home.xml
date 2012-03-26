@@ -55,21 +55,15 @@
 
     <Button
         android:id="@+id/homeBtnStartStop"
+        style="@style/blue_background_white_shadowed_font"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/homeWirelessImage"
         android:layout_centerInParent="true"
-        android:background="@drawable/blue_btn_selector"
-        android:shadowColor="@android:color/black"
-        android:shadowDx="2.0"
-        android:shadowDy="2.0"
-        android:shadowRadius="2.0"
-        android:text="Start"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:text="@string/home_start"
+        android:textSize="24sp" />
     
     <EditText
         android:id="@+id/homeServerInfoEditText"

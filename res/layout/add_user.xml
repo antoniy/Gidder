@@ -25,7 +25,25 @@
     			android:layout_margin="5dp"
     			android:padding="5dp" 
     			android:orientation="vertical">
-
+    			
+				<TextView 
+   		            android:id="@+id/add_user_contacts"
+   		            android:layout_width="wrap_content"
+   		            android:layout_height="0dip"
+   		            style="@style/blue_background_white_shadowed_font"
+   		            android:text="@string/use_contact"
+   					android:textSize="16sp"
+   					android:layout_weight="1"
+   					android:layout_marginRight="5dp"
+   					android:layout_margin="5dp"
+   					android:layout_gravity="right"
+   					android:paddingLeft="16dp"
+   		        	android:paddingRight="16dp"
+   					android:drawableRight="@drawable/ic_people"
+   					android:drawablePadding="5dp"
+   					android:gravity="center"
+   					android:clickable="true" />
+    		        
     		    <TextView 
     		        android:layout_width="fill_parent"
     		        android:layout_height="wrap_content"
@@ -97,29 +115,23 @@
     			android:layout_height="wrap_content"
     			android:orientation="horizontal"
     			android:background="@android:color/transparent"
-    			android:gravity="bottom">
+    			android:gravity="bottom"
+    			android:layout_marginBottom="5dp">
 
     			<Button android:id="@+id/addUserBtnAddEdit"
     				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content" android:layout_weight="1"
-    				android:background="@drawable/blue_btn_selector"
-    				android:textColor="#FFFFFF" android:textStyle="bold"
-    				android:textSize="20sp"
-    				android:shadowColor="@android:color/black"
-    				android:shadowDx="1.0" android:shadowDy="1.0"
-    				android:shadowRadius="1.0" android:layout_marginLeft="5dp"
+    				android:layout_height="wrap_content" 
+    				android:layout_weight="1"
+    				style="@style/blue_background_white_shadowed_font"
+    				android:layout_marginLeft="5dp"
     				android:layout_marginRight="3dp" />
 
     			<Button android:id="@+id/addUserBtnCancel"
     				android:layout_width="fill_parent"
     				android:layout_height="wrap_content"
+    				style="@style/blue_background_white_shadowed_font"
     				android:text="@string/btn_cancel"
-    				android:background="@drawable/blue_btn_selector"
-    				android:textColor="#FFFFFF" android:textStyle="bold"
-    				android:textSize="20sp"
-    				android:shadowColor="@android:color/black"
-    				android:shadowDx="1.0" android:shadowDy="1.0"
-    				android:shadowRadius="1.0" android:layout_weight="1"
+    				android:layout_weight="1"
     				android:layout_marginLeft="3dp"
     				android:layout_marginRight="5dp" />
 

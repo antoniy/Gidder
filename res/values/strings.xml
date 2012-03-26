@@ -47,4 +47,7 @@
         <string name="btn_save">Save</string>
         <string name="repositories_no_repositories_label">No repositories</string>
         <string name="users_no_users_label">No users</string>
+        <string name="use_contact">Use contact</string>
+        <string name="home_start">Start</string>
+        <string name="dialog_pick_e_mail_address">Pick e-mail address</string>
 </resources>

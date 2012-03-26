@@ -18,6 +18,7 @@ public class DynamicDNSReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		GidderApplication application = (GidderApplication)context.getApplicationContext();
+		
     	long lastDynDnsUpdateTime = application.getUpdateDynDnsTime();
     	boolean scheduled = intent.getBooleanExtra("scheduled", false);
 		if(scheduled || ((System.currentTimeMillis() - lastDynDnsUpdateTime > GidderApplication.UPDATE_DYNDNS_INTERVAL) 
