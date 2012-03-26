@@ -59,7 +59,7 @@ public class AddRepositoryActivity extends BaseActivity {
 		addEditButton = (Button) findViewById(R.id.addRepositoryBtnAdd);
 		addEditButton.setOnClickListener(this);
 		if(editMode) {
-			addEditButton.setText(R.string.btn_edit);
+			addEditButton.setText(R.string.btn_save);
 		} else {
 			addEditButton.setText(R.string.btn_add);
 		}
