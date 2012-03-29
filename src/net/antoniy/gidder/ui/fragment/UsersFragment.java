@@ -9,6 +9,7 @@ import net.antoniy.gidder.ui.activity.AddUserActivity;
 import net.antoniy.gidder.ui.adapter.UsersAdapter;
 import net.antoniy.gidder.ui.quickactions.ActionItem;
 import net.antoniy.gidder.ui.quickactions.QuickAction;
+import net.antoniy.gidder.ui.util.C;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,7 +29,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, QuickAction.OnActionItemClickListener, PopupWindow.OnDismissListener {
+public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, QuickAction.OnActionItemClickListener, PopupWindow.OnDismissListener, OnItemClickListener {
 	private final static String TAG = UsersFragment.class.getSimpleName();
 	private final static String INTENT_ACTION_START_ADD_USER = "net.antoniy.gidder.START_ADD_USER_ACTIVITY";
 	
@@ -55,6 +57,7 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		usersListView = (ListView) mainContainer.findViewById(R.id.usersListView);
 		loadUsersListContent();
 		usersListView.setOnItemLongClickListener(this);
+		usersListView.setOnItemClickListener(this);
 		
 		ActionItem editItem = new ActionItem(1, "Edit", getResources().getDrawable(R.drawable.ic_action_edit));
 		ActionItem deleteItem = new ActionItem(2, "Delete", getResources().getDrawable(R.drawable.ic_action_delete));
@@ -200,6 +203,14 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 	@Override
 	public void onDismiss() {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Intent intent = new Intent(C.action.START_USER_DETAILS);
+		intent.putExtra("userId", usersListAdapter.getItem(position).getId());
+		
+		startActivity(intent);
 	}
 	
 }

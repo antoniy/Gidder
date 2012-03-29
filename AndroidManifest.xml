@@ -72,6 +72,13 @@
             </intent-filter>
         </activity>
         
+        <activity android:name=".ui.activity.UserDetailsActivity">
+            <intent-filter >
+                <action android:name="net.antoniy.gidder.START_USER_DETAILS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
         <service android:name=".service.SSHDaemonService"/>
         
         <receiver android:name=".receiver.ConnectivityChangeBroadcastReceiver" android:enabled="true" android:exported="false">
