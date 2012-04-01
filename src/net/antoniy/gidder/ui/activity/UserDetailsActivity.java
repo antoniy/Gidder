@@ -1,99 +1,79 @@
 package net.antoniy.gidder.ui.activity;
 
+import java.sql.SQLException;
+
 import net.antoniy.gidder.R;
+import net.antoniy.gidder.db.entity.User;
+import net.antoniy.gidder.ui.util.C;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class UserDetailsActivity extends BaseActivity {
 	private final static String TAG = UserDetailsActivity.class.getSimpleName();
-	
-//	private static final Pattern emailPattern = Pattern.compile( "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-//	private static final int CONTACT_PICKER = 1;
-	
-//	public final static int REQUEST_CODE_ADD_USER = 1;
-//	public final static int REQUEST_CODE_EDIT_USER = 2;
-	
-//	private Button addEditButton;
-//	private Button cancelButton;
-//	private EditText fullnameEditText;
-//	private EditText emailEditText;
-//	private EditText usernameEditText;
-//	private EditText passwordEditText;
-//	private boolean editMode = false;
-//	private int userId;
-//	private CheckBox activateCheckox;
-//	private TextView contactPicker;
+
+	private int userId;
+	private TextView fullnameTextView;
+	private TextView emailTextView;
+	private TextView activateTextView;
+	private ImageView activateImageView;
 	
 	@Override
 	protected void setup() {
 		setContentView(R.layout.user_details);
 
-//		if(getIntent().getExtras() != null) {
-//			userId = getIntent().getExtras().getInt("userId", -1);
-//			Log.i(TAG, "UserID: " + userId);
-//			
-//			if(userId > 0) {
-//				editMode = true;
-//			} else {
-//				editMode = false;
-//			}
-//		}
+		if(getIntent().getExtras() != null) {
+			userId = getIntent().getExtras().getInt("userId", -1);
+			Log.i(TAG, "UserID: " + userId);
+			
+			if(userId <= 0) {
+				Toast.makeText(this, "No user ID specified!", Toast.LENGTH_SHORT);
+				finish();
+			}
+		}
 	}
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-//		contactPicker = (TextView) findViewById(R.id.add_user_contacts);
-//		contactPicker.setOnClickListener(this);
-//		
-//		addEditButton = (Button) findViewById(R.id.addUserBtnAddEdit);
-//		addEditButton.setOnClickListener(this);
-//		if(editMode) {
-//			addEditButton.setText(R.string.btn_save);
-//		} else {
-//			addEditButton.setText(R.string.btn_add);
-//		}
-//		
-//		cancelButton = (Button) findViewById(R.id.addUserBtnCancel);
-//		cancelButton.setOnClickListener(this);
-//		
-//		fullnameEditText = (EditText) findViewById(R.id.addUserFullname);
-//		emailEditText = (EditText) findViewById(R.id.addUserEmail);
-//		usernameEditText = (EditText) findViewById(R.id.addUserUsername);
-//		passwordEditText = (EditText) findViewById(R.id.addUserPassword);
-//		activateCheckox = (CheckBox) findViewById(R.id.addUserActivate);
-//		
-//		ActionBar actionBar = (ActionBar) findViewById(R.id.addUserActionBar);
-//        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-//
-//        if(editMode) {
-//        	actionBar.setTitle(R.string.add_user_edittitle);
-//        } else {
-//        	actionBar.setTitle(R.string.add_user_title);
-//        }
-//		
-//		if(editMode) {
-//			populateFieldsWithUserData();
-//		}
+		ActionBar actionBar = (ActionBar) findViewById(R.id.userDetailsActionBar);
+		actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
+		actionBar.setTitle(R.string.user_details);
+		
+		fullnameTextView = (TextView) findViewById(R.id.userDetailsName);
+		emailTextView = (TextView) findViewById(R.id.userDetailsMail);
+		activateTextView = (TextView) findViewById(R.id.userDetailsActiveLabel);
+		activateImageView = (ImageView) findViewById(R.id.userDetailsActive);
+		populateFieldsWithUserData();
 	}
 	
 	private void populateFieldsWithUserData() {
-//		User user = null;
-//		try {
-//			user = getHelper().getUserDao().queryForId(userId);
-//		} catch (SQLException e) {
-//			Log.e(TAG, "Error retrieving user with id " + userId, e);
-//			return;
-//		}
-//		
-//		fullnameEditText.setText(user.getFullname());
-//		emailEditText.setText(user.getEmail());
-//		usernameEditText.setText(user.getUsername());
-//		passwordEditText.setHint("SHA1: " + user.getPassword());
-//		activateCheckox.setChecked(user.isActive());
+		User user = null;
+		try {
+			user = getHelper().getUserDao().queryForId(userId);
+		} catch (SQLException e) {
+			Log.e(TAG, "Error retrieving user with id " + userId, e);
+			return;
+		}
 		
+		fullnameTextView.setText(user.getFullname());
+		emailTextView.setText(user.getEmail());
+		
+		if(user.isActive()) {
+			activateImageView.setImageResource(R.drawable.ic_activated);
+			activateTextView.setText("active");
+		} else {
+			activateImageView.setImageResource(R.drawable.ic_deactivated);
+			activateTextView.setText("not active");
+		}
 	}
 	
 	@Override

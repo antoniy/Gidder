@@ -13,10 +13,13 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
@@ -131,6 +134,7 @@ public class AddRepositoryActivity extends BaseActivity {
 				
 				new Thread(new Runnable() {
 					public void run() {
+						Looper.prepare();
 						
 						try {
 							repositoryDao.renameRepository(repositoryId, mapping);
@@ -142,9 +146,10 @@ public class AddRepositoryActivity extends BaseActivity {
 							finish();
 						} catch (SQLException e) {
 							Log.e(TAG, "Problem when add new repository.", e);
-							// TODO: Handle this exception.
+							Toast.makeText(AddRepositoryActivity.this, "Error! Database error.", Toast.LENGTH_SHORT).show();
 						} finally {
 							dialog.dismiss();
+							Looper.loop();
 						}
 					}
 				}).start();
@@ -154,21 +159,23 @@ public class AddRepositoryActivity extends BaseActivity {
 	
 				new Thread(new Runnable() {
 					public void run() {
+						Looper.prepare();
 						
 						try {
 							getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
 							repositoryDao.createRepository(mapping);
-				
+							Toast.makeText(AddRepositoryActivity.this, "Bla.", Toast.LENGTH_SHORT).show();
 							setResult(RESULT_OK, null);
 							finish();
 						} catch (RepositoryNotFoundException e) {
 							Log.e(TAG, "Problem while creating repository.", e);
-							// TODO: Make some toast message or something.
+							Toast.makeText(AddRepositoryActivity.this, "Error! Cannot create repository.", Toast.LENGTH_SHORT).show();
 						} catch (SQLException e) {
 							Log.e(TAG, "Problem when add new repository.", e);
-							// TODO: Handle this exception.
+							Toast.makeText(AddRepositoryActivity.this, "Error! Database error.", Toast.LENGTH_SHORT).show();
 						} finally {
 							dialog.dismiss();
+							Looper.loop();
 						}
 					}
 				}).start();
@@ -196,6 +203,7 @@ public class AddRepositoryActivity extends BaseActivity {
 	private boolean isEditTextEmpty(EditText tv) {
 		String text = tv.getText().toString();
 		if("".equals(text.trim())) {
+			tv.startAnimation(AnimationUtils.loadAnimation(AddRepositoryActivity.this, R.anim.shake));
 			tv.setError("Field must contain value");
 			return true;
 		} else {
