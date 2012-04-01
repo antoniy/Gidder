@@ -2,13 +2,15 @@ package net.antoniy.gidder.ui.activity;
 
 import java.sql.SQLException;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
 import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.GidderCommons;
+
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -119,37 +121,59 @@ public class AddRepositoryActivity extends BaseActivity {
 				return;
 			}
 			
-			String name = nameEditText.getText().toString();
-			String mapping = mappingEditText.getText().toString();
-			String description = descriptionEditText.getText().toString();
+			final String name = nameEditText.getText().toString();
+			final String mapping = mappingEditText.getText().toString();
+			final String description = descriptionEditText.getText().toString();
 			
-			try {
-				actionBar.setProgressBarVisibility(View.VISIBLE);
-				if(editMode) {
-					repositoryDao.renameRepository(repositoryId, mapping);
-
-					// TODO: Fix edit of active and create datetime.
-					getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description, true, System.currentTimeMillis()));
-				} else {
-					getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
-					
-					// TODO: create repo WITH LOADING
-					try {
-						repositoryDao.createRepository(mapping);
-					} catch (RepositoryNotFoundException e) {
-						Log.e(TAG, "Problem while creating repository.", e);
-						// TODO: Make some toast message or something.
+			if(editMode) {
+				final ProgressDialog dialog = ProgressDialog.show(AddRepositoryActivity.this, "", "Renaming repository...", true);
+				dialog.show();
+				
+				new Thread(new Runnable() {
+					public void run() {
+						
+						try {
+							repositoryDao.renameRepository(repositoryId, mapping);
+				
+							// TODO: Fix edit of active and create datetime.
+							getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description, true, System.currentTimeMillis()));
+							
+							setResult(RESULT_OK, null);
+							finish();
+						} catch (SQLException e) {
+							Log.e(TAG, "Problem when add new repository.", e);
+							// TODO: Handle this exception.
+						} finally {
+							dialog.dismiss();
+						}
 					}
-				}
-				actionBar.setProgressBarVisibility(View.GONE);
-			} catch (SQLException e) {
-				Log.e(TAG, "Problem when add new repository.", e);
-				finish();
-				return;
+				}).start();
+			} else {
+				final ProgressDialog dialog = ProgressDialog.show(AddRepositoryActivity.this, "", "Creating repository...", true);
+				dialog.show();
+	
+				new Thread(new Runnable() {
+					public void run() {
+						
+						try {
+							getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
+							repositoryDao.createRepository(mapping);
+				
+							setResult(RESULT_OK, null);
+							finish();
+						} catch (RepositoryNotFoundException e) {
+							Log.e(TAG, "Problem while creating repository.", e);
+							// TODO: Make some toast message or something.
+						} catch (SQLException e) {
+							Log.e(TAG, "Problem when add new repository.", e);
+							// TODO: Handle this exception.
+						} finally {
+							dialog.dismiss();
+						}
+					}
+				}).start();
 			}
 			
-			setResult(RESULT_OK, null);
-			finish();
 		} else if(v.getId() == R.id.addRepositoryBtnCancel) {
 			finish();
 		}

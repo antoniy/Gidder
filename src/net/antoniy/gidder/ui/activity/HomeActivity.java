@@ -22,7 +22,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -59,10 +61,12 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 					wifiStatusTextView.setText("WiFi connected to");
 		        	wifiSSIDTextView.setText(GidderCommons.getWifiSSID(context));
 		        	wirelessImageView.setImageResource(R.drawable.ic_wireless_enabled);
+		        	startStopButton.setBackgroundResource(R.drawable.blue_btn_selector);
 				} else {
 					wifiStatusTextView.setText("WiFi is NOT connected");
 		        	wifiSSIDTextView.setText("");
 		        	wirelessImageView.setImageResource(R.drawable.ic_wireless_disabled);
+		        	startStopButton.setBackgroundResource(R.drawable.white_btn_selector);
 				}
 			}
 		}
@@ -75,30 +79,44 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 			final String action = intent.getAction();
 			
 			if(action.equals(C.action.SSHD_STARTED)) {
-				Animation animation = new TranslateAnimation(
+				Animation flyInAnimation = new TranslateAnimation(
 						Animation.RELATIVE_TO_SELF, -1.0f,
 						Animation.RELATIVE_TO_SELF, 0.0f,
 						Animation.RELATIVE_TO_SELF, 0.0f,
 						Animation.RELATIVE_TO_SELF, 0.0f);
-		        animation.setDuration(500);
-		        animation.setInterpolator(AnimationUtils.loadInterpolator(HomeActivity.this, android.R.anim.overshoot_interpolator));
+				flyInAnimation.setDuration(500);
+				
+				Animation fadeInAnimation = new AlphaAnimation(0.0f, 1.0f);
+				fadeInAnimation.setDuration(1000);
+				
+		        AnimationSet animationSet = new AnimationSet(true);
+		        animationSet.addAnimation(flyInAnimation);
+		        animationSet.addAnimation(fadeInAnimation);
+		        animationSet.setInterpolator(AnimationUtils.loadInterpolator(HomeActivity.this, android.R.anim.overshoot_interpolator));
 				
 				homeServerInfoTextView.setText(GidderCommons.getCurrentWifiIpAddress(HomeActivity.this) + ":" + 
 	        			prefs.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue()));
 				
-				homeServerInfoTextView.startAnimation(animation);
+				homeServerInfoTextView.startAnimation(animationSet);
 				homeServerInfoTextView.setVisibility(View.VISIBLE);
 				startStopButton.setText("Stop");				
 			} else if(action.equals(C.action.SSHD_STOPPED)) {
-				Animation animation = new TranslateAnimation(
+				Animation flyOutAnimation = new TranslateAnimation(
 						Animation.RELATIVE_TO_SELF, 0.0f,
-						Animation.RELATIVE_TO_SELF, 1.0f,
+						Animation.RELATIVE_TO_SELF, 1.1f,
 						Animation.RELATIVE_TO_SELF, 0.0f,
 						Animation.RELATIVE_TO_SELF, 0.0f);
-		        animation.setDuration(500);
-		        animation.setInterpolator(AnimationUtils.loadInterpolator(HomeActivity.this, android.R.anim.anticipate_interpolator));
+		        flyOutAnimation.setDuration(500);
 				
-				homeServerInfoTextView.startAnimation(animation);
+		        Animation fadeOutAnimation = new AlphaAnimation(1.0f, 0.0f);
+				fadeOutAnimation.setDuration(500);
+		        
+		        AnimationSet animationSet = new AnimationSet(true);
+		        animationSet.addAnimation(fadeOutAnimation);
+		        animationSet.addAnimation(flyOutAnimation);
+		        animationSet.setInterpolator(AnimationUtils.loadInterpolator(HomeActivity.this, android.R.anim.anticipate_interpolator));
+		        
+				homeServerInfoTextView.startAnimation(animationSet);
 				homeServerInfoTextView.setVisibility(View.INVISIBLE);
 				startStopButton.setText("Start");
 			}
@@ -150,10 +168,12 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
         	wifiStatusTextView.setText("WiFi connected to");
         	wifiSSIDTextView.setText(GidderCommons.getWifiSSID(this));
         	wirelessImageView.setImageResource(R.drawable.ic_wireless_enabled);
+        	startStopButton.setBackgroundResource(R.drawable.blue_btn_selector);
         } else {
         	wifiStatusTextView.setText("WiFi is NOT connected");
         	wifiSSIDTextView.setText("");
         	wirelessImageView.setImageResource(R.drawable.ic_wireless_disabled);
+        	startStopButton.setBackgroundResource(R.drawable.white_btn_selector);
         }
         
         homeServerInfoTextView = (TextView) findViewById(R.id.homeServerInfoTextView);
@@ -223,7 +243,8 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 				ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 				NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-				if (!wifi.isConnected()) {
+//				if (!wifi.isConnected()) {
+				if (!GidderCommons.isWifiReady(HomeActivity.this)) {
 				    return;
 				}
 				

@@ -51,6 +51,29 @@
             android:textColor="@android:color/darker_gray"
 			android:textStyle="italic"
 			android:textSize="14sp"/>
+        
+        <ImageView
+            android:id="@+id/userDetailsActive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userDetailsMail"
+            android:layout_toRightOf="@+id/userDetailsPhoto"
+            android:src="@drawable/ic_deactivated" 
+            android:layout_margin="5dp"/>
+        
+        <TextView 
+            android:id="@+id/userDetailsActiveLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/userDetailsActive"
+            android:layout_below="@+id/userDetailsMail"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="active"
+            android:textColor="@android:color/darker_gray"
+			android:textStyle="italic"
+			android:textSize="14sp"/>
 
     </RelativeLayout>
 

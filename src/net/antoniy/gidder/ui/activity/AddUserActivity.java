@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -252,6 +253,7 @@ public class AddUserActivity extends BaseActivity {
 	private boolean isEditTextEmpty(EditText tv) {
 		String text = tv.getText().toString();
 		if("".equals(text.trim())) {
+			tv.startAnimation(AnimationUtils.loadAnimation(AddUserActivity.this, R.anim.shake));
 			tv.setError("Field must contain value");
 			return true;
 		} else {
@@ -279,6 +281,7 @@ public class AddUserActivity extends BaseActivity {
 		String email = emailEditText.getText().toString();
 		Matcher matcher = emailPattern.matcher(email);
 		if(!matcher.matches()) {
+			emailEditText.startAnimation(AnimationUtils.loadAnimation(AddUserActivity.this, R.anim.shake));
 			emailEditText.setError("E-mail address is incorrect");
 			return false;
 		}
