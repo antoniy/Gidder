@@ -6,6 +6,7 @@
 
     <com.markupartist.android.widget.ActionBar
         android:id="@+id/userDetailsActionBar"
+        android:layout_alignParentTop="true"
         style="@style/ActionBar"/>
     
     <RelativeLayout
@@ -15,7 +16,7 @@
         android:layout_below="@+id/userDetailsActionBar"
         android:layout_margin="5dp"
         android:background="@drawable/bg_box" >
-
+ 
         <ImageView
             android:id="@+id/userDetailsPhoto"
             android:layout_width="wrap_content"
@@ -58,8 +59,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/userDetailsMail"
             android:layout_toRightOf="@+id/userDetailsPhoto"
-            android:src="@drawable/ic_deactivated" 
-            android:layout_margin="5dp"/>
+            android:src="@drawable/ic_deactivated"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp" 
+            android:layout_marginBottom="5dp"/>
         
         <TextView 
             android:id="@+id/userDetailsActiveLabel"
@@ -80,8 +84,9 @@
     <RelativeLayout
         android:id="@+id/userDetailsPermissionsBox"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_below="@+id/userDetailsGeneralBox"
+        android:layout_above="@+id/userDetailsButtonBox"
         android:layout_margin="5dp"
         android:background="@drawable/bg_box" >
 	
@@ -95,15 +100,79 @@
             android:text="No permissions"
             android:textColor="@android:color/darker_gray"
 			android:textStyle="italic"
-			android:textSize="14sp"/>
+			android:textSize="14sp"
+			android:visibility="gone"/>
+        
+        <RelativeLayout 
+            android:id="@+id/userDetailsPermissionsBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+            
+            <LinearLayout 
+                android:id="@+id/userDetailsPermissionsHeader"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                
+	            <TextView 
+	                android:id="@+id/userDetailsRepositoryLabel"
+	                android:layout_width="fill_parent"
+	            	android:layout_height="wrap_content"
+	            	android:layout_margin="5dp"
+	            	android:layout_weight="1"
+	            	android:gravity="center"
+	            	android:text="Repository"
+		            android:textColor="#0000FF"
+					android:textStyle="bold"
+					android:textSize="14sp"/>
+	            
+	            <View
+	                android:id="@+id/userDetailsDelimiterVertical"
+				    android:layout_width="1dp"
+				    android:layout_height="fill_parent"
+				    android:layout_marginLeft="5dp"
+				    android:layout_marginRight="5dp"
+				    android:background="@android:color/darker_gray"/>
+            
+            	<TextView 
+	                android:id="@+id/userDetailsReadOnlyLabel"
+	                android:layout_width="60dp"
+	            	android:layout_height="wrap_content"
+	            	android:layout_margin="5dp"
+	            	android:layout_gravity="center"
+	            	android:text="Read only"
+		            android:textColor="#0000FF"
+					android:textStyle="bold"
+					android:textSize="12sp"/>
+            
+            </LinearLayout>
+            
+            <View
+                android:id="@+id/userDetailsDelimiterHorizontal"
+			    android:layout_width="fill_parent"
+			    android:layout_height="1dp"
+			    android:layout_marginBottom="5dp"
+			    android:layout_below="@+id/userDetailsPermissionsHeader"
+			    android:background="@android:color/darker_gray"/>
+            
+        	<ListView 
+            	android:id="@+id/userDetailsPermissions"
+            	android:layout_below="@+id/userDetailsDelimiterHorizontal"
+            	android:layout_width="fill_parent"
+            	android:layout_height="fill_parent"/>
+        	    
+        </RelativeLayout>
+        
 	
 	</RelativeLayout>
 	
     <LinearLayout
+        android:id="@+id/userDetailsButtonBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:layout_below="@+id/userDetailsPermissionsBox"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         
     	<Button 
