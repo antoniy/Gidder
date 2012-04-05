@@ -31,7 +31,9 @@ import android.widget.TextView;
 
 public class UsersFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, QuickAction.OnActionItemClickListener, PopupWindow.OnDismissListener, OnItemClickListener {
 	private final static String TAG = UsersFragment.class.getSimpleName();
+	
 	private final static String INTENT_ACTION_START_ADD_USER = "net.antoniy.gidder.START_ADD_USER_ACTIVITY";
+	private final static int USER_DETAILS_REQUEST_CODE = 1; 
 	
 	private final static int QUICK_ACTION_EDIT = 1;
 	private final static int QUICK_ACTION_DELETE = 2;
@@ -210,7 +212,7 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		Intent intent = new Intent(C.action.START_USER_DETAILS);
 		intent.putExtra("userId", usersListAdapter.getItem(position).getId());
 		
-		startActivity(intent);
+		startActivityForResult(intent, USER_DETAILS_REQUEST_CODE);
 	}
 	
 }

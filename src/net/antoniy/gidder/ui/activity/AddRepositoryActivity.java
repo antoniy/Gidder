@@ -164,7 +164,7 @@ public class AddRepositoryActivity extends BaseActivity {
 						try {
 							getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
 							repositoryDao.createRepository(mapping);
-							Toast.makeText(AddRepositoryActivity.this, "Bla.", Toast.LENGTH_SHORT).show();
+
 							setResult(RESULT_OK, null);
 							finish();
 						} catch (RepositoryNotFoundException e) {

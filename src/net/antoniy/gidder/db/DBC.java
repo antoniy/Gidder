@@ -29,7 +29,7 @@ public final class DBC {
 		public final static String column_id 			= BaseColumns._ID;
 		public final static String column_user_id		= "g_user_id";
 		public final static String column_repository_id = "g_repository_id";
-		public final static String column_allow_pull 	= "g_allowpush";
-		public final static String column_allow_push 	= "g_allowpull";
+		public final static String column_allow_pull 	= "g_allowpull";
+		public final static String column_allow_push 	= "g_allowpush";
 	}
 }

@@ -10,6 +10,7 @@ import net.antoniy.gidder.db.entity.Permission;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
+import com.j256.ormlite.stmt.SelectArg;
 
 public class PermissionDao extends BaseDao<DBHelper, Permission, Integer> {
 
@@ -45,5 +46,10 @@ public class PermissionDao extends BaseDao<DBHelper, Permission, Integer> {
 		PreparedDelete<Permission> preparedDelete = deleteBuilder.prepare();
 
 		return dao.delete(preparedDelete);
+	}
+	
+	public List<Permission> getAllByUserId(int userId) throws SQLException {
+		List<Permission> permissions = dao.queryForEq(DBC.permissions.column_user_id, new SelectArg(userId));
+		return permissions;
 	}
 }

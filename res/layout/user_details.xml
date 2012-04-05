@@ -103,50 +103,62 @@
 			android:textSize="14sp"
 			android:visibility="gone"/>
         
-        <RelativeLayout 
-            android:id="@+id/userDetailsPermissionsBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
+<!--         <RelativeLayout  -->
+<!--             android:id="@+id/userDetailsPermissionsBox" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:visibility="visible"> -->
             
-            <LinearLayout 
+<!--             <LinearLayout  -->
+<!--                 android:id="@+id/userDetailsPermissionsHeader" -->
+<!--                 android:layout_width="fill_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:orientation="horizontal"> -->
+                
+<!-- 	            <TextView  -->
+<!-- 	                android:id="@+id/userDetailsRepositoryLabel" -->
+<!-- 	                android:layout_width="fill_parent" -->
+<!-- 	            	android:layout_height="wrap_content" -->
+<!-- 	            	android:layout_margin="5dp" -->
+<!-- 	            	android:layout_weight="1" -->
+<!-- 	            	android:gravity="center" -->
+<!-- 	            	android:text="Repository" -->
+<!-- 		            android:textColor="#0000FF" -->
+<!-- 					android:textStyle="bold" -->
+<!-- 					android:textSize="14sp"/> -->
+	            
+<!-- 	            <View -->
+<!-- 	                android:id="@+id/userDetailsDelimiterVertical" -->
+<!-- 				    android:layout_width="1dp" -->
+<!-- 				    android:layout_height="fill_parent" -->
+<!-- 				    android:layout_marginLeft="5dp" -->
+<!-- 				    android:layout_marginRight="5dp" -->
+<!-- 				    android:background="@android:color/darker_gray"/> -->
+            
+<!--             	<TextView  -->
+<!-- 	                android:id="@+id/userDetailsReadOnlyLabel" -->
+<!-- 	                android:layout_width="60dp" -->
+<!-- 	            	android:layout_height="wrap_content" -->
+<!-- 	            	android:layout_margin="5dp" -->
+<!-- 	            	android:layout_gravity="center" -->
+<!-- 	            	android:text="Read only" -->
+<!-- 		            android:textColor="#0000FF" -->
+<!-- 					android:textStyle="bold" -->
+<!-- 					android:textSize="12sp"/> -->
+            
+<!--             </LinearLayout> -->
+            
+            <TextView 
                 android:id="@+id/userDetailsPermissionsHeader"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                
-	            <TextView 
-	                android:id="@+id/userDetailsRepositoryLabel"
-	                android:layout_width="fill_parent"
-	            	android:layout_height="wrap_content"
-	            	android:layout_margin="5dp"
-	            	android:layout_weight="1"
-	            	android:gravity="center"
-	            	android:text="Repository"
-		            android:textColor="#0000FF"
-					android:textStyle="bold"
-					android:textSize="14sp"/>
-	            
-	            <View
-	                android:id="@+id/userDetailsDelimiterVertical"
-				    android:layout_width="1dp"
-				    android:layout_height="fill_parent"
-				    android:layout_marginLeft="5dp"
-				    android:layout_marginRight="5dp"
-				    android:background="@android:color/darker_gray"/>
-            
-            	<TextView 
-	                android:id="@+id/userDetailsReadOnlyLabel"
-	                android:layout_width="60dp"
-	            	android:layout_height="wrap_content"
-	            	android:layout_margin="5dp"
-	            	android:layout_gravity="center"
-	            	android:text="Read only"
-		            android:textColor="#0000FF"
-					android:textStyle="bold"
-					android:textSize="12sp"/>
-            
-            </LinearLayout>
+            	android:layout_height="wrap_content"
+            	android:layout_marginLeft="5dp"
+            	android:layout_marginBottom="5dp"
+            	android:gravity="left"
+            	android:text="Permissions"
+            	android:textStyle="italic"
+            	android:textColor="#0768cb"
+				android:textSize="18sp"/>
             
             <View
                 android:id="@+id/userDetailsDelimiterHorizontal"
@@ -154,15 +166,21 @@
 			    android:layout_height="1dp"
 			    android:layout_marginBottom="5dp"
 			    android:layout_below="@+id/userDetailsPermissionsHeader"
-			    android:background="@android:color/darker_gray"/>
+			    android:background="#0768cb"/>
+<!-- 			    android:background="@android:color/darker_gray"/> -->
             
         	<ListView 
             	android:id="@+id/userDetailsPermissions"
             	android:layout_below="@+id/userDetailsDelimiterHorizontal"
             	android:layout_width="fill_parent"
-            	android:layout_height="fill_parent"/>
+            	android:layout_height="fill_parent"
+            	android:cacheColorHint="#00000000"
+		        android:divider="#D4D4D4"
+       			android:dividerHeight="1dp"
+       			android:footerDividersEnabled="false"
+		        android:headerDividersEnabled="false"/>
         	    
-        </RelativeLayout>
+<!--         </RelativeLayout> -->
         
 	
 	</RelativeLayout>
@@ -188,14 +206,14 @@
     	    android:id="@+id/userDetailsBtnActivateDeactivate"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
-    		android:layout_weight="1"
+    		android:layout_weight="0.8"
     		style="@style/blue_background_white_shadowed_font"
     		android:text="Activate" 
     		android:layout_marginLeft="3dp"
     		android:layout_marginRight="3dp" />
     	
     	<Button 
-    	    android:id="@+id/userDetailsBtnActivateDeactivate"
+    	    android:id="@+id/userDetailsBtnDelete"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"

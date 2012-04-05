@@ -1,29 +1,48 @@
 package net.antoniy.gidder.ui.activity;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import net.antoniy.gidder.R;
+import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.User;
+import net.antoniy.gidder.ui.adapter.UserPermissionsAdapter;
 import net.antoniy.gidder.ui.util.C;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
 
-public class UserDetailsActivity extends BaseActivity {
+public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener {
 	private final static String TAG = UserDetailsActivity.class.getSimpleName();
 
+	private final static int EDIT_USER_REQUEST_CODE = 1;
+	
 	private int userId;
 	private TextView fullnameTextView;
 	private TextView emailTextView;
 	private TextView activateTextView;
 	private ImageView activateImageView;
+	private TextView noPermissionsTextView;
+	private ListView permissionsListView;
+	private UserPermissionsAdapter userPermissionsListAdapter;
+	private Button editButton;
+	private Button activateButton;
+	private Button deleteButton;
 	
 	@Override
 	protected void setup() {
@@ -52,7 +71,49 @@ public class UserDetailsActivity extends BaseActivity {
 		emailTextView = (TextView) findViewById(R.id.userDetailsMail);
 		activateTextView = (TextView) findViewById(R.id.userDetailsActiveLabel);
 		activateImageView = (ImageView) findViewById(R.id.userDetailsActive);
+		
+		editButton = (Button) findViewById(R.id.userDetailsBtnEdit);
+		editButton.setOnClickListener(this);
+		
+		activateButton = (Button) findViewById(R.id.userDetailsBtnActivateDeactivate);
+		activateButton.setOnClickListener(this);
+		
+		deleteButton = (Button) findViewById(R.id.userDetailsBtnDelete);
+		deleteButton.setOnClickListener(this);
+		
+		noPermissionsTextView = (TextView) findViewById(R.id.userDetailsNoPermissions);
+		
+		permissionsListView = (ListView) findViewById(R.id.userDetailsPermissions);
+		permissionsListView.setOnItemLongClickListener(this);
+		permissionsListView.setOnItemClickListener(this);
+		
+		loadUserPermissionsListContent();
 		populateFieldsWithUserData();
+	}
+	
+	private void loadUserPermissionsListContent() {
+		List<Permission> permissions = null;
+		try {
+			permissions = getHelper().getPermissionDao().getAllByUserId(userId);
+		} catch (SQLException e) {
+			Log.e(TAG, "Could not retrieve permissions.", e);
+			return;
+		}
+		
+		showUserPermissionsList(permissions.size() > 0);
+		
+		userPermissionsListAdapter = new UserPermissionsAdapter(this, permissions);
+		permissionsListView.setAdapter(userPermissionsListAdapter);
+	}
+	
+	private void showUserPermissionsList(boolean show) {
+		if(show) {
+			permissionsListView.setVisibility(View.VISIBLE);
+			noPermissionsTextView.setVisibility(View.GONE);
+		} else {
+			permissionsListView.setVisibility(View.GONE);
+			noPermissionsTextView.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	private void populateFieldsWithUserData() {
@@ -70,9 +131,11 @@ public class UserDetailsActivity extends BaseActivity {
 		if(user.isActive()) {
 			activateImageView.setImageResource(R.drawable.ic_activated);
 			activateTextView.setText("active");
+			activateButton.setText("Deactivate");
 		} else {
 			activateImageView.setImageResource(R.drawable.ic_deactivated);
 			activateTextView.setText("not active");
+			activateButton.setText("Activate");
 		}
 	}
 	
@@ -80,54 +143,62 @@ public class UserDetailsActivity extends BaseActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		
-//		if(v.getId() == R.id.addUserBtnAddEdit) {
-//			if(!isFieldsValid(editMode)) {
-//				return;
-//			}
-//			
-//			String fullname = fullnameEditText.getText().toString();
-//			String email = emailEditText.getText().toString();
-//			String username = usernameEditText.getText().toString();
-//			String password = passwordEditText.getText().toString();
-//			boolean active = activateCheckox.isChecked();
-//			
-//			try {
-//				if(editMode) {
-//					User user = getHelper().getUserDao().queryForId(userId);
-//					user.setFullname(fullname);
-//					user.setEmail(email);
-//					
-//					if(password != null && !"".equals(password.trim())) {
-//						user.setPassword(GidderCommons.generateSha1(password));
-//					}
-//					user.setUsername(username);
-//					user.setActive(active);
-//					
-//					getHelper().getUserDao().update(user);
-//				} else {
-//					getHelper().getUserDao().create(new User(0, fullname, email, username, GidderCommons.generateSha1(password), active, System.currentTimeMillis()));
-//				}
-//			} catch (SQLException e) {
-//				Log.e(TAG, "Problem when add new user.", e);
-//				finish();
-//				return;
-//			}
-//			
-//			setResult(RESULT_OK, null);
-//			finish();
-//		} else if(v.getId() == R.id.addUserBtnCancel) {
-//			finish();
-//		} else if(v.getId() == R.id.add_user_contacts) {
-//			Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-//			startActivityForResult(intent, CONTACT_PICKER);
-//		}
+		if(v.getId() == R.id.userDetailsBtnEdit) {
+			Intent editUserIntent = new Intent(C.action.START_ADD_USER_ACTIVITY);
+			editUserIntent.putExtra("userId", userId);
+			
+			startActivityForResult(editUserIntent, EDIT_USER_REQUEST_CODE);
+		} else if(v.getId() == R.id.userDetailsBtnActivateDeactivate) {
+			User user = null;
+			try {
+				user = getHelper().getUserDao().queryForId(userId);
+				user.setActive(!user.isActive());
+				getHelper().getUserDao().update(user);
+			} catch (SQLException e) {
+				Log.e(TAG, "Error retrieving user with id " + userId, e);
+				return;
+			}
+			
+			populateFieldsWithUserData();
+		} else if(v.getId() == R.id.userDetailsBtnDelete) {
+			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			    @Override
+			    public void onClick(DialogInterface dialog, int which) {
+			        if(which == DialogInterface.BUTTON_POSITIVE) {
+			            try {
+							getHelper().getUserDao().deleteById(userId);
+
+							setResult(Activity.RESULT_OK);
+							finish();
+						} catch (SQLException e) {
+							Log.e(TAG, "Problem while deleting user.", e);
+						}
+			        }
+			    }
+			};
+
+			User user = null;
+			try {
+				user = getHelper().getUserDao().queryForId(userId);
+			} catch (SQLException e) {
+				Log.e(TAG, "Error retrieving user with id " + userId, e);
+				return;
+			}
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(UserDetailsActivity.this);
+			builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
+			    .setNegativeButton("No", null).show();
+		}
+		
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
-//		if(requestCode == CONTACT_PICKER) {
+		if(requestCode == EDIT_USER_REQUEST_CODE) {
+			populateFieldsWithUserData();
+		}
 //			if(resultCode != Activity.RESULT_OK) {
 //				Log.w(TAG, "Picking a contact failed!");
 //			}
@@ -182,6 +253,18 @@ public class UserDetailsActivity extends BaseActivity {
 //			
 //			c.deactivate();
 //		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }
