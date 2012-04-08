@@ -5,7 +5,6 @@ import java.util.List;
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Permission;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,13 +35,14 @@ public class UserPermissionsAdapter extends BaseAdapter {
 		Permission permission = items.get(position);
 		
 		ImageView dbIconImageView = (ImageView) v.findViewById(R.id.userPermissionsDbIcon);
+		TextView allowLabelTextView = (TextView) v.findViewById(R.id.userPermissionsAllowLabel);
 		
-		if(permission.isAllowPush()) {
-			Log.i("Something", "push");
-			dbIconImageView.setImageResource(R.drawable.ic_db_pull_push);
-		} else {
-			Log.i("Something", "pull");
+		if(permission.isReadOnly()) {
 			dbIconImageView.setImageResource(R.drawable.ic_db_pull);
+			allowLabelTextView.setText("Allow: pull");
+		} else {
+			dbIconImageView.setImageResource(R.drawable.ic_db_pull_push);
+			allowLabelTextView.setText("Allow: pull/push");
 		}
 		
 		TextView name = (TextView) v.findViewById(R.id.userPermissionsName);

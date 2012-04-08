@@ -53,7 +53,7 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 		
 		// Create new empty permission instance
 		Repository repository = new Repository(repositoryId, null, null, null, false, 0);
-		Permission permission = new Permission(0, user, repository, false, false);
+		Permission permission = new Permission(0, user, repository, false);
 		
 		return permission;
 	}
@@ -89,7 +89,7 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 		ImageView pullImageView = (ImageView) v.findViewById(R.id.repositoryPermissionsPullImage);
 		pullImageView.setOnClickListener(this);
 		pullImageView.setTag(user);
-		if(permission.isAllowPull()) {
+		if(permission.getId() != 0) {
 			pullImageView.setImageResource(R.drawable.ic_pull_checked);
 		} else {
 			pullImageView.setImageResource(R.drawable.ic_pull_unchecked);
@@ -98,10 +98,10 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 		ImageView pushImageView = (ImageView) v.findViewById(R.id.repositoryPermissionsPushImage);
 		pushImageView.setOnClickListener(this);
 		pushImageView.setTag(user);
-		if(permission.isAllowPush()) {
-			pushImageView.setImageResource(R.drawable.ic_push_checked);
-		} else {
+		if(permission.isReadOnly()) {
 			pushImageView.setImageResource(R.drawable.ic_push_unchecked);
+		} else {
+			pushImageView.setImageResource(R.drawable.ic_push_checked);
 		}
 		
 		return v;
@@ -170,53 +170,53 @@ public class RepositoryPermissionsAdapter extends BaseExpandableListAdapter impl
 
 	@Override
 	public void onClick(View v) {
-		User user = (User) v.getTag();
-		Permission permission = extractPermission(user);
-		
-		if(permission == null) {
-			Log.e(TAG, "Permission instance should not be null!");
-			return;
-		}
-		
-		if(v.getId() == R.id.repositoryPermissionsPullImage) {
-			permission.setAllowPull(!permission.isAllowPull());
-		} else if(v.getId() == R.id.repositoryPermissionsPushImage) {
-			permission.setAllowPush(!permission.isAllowPush());
-		}
-			
-		// Check if there already is a persisted permission instance
-		if(permission.getId() > 0) {
-			// If permission instance is persisted check if we need to update it or remove it.
-			if(permission.isAllowPull() || permission.isAllowPush()) {
-				try {
-					context.getHelper().getPermissionDao().update(permission);
-				} catch (SQLException e) {
-					Log.e(TAG, "Cannot update permission instance.", e);
-					return;
-				}
-				Log.i(TAG, "Updated!");
-			} else {
-				try {
-					context.getHelper().getPermissionDao().deleteById(permission.getId());
-				} catch (SQLException e) {
-					Log.e(TAG, "Cannot delete permission instance.", e);
-					return;
-				}
-				permission.setId(0);
-				Log.i(TAG, "Removed!");
-			}
-		} else {
-			
-			// If the permission instance is not persisted till now check if we need to persist it
-			if(permission.isAllowPull() || permission.isAllowPush()) {
-				// This actually persists the new permission instance automatically.
-				user.getPermissions().add(permission);
-				
-				Log.i(TAG, "Persisted!");
-			}
-		}
-		
-		notifyDataSetChanged();
+//		User user = (User) v.getTag();
+//		Permission permission = extractPermission(user);
+//		
+//		if(permission == null) {
+//			Log.e(TAG, "Permission instance should not be null!");
+//			return;
+//		}
+//		
+//		if(v.getId() == R.id.repositoryPermissionsPullImage) {
+//			permission.setAllowPull(!permission.isAllowPull());
+//		} else if(v.getId() == R.id.repositoryPermissionsPushImage) {
+//			permission.setAllowPush(!permission.isAllowPush());
+//		}
+//			
+//		// Check if there already is a persisted permission instance
+//		if(permission.getId() > 0) {
+//			// If permission instance is persisted check if we need to update it or remove it.
+//			if(permission.isAllowPull() || permission.isAllowPush()) {
+//				try {
+//					context.getHelper().getPermissionDao().update(permission);
+//				} catch (SQLException e) {
+//					Log.e(TAG, "Cannot update permission instance.", e);
+//					return;
+//				}
+//				Log.i(TAG, "Updated!");
+//			} else {
+//				try {
+//					context.getHelper().getPermissionDao().deleteById(permission.getId());
+//				} catch (SQLException e) {
+//					Log.e(TAG, "Cannot delete permission instance.", e);
+//					return;
+//				}
+//				permission.setId(0);
+//				Log.i(TAG, "Removed!");
+//			}
+//		} else {
+//			
+//			// If the permission instance is not persisted till now check if we need to persist it
+//			if(permission.isAllowPull() || permission.isAllowPush()) {
+//				// This actually persists the new permission instance automatically.
+//				user.getPermissions().add(permission);
+//				
+//				Log.i(TAG, "Persisted!");
+//			}
+//		}
+//		
+//		notifyDataSetChanged();
 	}
 
 }

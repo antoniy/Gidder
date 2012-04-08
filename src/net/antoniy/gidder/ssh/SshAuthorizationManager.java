@@ -52,9 +52,10 @@ public class SshAuthorizationManager {
 			
 			// Check for pull or push
 			if(checkPull) {
-				return permission.isAllowPull();
+				// If there is permission record - there is a pull privileges.
+				return true;
 			} else {
-				return permission.isAllowPush();
+				return permission.isReadOnly();
 			}
 		} catch (SQLException e) {
 			throw new SshAuthorizationException("I/O problem while quering the database.", e);

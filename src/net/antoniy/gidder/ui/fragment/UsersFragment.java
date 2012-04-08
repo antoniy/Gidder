@@ -74,6 +74,13 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		return mainContainer;
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		loadUsersListContent();
+	}
+	
 	private void showUsersList(boolean show) {
 		if(show) {
 			usersListView.setVisibility(View.VISIBLE);

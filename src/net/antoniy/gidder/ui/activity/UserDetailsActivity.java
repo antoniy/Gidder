@@ -7,6 +7,10 @@ import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.adapter.UserPermissionsAdapter;
+import net.antoniy.gidder.ui.quickactions.ActionItem;
+import net.antoniy.gidder.ui.quickactions.QuickAction;
+import net.antoniy.gidder.ui.quickactions.QuickAction.OnActionItemClickListener;
+import net.antoniy.gidder.ui.quickactions.QuickAction.OnDismissListener;
 import net.antoniy.gidder.ui.util.C;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,10 +31,14 @@ import android.widget.Toast;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
 
-public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener {
+public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnActionItemClickListener, OnDismissListener {
 	private final static String TAG = UserDetailsActivity.class.getSimpleName();
 
 	private final static int EDIT_USER_REQUEST_CODE = 1;
+	private final static int QUICK_ACTION_DETAILS = 1;
+	private final static int QUICK_ACTION_REMOVE = 2;
+	private final static int QUICK_ACTION_PERMISSION_ALL = 3;
+	private final static int QUICK_ACTION_PERMISSION_PULL = 4;
 	
 	private int userId;
 	private TextView fullnameTextView;
@@ -43,6 +51,8 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	private Button editButton;
 	private Button activateButton;
 	private Button deleteButton;
+	private QuickAction quickAction;
+	private int selectedRow;
 	
 	@Override
 	protected void setup() {
@@ -66,6 +76,16 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
 		actionBar.setTitle(R.string.user_details);
+		
+		ActionItem editItem = new ActionItem(QUICK_ACTION_DETAILS, "Details", getResources().getDrawable(R.drawable.ic_db_details));
+		ActionItem deleteItem = new ActionItem(QUICK_ACTION_REMOVE, "Remove", getResources().getDrawable(R.drawable.ic_db_remove));
+		
+		quickAction = new QuickAction(this);
+		quickAction.setOnActionItemClickListener(this);
+		quickAction.setOnDismissListener(this);
+		
+		quickAction.addActionItem(editItem);
+		quickAction.addActionItem(deleteItem);
 		
 		fullnameTextView = (TextView) findViewById(R.id.userDetailsName);
 		emailTextView = (TextView) findViewById(R.id.userDetailsMail);
@@ -199,72 +219,77 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		if(requestCode == EDIT_USER_REQUEST_CODE) {
 			populateFieldsWithUserData();
 		}
-//			if(resultCode != Activity.RESULT_OK) {
-//				Log.w(TAG, "Picking a contact failed!");
-//			}
-//			
-//			if(data == null) {
-//				return;
-//			}
-//			
-//			Uri contactData = data.getData();
-//			
-//			if(contactData == null) {
-//				return;
-//			}
-//			
-//			Cursor c = managedQuery(contactData, null, null, null, null);
-//			if(c.moveToFirst()) {
-//				String contactId = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
-//				String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-//				
-//				if(name != null && !"".equals(name.trim())) {
-//					fullnameEditText.setText(name);
-//					
-//					String firstWord = name.trim().split("\\s+")[0];
-//					usernameEditText.setText(GidderCommons.toCamelCase(firstWord));
-//				}
-//				
-//				List<String> emailAddresses = new ArrayList<String>();
-//				Cursor emails = getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactId, null, null);
-//				while (emails.moveToNext()) {
-//					emailAddresses.add(emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
-//				}
-//				emails.close();
-//				
-//				if(emailAddresses.size() == 1) {
-//					emailEditText.setText(emailAddresses.get(0));
-//				} else if(emailAddresses.size() > 1) {
-//					
-//					final String[] items = new String[emailAddresses.size()]; 
-//					emailAddresses.toArray(items);
-//					
-//					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//			        builder.setTitle(R.string.dialog_pick_e_mail_address);
-//			        builder.setIcon(R.drawable.ic_email);
-//			        builder.setItems(items, new DialogInterface.OnClickListener(){
-//			            public void onClick(DialogInterface dialogInterface, int item) {
-//			            	emailEditText.setText(items[item]);
-//			            }
-//			        });
-//			        builder.create().show();
-//				}
-//			}
-//			
-//			c.deactivate();
-//		}
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Permission permission = userPermissionsListAdapter.getItem(position);
+		
+		selectedRow = position; //set the selected row
+		
+		// Delete quick action items (if any of them exists) for activate and deactivate
+		quickAction.deleteActionItem(QUICK_ACTION_PERMISSION_ALL);
+		quickAction.deleteActionItem(QUICK_ACTION_PERMISSION_PULL);
+		
+		ActionItem activateDeactivateItem = null;
+		if(permission.isReadOnly()) {
+			activateDeactivateItem = new ActionItem(QUICK_ACTION_PERMISSION_ALL, "Push/Pull", getResources().getDrawable(R.drawable.ic_db_pull_push));
+		} else {
+			activateDeactivateItem = new ActionItem(QUICK_ACTION_PERMISSION_PULL, "Pull", getResources().getDrawable(R.drawable.ic_db_pull));
+		}
+		
+		quickAction.addActionItem(activateDeactivateItem);
+		quickAction.show(view);
+	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		onItemClick(parent, view, position, id);
+		return false;
+	}
+
+	@Override
+	public void onDismiss() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		// TODO Auto-generated method stub
-		return false;
+	public void onItemClick(QuickAction source, int pos, int actionId) {
+		final Permission permission = userPermissionsListAdapter.getItem(selectedRow);
+		
+		if (actionId == QUICK_ACTION_DETAILS) {
+			// TODO: fill this, after implement repository details activity.
+		} else if (actionId == QUICK_ACTION_REMOVE) {
+			try {
+				getHelper().getPermissionDao().deleteById(permission.getId());
+			} catch (SQLException e) {
+				Log.e(TAG, "Unable to remove permission.", e);
+				Toast.makeText(UserDetailsActivity.this, "Unable to remove permission!", Toast.LENGTH_SHORT).show();
+			}
+			
+			loadUserPermissionsListContent();
+		} else if (actionId == QUICK_ACTION_PERMISSION_PULL) {
+			try {
+				permission.setReadOnly(true);
+				getHelper().getPermissionDao().update(permission);
+			} catch (SQLException e) {
+				Log.e(TAG, "Unable to remove permission.", e);
+				Toast.makeText(UserDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
+			}
+			
+			loadUserPermissionsListContent();
+		} else if (actionId == QUICK_ACTION_PERMISSION_ALL) {
+			try {
+				permission.setReadOnly(false);
+				getHelper().getPermissionDao().update(permission);
+			} catch (SQLException e) {
+				Log.e(TAG, "Unable to remove permission.", e);
+				Toast.makeText(UserDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
+			}
+			
+			loadUserPermissionsListContent();
+		}
 	}
 	
 }

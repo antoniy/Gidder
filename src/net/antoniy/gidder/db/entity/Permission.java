@@ -34,22 +34,32 @@ public class Permission implements Serializable {
 		)
 	private Repository repository;
 	
-	@DatabaseField(columnName = DBC.permissions.column_allow_pull, canBeNull = false, defaultValue = "false")
-	private boolean allowPull;
+	@DatabaseField(columnName = DBC.permissions.column_read_only, canBeNull = false, defaultValue = "false")
+	private boolean readOnly;
 	
-	@DatabaseField(columnName = DBC.permissions.column_allow_push, canBeNull = false, defaultValue = "false")
-	private boolean allowPush;
+//	@DatabaseField(columnName = DBC.permissions.column_allow_pull, canBeNull = false, defaultValue = "false")
+//	private boolean allowPull;
+//	
+//	@DatabaseField(columnName = DBC.permissions.column_allow_push, canBeNull = false, defaultValue = "false")
+//	private boolean allowPush;
 	
 	public Permission() {
 	}
 
-	public Permission(int id, User user, Repository repository, boolean allowPull, boolean allowPush) {
+	public Permission(int id, User user, Repository repository, boolean readOnly) {
 		this.id = id;
 		this.user = user;
 		this.repository = repository;
-		this.allowPull = allowPull;
-		this.allowPush = allowPush;
+		this.setReadOnly(readOnly);
 	}
+	
+//	public Permission(int id, User user, Repository repository, boolean allowPull, boolean allowPush) {
+//		this.id = id;
+//		this.user = user;
+//		this.repository = repository;
+//		this.allowPull = allowPull;
+//		this.allowPush = allowPush;
+//	}
 
 	public int getId() {
 		return id;
@@ -75,20 +85,28 @@ public class Permission implements Serializable {
 		this.repository = repository;
 	}
 
-	public boolean isAllowPull() {
-		return allowPull;
+//	public boolean isAllowPull() {
+//		return allowPull;
+//	}
+//
+//	public void setAllowPull(boolean allowPull) {
+//		this.allowPull = allowPull;
+//	}
+//
+//	public boolean isAllowPush() {
+//		return allowPush;
+//	}
+//
+//	public void setAllowPush(boolean allowPush) {
+//		this.allowPush = allowPush;
+//	}
+
+	public boolean isReadOnly() {
+		return readOnly;
 	}
 
-	public void setAllowPull(boolean allowPull) {
-		this.allowPull = allowPull;
-	}
-
-	public boolean isAllowPush() {
-		return allowPush;
-	}
-
-	public void setAllowPush(boolean allowPush) {
-		this.allowPush = allowPush;
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 	
 }

@@ -16,63 +16,63 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         
-        <activity android:name=".ui.activity.SplashScreenActivity" >
+        <activity android:name=".ui.activity.SplashScreenActivity" android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.AddUserActivity">
+        <activity android:name=".ui.activity.AddUserActivity" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_USER_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.AddRepositoryActivity">
+        <activity android:name=".ui.activity.AddRepositoryActivity" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.SlideActivity" android:configChanges="orientation">
+        <activity android:name=".ui.activity.SlideActivity" android:configChanges="orientation" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_SLIDE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.RepositoryPermissionsActivity">
+        <activity android:name=".ui.activity.RepositoryPermissionsActivity" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_REPOSITORY_PERMISSIONS_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 		</activity>
 		
-        <activity android:name=".ui.activity.GidderPreferencesActivity">
+        <activity android:name=".ui.activity.GidderPreferencesActivity" android:screenOrientation="portrait">
             <intent-filter>
             	<action android:name="net.antoniy.gidder.START_PREFERENCE_ACTIVITY"/>
             	<category android:name="android.intent.category.DEFAULT"/>    
 			</intent-filter>
         </activity>
 		
-        <activity android:name=".ui.activity.HomeActivity">
+        <activity android:name=".ui.activity.HomeActivity" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_HOME_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.DynamicDNSActivity">
+        <activity android:name=".ui.activity.DynamicDNSActivity" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_DYNAMIC_DNS_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.UserDetailsActivity">
+        <activity android:name=".ui.activity.UserDetailsActivity" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_USER_DETAILS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
