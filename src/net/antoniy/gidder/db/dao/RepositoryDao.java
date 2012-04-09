@@ -1,10 +1,12 @@
 package net.antoniy.gidder.db.dao;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 
 import net.antoniy.gidder.db.DBC;
 import net.antoniy.gidder.db.DBHelper;
+import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.Repository;
 
 import com.j256.ormlite.dao.Dao;
@@ -33,5 +35,23 @@ public class RepositoryDao extends BaseDao<DBHelper, Repository, Integer> {
 		dbHelper.getPermissionDao().deleteByRepositoryId(id);
 		
 		return super.deleteById(id);
+	}
+	
+	public List<Repository> getAllRepositoriesWithoutPermissionForUserId(int userId) throws SQLException {
+		List<Repository> repositories = queryForAll();
+		List<Permission> permissions = dbHelper.getPermissionDao().getAllByUserId(userId);
+		
+		for (Permission permission : permissions) {
+			Iterator<Repository> iter = repositories.iterator();
+			while(iter.hasNext()) {
+				Repository repository = iter.next();
+				if(repository.getId() == permission.getRepository().getId()) {
+					repositories.remove(repository);
+					break;
+				}
+			}
+		}
+		
+		return repositories;
 	}
 }

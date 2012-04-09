@@ -74,7 +74,6 @@
             android:layout_marginTop="1dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
-            android:text="active"
             android:textColor="@android:color/darker_gray"
 			android:textStyle="italic"
 			android:textSize="14sp"/>
@@ -97,7 +96,7 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:text="No permissions"
+            android:text="@string/no_permissions"
             android:textColor="@android:color/darker_gray"
 			android:textStyle="italic"
 			android:textSize="14sp"
@@ -125,7 +124,7 @@
 					android:layout_marginBottom="5dp"
 					android:layout_gravity="bottom"
 					android:gravity="left"
-					android:text="Permissions"
+					android:text="@string/permissions"
 					android:textStyle="italic"
 					android:textColor="#0768cb"
 					android:textSize="18sp"/>
@@ -179,7 +178,7 @@
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
     		style="@style/blue_background_white_shadowed_font"
-    		android:text="Edit" 
+    		android:text="@string/edit" 
     		android:layout_marginRight="3dp" />
 
     	<Button 
@@ -188,7 +187,7 @@
     		android:layout_height="wrap_content"
     		android:layout_weight="0.8"
     		style="@style/blue_background_white_shadowed_font"
-    		android:text="Activate" 
+    		android:text="@string/activate" 
     		android:layout_marginLeft="3dp"
     		android:layout_marginRight="3dp" />
     	
@@ -199,7 +198,7 @@
     		android:layout_weight="1"
     		style="@style/blue_background_white_shadowed_font"
     		android:background="@drawable/red_btn_selector"
-    		android:text="Delete" 
+    		android:text="@string/delete" 
     		android:layout_marginLeft="3dp" />
     	
     </LinearLayout>

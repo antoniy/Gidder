@@ -55,7 +55,7 @@ public class SshAuthorizationManager {
 				// If there is permission record - there is a pull privileges.
 				return true;
 			} else {
-				return permission.isReadOnly();
+				return !permission.isReadOnly();
 			}
 		} catch (SQLException e) {
 			throw new SshAuthorizationException("I/O problem while quering the database.", e);

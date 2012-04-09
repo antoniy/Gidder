@@ -51,4 +51,11 @@
         <string name="home_start">Start</string>
         <string name="dialog_pick_e_mail_address">Pick e-mail address</string>
         <string name="user_details">User details</string>
+        <string name="no_repositories">No repositories</string>
+        <string name="add_permission">Add permission</string>
+        <string name="no_permissions">No permissions</string>
+        <string name="permissions">Permissions</string>
+        <string name="edit">Edit</string>
+        <string name="activate">Activate</string>
+        <string name="delete">Delete</string>
 </resources>

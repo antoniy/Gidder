@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/repositoryListItemBtnPull"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_btn_selector"
+        android:drawableRight="@drawable/ic_db_pull_small"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"/>
+    
+    <TextView
+        android:id="@+id/repositoryListItemBtnPullPush" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_btn_selector"
+        android:drawableRight="@drawable/ic_db_pull_push_small"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"/>
+    
+    <TextView 
+   	    android:id="@+id/repositoryListItemName"
+   		android:layout_width="fill_parent"
+   		android:layout_height="wrap_content"
+   		android:textColor="@android:color/black" 
+   		android:textSize="18sp"
+   		android:layout_gravity="center" 
+   		android:layout_marginLeft="5dp"
+   		android:layout_marginRight="5dp"
+   		android:singleLine="true"
+   		android:fadingEdge="horizontal"
+   		android:fadingEdgeLength="10dp"
+   		android:shadowColor="#CCCCCC"
+		android:shadowDx="1.0"
+		android:shadowDy="1.0"
+		android:shadowRadius="1.0" />
+    
+</LinearLayout>

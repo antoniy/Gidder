@@ -5,10 +5,13 @@ import java.util.List;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Permission;
+import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.adapter.UserPermissionsAdapter;
 import net.antoniy.gidder.ui.quickactions.ActionItem;
+import net.antoniy.gidder.ui.quickactions.OnRepositoryListItemClickListener;
 import net.antoniy.gidder.ui.quickactions.QuickAction;
+import net.antoniy.gidder.ui.quickactions.RepositoryListPopupWindow;
 import net.antoniy.gidder.ui.quickactions.QuickAction.OnActionItemClickListener;
 import net.antoniy.gidder.ui.quickactions.QuickAction.OnDismissListener;
 import net.antoniy.gidder.ui.util.C;
@@ -31,7 +34,7 @@ import android.widget.Toast;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
 
-public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnActionItemClickListener, OnDismissListener {
+public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnActionItemClickListener, OnDismissListener, OnRepositoryListItemClickListener {
 	private final static String TAG = UserDetailsActivity.class.getSimpleName();
 
 	private final static int EDIT_USER_REQUEST_CODE = 1;
@@ -51,6 +54,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	private Button editButton;
 	private Button activateButton;
 	private Button deleteButton;
+	private TextView addButton;
 	private QuickAction quickAction;
 	private int selectedRow;
 	
@@ -100,6 +104,9 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		
 		deleteButton = (Button) findViewById(R.id.userDetailsBtnDelete);
 		deleteButton.setOnClickListener(this);
+		
+		addButton = (TextView) findViewById(R.id.userDetailsPermissionsAddBtn);
+		addButton.setOnClickListener(this);
 		
 		noPermissionsTextView = (TextView) findViewById(R.id.userDetailsNoPermissions);
 		
@@ -208,6 +215,14 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			AlertDialog.Builder builder = new AlertDialog.Builder(UserDetailsActivity.this);
 			builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
 			    .setNegativeButton("No", null).show();
+		} else if(v.getId() == R.id.userDetailsPermissionsAddBtn) {
+			try {
+				List<Repository> repositories = getHelper().getRepositoryDao().getAllRepositoriesWithoutPermissionForUserId(userId);
+				new RepositoryListPopupWindow(v, userId, repositories, this, 400).showLikeQuickAction();
+			} catch (SQLException e) {
+				Log.e(TAG, "Couldn't retrieve permissions.", e);
+				Toast.makeText(UserDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT);
+			}
 		}
 		
 	}
@@ -291,5 +306,26 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			loadUserPermissionsListContent();
 		}
 	}
-	
+
+	@Override
+	public void onRepositoryPermissionItemClick(int repositoryId, boolean readOnlyPermission) {
+		Log.i(TAG, "RepositoryId: " + repositoryId + ", Type: " + readOnlyPermission);
+		
+		User user = new User();
+		user.setId(userId);
+		
+		Repository repository = new Repository();
+		repository.setId(repositoryId);
+		
+		Permission permission = new Permission(0, user, repository, readOnlyPermission);
+		try {
+			getHelper().getPermissionDao().create(permission);
+		} catch (SQLException e) {
+			Log.e(TAG, "Problem creating new user permission.", e);
+			Toast.makeText(UserDetailsActivity.this, "Problem creating new user permission.", Toast.LENGTH_SHORT);
+		}
+		
+		loadUserPermissionsListContent();
+	}
+
 }
