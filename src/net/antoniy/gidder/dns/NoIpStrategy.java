@@ -1,14 +1,11 @@
 package net.antoniy.gidder.dns;
 
-import java.io.IOException;
-
 import net.antoniy.gidder.ui.util.C;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -99,8 +96,6 @@ public class NoIpStrategy implements DynamicDNS {
             	runToast("Dynamic DNS provider has fatal problem.");
             }
             	
-        } catch (ClientProtocolException e) {
-        	Log.e(TAG, e.getLocalizedMessage(), e);
 		} catch (ConnectTimeoutException e) {
 			Log.w(TAG, "WiFi is not yet connected! Try again in a minute.", e);
 			
@@ -111,8 +106,9 @@ public class NoIpStrategy implements DynamicDNS {
 			
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60L * 1000L, pendingIntent);
-		} catch (IOException e) {
-			Log.e(TAG, e.getLocalizedMessage(), e);
+		} catch (Exception e) {
+			Log.e(TAG, "Problem updating dynamic DNS.", e);
+			Toast.makeText(context, "Problem updating dynamic DNS.", Toast.LENGTH_SHORT);
 		} finally {
             httpClient.getConnectionManager().shutdown();
         }
