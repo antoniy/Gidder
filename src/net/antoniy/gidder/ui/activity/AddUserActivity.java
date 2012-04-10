@@ -119,7 +119,13 @@ public class AddUserActivity extends BaseActivity {
 		fullnameEditText.setText(user.getFullname());
 		emailEditText.setText(user.getEmail());
 		usernameEditText.setText(user.getUsername());
-		passwordEditText.setHint("SHA1: " + user.getPassword());
+
+		String password = user.getPassword();
+		if(password != null && password.length() > 16) {
+			passwordEditText.setHint("SHA1: " + password.substring(0, 16) + "...");
+		} else {
+			passwordEditText.setHint("SHA1: " + password);
+		}
 		activateCheckox.setChecked(user.isActive());
 		
 	}
