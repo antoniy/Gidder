@@ -46,10 +46,11 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	private int userId;
 	private TextView fullnameTextView;
 	private TextView emailTextView;
-	private TextView activateTextView;
+	private TextView usernameTextView;
 	private ImageView activateImageView;
 	private TextView noPermissionsTextView;
 	private ListView permissionsListView;
+	private ImageView userPhotoImageView;
 	private UserPermissionsAdapter userPermissionsListAdapter;
 	private Button editButton;
 	private Button activateButton;
@@ -93,8 +94,9 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		
 		fullnameTextView = (TextView) findViewById(R.id.userDetailsName);
 		emailTextView = (TextView) findViewById(R.id.userDetailsMail);
-		activateTextView = (TextView) findViewById(R.id.userDetailsActiveLabel);
+		usernameTextView = (TextView) findViewById(R.id.userDetailsUsername);
 		activateImageView = (ImageView) findViewById(R.id.userDetailsActive);
+		userPhotoImageView = (ImageView) findViewById(R.id.userDetailsPhoto);
 		
 		editButton = (Button) findViewById(R.id.userDetailsBtnEdit);
 		editButton.setOnClickListener(this);
@@ -155,14 +157,15 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		fullnameTextView.setText(user.getFullname());
 		emailTextView.setText(user.getEmail());
 		
+		usernameTextView.setText(user.getUsername());
 		if(user.isActive()) {
 			activateImageView.setImageResource(R.drawable.ic_activated);
-			activateTextView.setText("active");
 			activateButton.setText("Deactivate");
+			userPhotoImageView.setImageResource(R.drawable.ic_user_active);
 		} else {
 			activateImageView.setImageResource(R.drawable.ic_deactivated);
-			activateTextView.setText("not active");
 			activateButton.setText("Activate");
+			userPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
 		}
 	}
 	

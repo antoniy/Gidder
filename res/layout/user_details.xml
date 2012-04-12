@@ -21,7 +21,8 @@
             android:id="@+id/userDetailsPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
-            android:src="@drawable/ic_user_active" 
+            android:src="@drawable/ic_user_active"
+            android:layout_centerVertical="true" 
             android:layout_margin="5dp"/>
         
         <TextView 
@@ -66,7 +67,7 @@
             android:layout_marginBottom="5dp"/>
         
         <TextView 
-            android:id="@+id/userDetailsActiveLabel"
+            android:id="@+id/userDetailsUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/userDetailsActive"
