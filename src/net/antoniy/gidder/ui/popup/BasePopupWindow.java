@@ -1,4 +1,4 @@
-package net.antoniy.gidder.ui.quickactions;
+package net.antoniy.gidder.ui.popup;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.ui.util.GidderCommons;

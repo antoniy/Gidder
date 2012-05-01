@@ -12,7 +12,7 @@
 		android:layout_margin="5dp">
          
 		<TextView 
-			android:id="@+id/repositoryListDialogHeaderTitle"
+			android:id="@+id/popupListDialogHeaderTitle"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="5dp"
@@ -25,7 +25,7 @@
 			android:textSize="16sp"/>
 		
 		<View
-			android:id="@+id/repositoryListDialogDelimiterHorizontal"
+			android:id="@+id/popupListDialogDelimiterHorizontal"
 			android:layout_width="fill_parent"
 			android:layout_height="1dp"
 			android:background="#0768cb"/>
@@ -33,20 +33,19 @@
 	</LinearLayout>
     
     <TextView 
-		android:id="@+id/repositoryListDialogNoRepositories"
+		android:id="@+id/popupListDialogNoRepositories"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_marginTop="20dp"
 		android:layout_marginBottom="20dp"
 		android:gravity="center"
-		android:text="@string/no_repositories"
 		android:textColor="@android:color/darker_gray"
 		android:textStyle="italic"
 		android:textSize="14sp"
 		android:visibility="gone"/>
     
 	<ListView 
-	    android:id="@+id/repositoryListDialogListView"
+	    android:id="@+id/popupListDialogListView"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:cacheColorHint="#00000000"

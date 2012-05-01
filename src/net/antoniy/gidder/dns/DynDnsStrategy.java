@@ -75,6 +75,7 @@ public class DynDnsStrategy implements DynamicDNS {
             
             if(content == null || "".equals(content.trim())) {
             	Log.w(TAG, "Content is empty!");
+            	return;
             }
             
             content = content.trim();

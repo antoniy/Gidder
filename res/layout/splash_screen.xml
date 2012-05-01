@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spashScreenContainer"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/menu_bg"
-    android:orientation="vertical" 
-    android:gravity="center">
+    android:background="@drawable/menu_bg">
 
-    <ImageView 
+    <ImageView
         android:id="@+id/splashScreenImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/splash"/>
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/splash" 
+        android:layout_marginTop="50dp"
+        android:contentDescription="Splash screen logo"/>
     
     <TextView 
         android:id="@+id/splashScreenTitleTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
+        android:layout_below="@+id/splashScreenImageView"
+        android:gravity="center"
         android:text="Gidder v1.0"
         android:textColor="#000000" 
-        android:gravity="center"
+        android:layout_centerInParent="true"
         android:textSize="26sp" />
 
     <TextView 
@@ -26,8 +30,18 @@
         android:id="@+id/splashScreenSubtitleTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/splashScreenTitleTextView"
         android:gravity="center" 
         android:textColor="#000000" 
         android:textSize="14sp" 
         android:textStyle="italic"/>
-</LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/spashScreenDonateContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+    </LinearLayout>
+</RelativeLayout>

@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <ImageView 
-        android:id="@+id/userPermissionsDbIcon"
+        android:id="@+id/permissionListDbIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
@@ -19,14 +19,14 @@
         android:layout_gravity="center">
         
     	<TextView 
-    	    android:id="@+id/userPermissionsName"
+    	    android:id="@+id/permissionListName"
     	    style="@style/black_shadowed_font"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
     		android:textSize="18sp"/>
 
     	<TextView 
-    	    android:id="@+id/userPermissionsAllowLabel"
+    	    android:id="@+id/permissionListAllowLabel"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
     		android:textSize="12sp"

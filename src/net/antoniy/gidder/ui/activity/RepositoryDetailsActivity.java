@@ -8,9 +8,9 @@ import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.adapter.BasePermissionListAdapter;
-import net.antoniy.gidder.ui.adapter.RepositoryPermissionListAdapter;
+import net.antoniy.gidder.ui.adapter.UserPermissionListAdapter;
 import net.antoniy.gidder.ui.popup.OnPermissionListItemClickListener;
-import net.antoniy.gidder.ui.popup.RepositoryListPopupWindow;
+import net.antoniy.gidder.ui.popup.UserListPopupWindow;
 import net.antoniy.gidder.ui.quickactions.ActionItem;
 import net.antoniy.gidder.ui.quickactions.QuickAction;
 import net.antoniy.gidder.ui.quickactions.QuickAction.OnActionItemClickListener;
@@ -35,24 +35,24 @@ import android.widget.Toast;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
 
-public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnActionItemClickListener, OnDismissListener, OnPermissionListItemClickListener {
-	private final static String TAG = UserDetailsActivity.class.getSimpleName();
+public class RepositoryDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnActionItemClickListener, OnDismissListener, OnPermissionListItemClickListener {
+	private final static String TAG = RepositoryDetailsActivity.class.getSimpleName();
 
-	private final static int EDIT_USER_REQUEST_CODE = 1;
+	private final static int EDIT_REPOSITORY_REQUEST_CODE = 1;
 	private final static int QUICK_ACTION_DETAILS = 1;
 	private final static int QUICK_ACTION_REMOVE = 2;
 	private final static int QUICK_ACTION_PERMISSION_ALL = 3;
 	private final static int QUICK_ACTION_PERMISSION_PULL = 4;
 	
-	private int userId;
-	private TextView fullnameTextView;
-	private TextView emailTextView;
-	private TextView usernameTextView;
+	private int repositoryId;
+	private TextView nameTextView;
+	private TextView descriptionTextView;
+	private TextView mappingTextView;
 	private ImageView activateImageView;
 	private TextView noPermissionsTextView;
 	private ListView permissionsListView;
-	private ImageView userPhotoImageView;
-	private BasePermissionListAdapter repositoryPermissionsListAdapter;
+	private ImageView repositoryPhotoImageView;
+	private BasePermissionListAdapter userPermissionsListAdapter;
 	private Button editButton;
 	private Button activateButton;
 	private Button deleteButton;
@@ -62,13 +62,13 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	
 	@Override
 	protected void setup() {
-		setContentView(R.layout.user_details);
+		setContentView(R.layout.repository_details);
 
 		if(getIntent().getExtras() != null) {
-			userId = getIntent().getExtras().getInt("userId", -1);
+			repositoryId = getIntent().getExtras().getInt("repositoryId", -1);
 			
-			if(userId <= 0) {
-				Toast.makeText(this, "No user ID specified!", Toast.LENGTH_SHORT);
+			if(repositoryId <= 0) {
+				Toast.makeText(this, "No repository ID specified!", Toast.LENGTH_SHORT);
 				finish();
 			}
 		}
@@ -76,11 +76,11 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		ActionBar actionBar = (ActionBar) findViewById(R.id.userDetailsActionBar);
+		ActionBar actionBar = (ActionBar) findViewById(R.id.repositoryDetailsActionBar);
 		actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-		actionBar.setTitle(R.string.user_details);
+		actionBar.setTitle(R.string.repository_details);
 		
 		ActionItem editItem = new ActionItem(QUICK_ACTION_DETAILS, "Details", getResources().getDrawable(R.drawable.ic_db_details));
 		ActionItem deleteItem = new ActionItem(QUICK_ACTION_REMOVE, "Remove", getResources().getDrawable(R.drawable.ic_db_remove));
@@ -92,27 +92,27 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		quickAction.addActionItem(editItem);
 		quickAction.addActionItem(deleteItem);
 		
-		fullnameTextView = (TextView) findViewById(R.id.userDetailsName);
-		emailTextView = (TextView) findViewById(R.id.userDetailsMail);
-		usernameTextView = (TextView) findViewById(R.id.userDetailsUsername);
-		activateImageView = (ImageView) findViewById(R.id.userDetailsActive);
-		userPhotoImageView = (ImageView) findViewById(R.id.userDetailsPhoto);
+		nameTextView = (TextView) findViewById(R.id.repositoryDetailsName);
+		descriptionTextView = (TextView) findViewById(R.id.repositoryDetailsDescription);
+		mappingTextView = (TextView) findViewById(R.id.repositoryDetailsMapping);
+		activateImageView = (ImageView) findViewById(R.id.repositoryDetailsActive);
+		repositoryPhotoImageView = (ImageView) findViewById(R.id.repositoryDetailsPhoto);
 		
-		editButton = (Button) findViewById(R.id.userDetailsBtnEdit);
+		editButton = (Button) findViewById(R.id.repositoryDetailsBtnEdit);
 		editButton.setOnClickListener(this);
 		
-		activateButton = (Button) findViewById(R.id.userDetailsBtnActivateDeactivate);
+		activateButton = (Button) findViewById(R.id.repositoryDetailsBtnActivateDeactivate);
 		activateButton.setOnClickListener(this);
 		
-		deleteButton = (Button) findViewById(R.id.userDetailsBtnDelete);
+		deleteButton = (Button) findViewById(R.id.repositoryDetailsBtnDelete);
 		deleteButton.setOnClickListener(this);
 		
-		addButton = (TextView) findViewById(R.id.userDetailsPermissionsAddBtn);
+		addButton = (TextView) findViewById(R.id.repositoryDetailsPermissionsAddBtn);
 		addButton.setOnClickListener(this);
 		
-		noPermissionsTextView = (TextView) findViewById(R.id.userDetailsNoPermissions);
+		noPermissionsTextView = (TextView) findViewById(R.id.repositoryDetailsNoPermissions);
 		
-		permissionsListView = (ListView) findViewById(R.id.userDetailsPermissions);
+		permissionsListView = (ListView) findViewById(R.id.repositoryDetailsPermissions);
 		permissionsListView.setOnItemLongClickListener(this);
 		permissionsListView.setOnItemClickListener(this);
 		
@@ -123,7 +123,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	private void loadUserPermissionsListContent() {
 		List<Permission> permissions = null;
 		try {
-			permissions = getHelper().getPermissionDao().getAllByUserId(userId);
+			permissions = getHelper().getPermissionDao().getAllByRepositoryId(repositoryId);
 		} catch (SQLException e) {
 			Log.e(TAG, "Could not retrieve permissions.", e);
 			return;
@@ -131,8 +131,8 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		
 		showUserPermissionsList(permissions.size() > 0);
 		
-		repositoryPermissionsListAdapter = new RepositoryPermissionListAdapter(this, permissions, R.drawable.ic_db_pull, R.drawable.ic_db_pull_push);
-		permissionsListView.setAdapter(repositoryPermissionsListAdapter);
+		userPermissionsListAdapter = new UserPermissionListAdapter(this, permissions, R.drawable.ic_db_pull, R.drawable.ic_db_pull_push);
+		permissionsListView.setAdapter(userPermissionsListAdapter);
 	}
 	
 	private void showUserPermissionsList(boolean show) {
@@ -146,26 +146,26 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	}
 	
 	private void populateFieldsWithUserData() {
-		User user = null;
+		Repository repository = null;
 		try {
-			user = getHelper().getUserDao().queryForId(userId);
+			repository = getHelper().getRepositoryDao().queryForId(repositoryId);
 		} catch (SQLException e) {
-			Log.e(TAG, "Error retrieving user with id " + userId, e);
+			Log.e(TAG, "Error retrieving repository with id " + repositoryId, e);
 			return;
 		}
 		
-		fullnameTextView.setText(user.getFullname());
-		emailTextView.setText(user.getEmail());
+		nameTextView.setText(repository.getName());
+		descriptionTextView.setText(repository.getDescription());
+		mappingTextView.setText("/" + repository.getMapping() + ".git");
 		
-		usernameTextView.setText(user.getUsername());
-		if(user.isActive()) {
+		if(repository.isActive()) {
 			activateImageView.setImageResource(R.drawable.ic_activated);
 			activateButton.setText("Deactivate");
-			userPhotoImageView.setImageResource(R.drawable.ic_user_active);
+			repositoryPhotoImageView.setImageResource(R.drawable.ic_user_active);
 		} else {
 			activateImageView.setImageResource(R.drawable.ic_deactivated);
 			activateButton.setText("Activate");
-			userPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
+			repositoryPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
 		}
 	}
 	
@@ -173,58 +173,58 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	public void onClick(View v) {
 		super.onClick(v);
 		
-		if(v.getId() == R.id.userDetailsBtnEdit) {
-			Intent editUserIntent = new Intent(C.action.START_ADD_USER_ACTIVITY);
-			editUserIntent.putExtra("userId", userId);
+		if(v.getId() == R.id.repositoryDetailsBtnEdit) {
+			Intent editUserIntent = new Intent(C.action.START_ADD_REPOSITORY_ACTIVITY);
+			editUserIntent.putExtra("repositoryId", repositoryId);
 			
-			startActivityForResult(editUserIntent, EDIT_USER_REQUEST_CODE);
-		} else if(v.getId() == R.id.userDetailsBtnActivateDeactivate) {
-			User user = null;
+			startActivityForResult(editUserIntent, EDIT_REPOSITORY_REQUEST_CODE);
+		} else if(v.getId() == R.id.repositoryDetailsBtnActivateDeactivate) {
+			Repository repository = null;
 			try {
-				user = getHelper().getUserDao().queryForId(userId);
-				user.setActive(!user.isActive());
-				getHelper().getUserDao().update(user);
+				repository = getHelper().getRepositoryDao().queryForId(repositoryId);
+				repository.setActive(!repository.isActive());
+				getHelper().getRepositoryDao().update(repository);
 			} catch (SQLException e) {
-				Log.e(TAG, "Error retrieving user with id " + userId, e);
+				Log.e(TAG, "Error retrieving repository with id " + repositoryId, e);
 				return;
 			}
 			
 			populateFieldsWithUserData();
-		} else if(v.getId() == R.id.userDetailsBtnDelete) {
+		} else if(v.getId() == R.id.repositoryDetailsBtnDelete) {
 			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 			    @Override
 			    public void onClick(DialogInterface dialog, int which) {
 			        if(which == DialogInterface.BUTTON_POSITIVE) {
 			            try {
-							getHelper().getUserDao().deleteById(userId);
+							getHelper().getRepositoryDao().deleteById(repositoryId);
 
 							setResult(Activity.RESULT_OK);
 							finish();
 						} catch (SQLException e) {
-							Log.e(TAG, "Problem while deleting user.", e);
+							Log.e(TAG, "Problem while deleting repository.", e);
 						}
 			        }
 			    }
 			};
 
-			User user = null;
+			Repository repository = null;
 			try {
-				user = getHelper().getUserDao().queryForId(userId);
+				repository = getHelper().getRepositoryDao().queryForId(repositoryId);
 			} catch (SQLException e) {
-				Log.e(TAG, "Error retrieving user with id " + userId, e);
+				Log.e(TAG, "Error retrieving repository with id " + repositoryId, e);
 				return;
 			}
 			
-			AlertDialog.Builder builder = new AlertDialog.Builder(UserDetailsActivity.this);
-			builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
+			AlertDialog.Builder builder = new AlertDialog.Builder(RepositoryDetailsActivity.this);
+			builder.setMessage("Delete " + repository.getName() + "?").setPositiveButton("Yes", dialogClickListener)
 			    .setNegativeButton("No", null).show();
-		} else if(v.getId() == R.id.userDetailsPermissionsAddBtn) {
+		} else if(v.getId() == R.id.repositoryDetailsPermissionsAddBtn) {
 			try {
-				List<Repository> repositories = getHelper().getRepositoryDao().getAllRepositoriesWithoutPermissionForUserId(userId);
-				new RepositoryListPopupWindow(v, userId, repositories, this, 400).showLikeQuickAction();
+				List<User> users = getHelper().getUserDao().getAllUsersWithoutPermissionForRepositoryId(repositoryId);
+				new UserListPopupWindow(v, repositoryId, users, this, 400).showLikeQuickAction();
 			} catch (SQLException e) {
 				Log.e(TAG, "Couldn't retrieve permissions.", e);
-				Toast.makeText(UserDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT);
+				Toast.makeText(RepositoryDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT);
 			}
 		}
 		
@@ -234,14 +234,14 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		if(requestCode == EDIT_USER_REQUEST_CODE) {
+		if(requestCode == EDIT_REPOSITORY_REQUEST_CODE) {
 			populateFieldsWithUserData();
 		}
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Permission permission = repositoryPermissionsListAdapter.getItem(position);
+		Permission permission = userPermissionsListAdapter.getItem(position);
 		
 		selectedRow = position; //set the selected row
 		
@@ -272,11 +272,11 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 
 	@Override
 	public void onItemClick(QuickAction source, int pos, int actionId) {
-		final Permission permission = repositoryPermissionsListAdapter.getItem(selectedRow);
+		final Permission permission = userPermissionsListAdapter.getItem(selectedRow);
 		
 		if (actionId == QUICK_ACTION_DETAILS) {
-			Intent intent = new Intent(C.action.START_REPOSITORY_DETAILS);
-			intent.putExtra("repositoryId", permission.getRepository().getId());
+			Intent intent = new Intent(C.action.START_USER_DETAILS);
+			intent.putExtra("userId", permission.getUser().getId());
 			
 			startActivity(intent);
 		} else if (actionId == QUICK_ACTION_REMOVE) {
@@ -284,7 +284,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 				getHelper().getPermissionDao().deleteById(permission.getId());
 			} catch (SQLException e) {
 				Log.e(TAG, "Unable to remove permission.", e);
-				Toast.makeText(UserDetailsActivity.this, "Unable to remove permission!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(RepositoryDetailsActivity.this, "Unable to remove permission!", Toast.LENGTH_SHORT).show();
 			}
 			
 			loadUserPermissionsListContent();
@@ -294,7 +294,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 				getHelper().getPermissionDao().update(permission);
 			} catch (SQLException e) {
 				Log.e(TAG, "Unable to remove permission.", e);
-				Toast.makeText(UserDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(RepositoryDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
 			}
 			
 			loadUserPermissionsListContent();
@@ -304,7 +304,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 				getHelper().getPermissionDao().update(permission);
 			} catch (SQLException e) {
 				Log.e(TAG, "Unable to remove permission.", e);
-				Toast.makeText(UserDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(RepositoryDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
 			}
 			
 			loadUserPermissionsListContent();
@@ -313,20 +313,20 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 
 	@Override
 	public void onPermissionItemClick(int entityId, boolean readOnlyPermission) {
-		Log.i(TAG, "RepositoryId: " + entityId + ", Type: " + readOnlyPermission);
+		Log.i(TAG, "UserId: " + entityId + ", Type: " + readOnlyPermission);
 		
 		User user = new User();
-		user.setId(userId);
+		user.setId(entityId);
 		
 		Repository repository = new Repository();
-		repository.setId(entityId);
+		repository.setId(repositoryId);
 		
 		Permission permission = new Permission(0, user, repository, readOnlyPermission);
 		try {
 			getHelper().getPermissionDao().create(permission);
 		} catch (SQLException e) {
-			Log.e(TAG, "Problem creating new user permission.", e);
-			Toast.makeText(UserDetailsActivity.this, "Problem creating new user permission.", Toast.LENGTH_SHORT);
+			Log.e(TAG, "Problem creating new repository permission.", e);
+			Toast.makeText(RepositoryDetailsActivity.this, "Problem creating new repository permission.", Toast.LENGTH_SHORT);
 		}
 		
 		loadUserPermissionsListContent();

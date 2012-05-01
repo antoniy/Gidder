@@ -141,7 +141,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Repository repository = repositoriesListAdapter.getItem(position);
 
-		Intent intent = new Intent(C.action.START_REPOSITORY_PERMISSIONS_ACTIVITY);
+		Intent intent = new Intent(C.action.START_REPOSITORY_DETAILS);
 		intent.putExtra("repositoryId", repository.getId());
 
 		startActivityForResult(intent, 0);
@@ -152,7 +152,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 		final Repository repository = repositoriesListAdapter.getItem(selectedRow);
 		
 		if(actionId == QUICK_ACTION_EDIT) {
-			Intent intent = new Intent(getActivity(), AddRepositoryActivity.class);
+			Intent intent = new Intent(C.action.START_ADD_REPOSITORY_ACTIVITY);
 			intent.putExtra("repositoryId", repository.getId());
 			startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_EDIT_REPOSITORY);
 		} else if(actionId == QUICK_ACTION_DELETE) {

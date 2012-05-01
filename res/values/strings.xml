@@ -58,4 +58,6 @@
         <string name="edit">Edit</string>
         <string name="activate">Activate</string>
         <string name="delete">Delete</string>
+        <string name="repository_details">Repository details</string>
+        <string name="no_users">No users</string>
 </resources>

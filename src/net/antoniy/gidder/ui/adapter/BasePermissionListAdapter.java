@@ -13,40 +13,46 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class UserPermissionsAdapter extends BaseAdapter {
+public abstract class BasePermissionListAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
-	private List<Permission> items;
+	protected List<Permission> items;
+	private final int resourceIconPull;
+	private final int resourceIconPushPull;
 
-	public UserPermissionsAdapter(Context context, List<Permission> items) {
+	public BasePermissionListAdapter(Context context, List<Permission> items, int resourceIconPull, int resourceIconPushPull) {
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.items = items;
+		this.resourceIconPull = resourceIconPull;
+		this.resourceIconPushPull = resourceIconPushPull;
 	}
+	
+	protected abstract String getItemName(int position);
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v;
 		if(convertView == null) {
-			v = (LinearLayout) inflater.inflate(R.layout.user_permissions_item, null);
+			v = (LinearLayout) inflater.inflate(R.layout.permission_list_item, null);
 		} else {
 			v = convertView;
 		}
 		
 		Permission permission = items.get(position);
 		
-		ImageView dbIconImageView = (ImageView) v.findViewById(R.id.userPermissionsDbIcon);
-		TextView allowLabelTextView = (TextView) v.findViewById(R.id.userPermissionsAllowLabel);
+		ImageView dbIconImageView = (ImageView) v.findViewById(R.id.permissionListDbIcon);
+		TextView allowLabelTextView = (TextView) v.findViewById(R.id.permissionListAllowLabel);
 		
 		if(permission.isReadOnly()) {
-			dbIconImageView.setImageResource(R.drawable.ic_db_pull);
+			dbIconImageView.setImageResource(resourceIconPull);
 			allowLabelTextView.setText("Allow: pull");
 		} else {
-			dbIconImageView.setImageResource(R.drawable.ic_db_pull_push);
+			dbIconImageView.setImageResource(resourceIconPushPull);
 			allowLabelTextView.setText("Allow: pull/push");
 		}
 		
-		TextView name = (TextView) v.findViewById(R.id.userPermissionsName);
-		name.setText(permission.getRepository().getName());
+		TextView name = (TextView) v.findViewById(R.id.permissionListName);
+		name.setText(getItemName(position));
 		
 		return v;
 	}

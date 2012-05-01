@@ -1,10 +1,11 @@
-package net.antoniy.gidder.ui.quickactions;
+package net.antoniy.gidder.ui.popup;
 
 import java.util.List;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
-import net.antoniy.gidder.ui.adapter.RepositoryListAdapter;
+import net.antoniy.gidder.ui.adapter.BasePopupListAdapter;
+import net.antoniy.gidder.ui.adapter.RepositoriesPopupListAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,9 @@ public class RepositoryListPopupWindow extends BasePopupWindow {
 
 	private final List<Repository> repositories;
 
-	private final OnRepositoryListItemClickListener listener;
+	private final OnPermissionListItemClickListener listener;
 	
-	public RepositoryListPopupWindow(View anchor, int userId, List<Repository> repositories, OnRepositoryListItemClickListener listener, float heightInDp) {
+	public RepositoryListPopupWindow(View anchor, int userId, List<Repository> repositories, OnPermissionListItemClickListener listener, float heightInDp) {
 		super(anchor, heightInDp);
 		this.repositories = repositories;
 		this.listener = listener;
@@ -38,17 +39,19 @@ public class RepositoryListPopupWindow extends BasePopupWindow {
 		// inflate layout
 		LayoutInflater inflater = (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.repository_list_dialog, null);
+		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_list_dialog, null);
 
-		TextView noRepositoriesTextView = (TextView) root.findViewById(R.id.repositoryListDialogNoRepositories);
-		ListView repositoriesListView = (ListView) root.findViewById(R.id.repositoryListDialogListView);
+		TextView noRepositoriesTextView = (TextView) root.findViewById(R.id.popupListDialogNoRepositories);
+		noRepositoriesTextView.setText(R.string.no_repositories);
+		
+		ListView repositoriesListView = (ListView) root.findViewById(R.id.popupListDialogListView);
 
 		if(repositories.size() > 0) {
-			RepositoryListAdapter repositoryListAdapter = new RepositoryListAdapter(anchor.getContext(), repositories);
+			BasePopupListAdapter<Repository> repositoryListAdapter = new RepositoriesPopupListAdapter(anchor.getContext(), repositories, R.drawable.ic_db_pull_small, R.drawable.ic_db_pull_push_small);
 			repositoryListAdapter.addOnRepositoryListItemClick(listener);
-			repositoryListAdapter.addOnRepositoryListItemClick(new OnRepositoryListItemClickListener() {
+			repositoryListAdapter.addOnRepositoryListItemClick(new OnPermissionListItemClickListener() {
 				@Override
-				public void onRepositoryPermissionItemClick(int repositoryId, boolean readOnlyPermission) {
+				public void onPermissionItemClick(int entityId, boolean readOnlyPermission) {
 					dismiss();
 				}
 			});
