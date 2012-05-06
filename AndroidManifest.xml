@@ -88,6 +88,13 @@
             </intent-filter>
         </activity>
         
+        <activity android:name=".ui.activity.DonateActivity" android:screenOrientation="portrait">
+            <intent-filter >
+                <action android:name="net.antoniy.gidder.START_DONATE_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
         <activity 
             android:name="com.paypal.android.MEP.PayPalActivity"
 		    android:theme="@android:style/Theme.Translucent.NoTitleBar"

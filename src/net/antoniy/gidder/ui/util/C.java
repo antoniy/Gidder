@@ -4,6 +4,7 @@ public abstract class C {
 
 	public static class action {
 		public final static String START_HOME_ACTIVITY = "net.antoniy.gidder.START_HOME_ACTIVITY";
+		public final static String START_DONATE_ACTIVITY = "net.antoniy.gidder.START_DONATE_ACTIVITY";
 		public final static String START_ADD_USER_ACTIVITY = "net.antoniy.gidder.START_ADD_USER_ACTIVITY";		
 		public final static String START_ADD_REPOSITORY_ACTIVITY = "net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY";
 		public final static String START_SLIDE_ACTIVITY = "net.antoniy.gidder.START_SLIDE_ACTIVITY";
@@ -14,5 +15,7 @@ public abstract class C {
 		public final static String UPDATE_DYNAMIC_DNS_ADDRESS = "net.antoniy.gidder.UPDATE_DYNAMIC_DNS";
 		public final static String SSHD_STARTED = "net.antoniy.gidder.SSHD_STARTED";
 		public final static String SSHD_STOPPED = "net.antoniy.gidder.SSHD_STOPPED";
+		public final static String SPLASH_SCREEN_TIMEOUT = "net.antoniy.gidder.SPLASH_SCREEN_TIMEOUT";
+		public final static String LEAVE_DONATE_ACTIVITY = "net.antoniy.gidder.LEAVE_DONATE_ACTIVITY";
 	}
 }

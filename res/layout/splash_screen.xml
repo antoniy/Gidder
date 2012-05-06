@@ -37,11 +37,20 @@
         android:textStyle="italic"/>
     
     <LinearLayout 
-        android:id="@+id/spashScreenDonateContainer"
-        android:layout_width="fill_parent"
+        android:id="@+id/splashScreenDonateButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         android:layout_margin="20dp"
-        android:gravity="center"
-        android:layout_alignParentBottom="true">
-    </LinearLayout>
+        android:background="@drawable/donate_btn_selector"/>
+    
+<!--     <LinearLayout  -->
+<!--         android:id="@+id/spashScreenDonateContainer" -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_margin="20dp" -->
+<!--         android:gravity="center" -->
+<!--         android:layout_alignParentBottom="true"> -->
+<!--     </LinearLayout> -->
 </RelativeLayout>

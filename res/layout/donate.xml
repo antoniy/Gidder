@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#E0E0E0" >
+    
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/donateActionBar"
+        style="@style/ActionBar" />
+    
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/donateActionBar"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_box">
+        
+        <TextView 
+            android:id="@+id/donateAmountLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+	  		android:textSize="16sp"
+			android:text="Amount"/>
+        
+        <EditText 
+            android:id="@+id/donateAmount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/donateAmountLabel"
+            android:layout_marginTop="5dp"
+            android:inputType="number"/>
+        
+        <RelativeLayout 
+            android:id="@+id/donateContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/donateAmount"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"/>
+        
+        <Button 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/donateContent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/donate_web_selector"
+            android:textColor="#1b3664"
+            android:text="Donate with PayPal (web)"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"/>
+        
+    </RelativeLayout>
+
+</RelativeLayout>
