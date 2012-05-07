@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
-import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.GidderCommons;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,9 +25,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class AddUserActivity extends BaseActivity {
 	private final static String TAG = AddUserActivity.class.getSimpleName();
@@ -91,15 +87,10 @@ public class AddUserActivity extends BaseActivity {
 		passwordEditText = (EditText) findViewById(R.id.addUserPassword);
 		activateCheckox = (CheckBox) findViewById(R.id.addUserActivate);
 		
-		ActionBar actionBar = (ActionBar) findViewById(R.id.addUserActionBar);
-        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-
         if(editMode) {
-        	actionBar.setTitle(R.string.add_user_edittitle);
+        	getSupportActionBar().setTitle(R.string.add_user_edittitle);
         } else {
-        	actionBar.setTitle(R.string.add_user_title);
+        	getSupportActionBar().setTitle(R.string.add_user_title);
         }
 		
 		if(editMode) {

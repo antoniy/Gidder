@@ -5,9 +5,9 @@
     android:background="#E0E0E0"
     android:orientation="vertical">
 
-    <com.markupartist.android.widget.ActionBar
-        android:id="@+id/dynamicDnsActionBar"
-        style="@style/ActionBar" />
+<!--     <com.markupartist.android.widget.ActionBar -->
+<!--         android:id="@+id/dynamicDnsActionBar" -->
+<!--         style="@style/ActionBar" /> -->
     
     <LinearLayout
         android:id="@+id/dynamicDnsDummy"

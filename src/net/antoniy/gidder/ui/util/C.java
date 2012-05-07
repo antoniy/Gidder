@@ -17,5 +17,6 @@ public abstract class C {
 		public final static String SSHD_STOPPED = "net.antoniy.gidder.SSHD_STOPPED";
 		public final static String SPLASH_SCREEN_TIMEOUT = "net.antoniy.gidder.SPLASH_SCREEN_TIMEOUT";
 		public final static String LEAVE_DONATE_ACTIVITY = "net.antoniy.gidder.LEAVE_DONATE_ACTIVITY";
+		public final static String START_SETUP_ACTIVITY = "net.antoniy.gidder.START_SETUP_ACTIVITY";
 	}
 }

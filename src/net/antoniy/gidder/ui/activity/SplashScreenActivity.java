@@ -1,5 +1,7 @@
 package net.antoniy.gidder.ui.activity;
 
+import com.actionbarsherlock.view.Window;
+
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.ui.util.C;
 import android.app.AlarmManager;
@@ -32,6 +34,7 @@ public class SplashScreenActivity extends BaseActivity {
 	
 	@Override
 	protected void setup() {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
 	}
 
@@ -41,7 +44,7 @@ public class SplashScreenActivity extends BaseActivity {
 		pendingIntent = PendingIntent.getBroadcast(this, REQUEST_MOVE_ON, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10L * 1000L, pendingIntent);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5L * 1000L, pendingIntent);
 		
 		View donateButton = findViewById(R.id.splashScreenDonateButton);
 		donateButton.setOnClickListener(this);

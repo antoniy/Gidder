@@ -2,7 +2,6 @@ package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.ui.adapter.SlideAdapter;
-import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.FragmentType;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -47,12 +44,6 @@ public class SlideActivity extends FragmentActivity {
 //		titleIndicator = (TabPageIndicator)findViewById(R.id.slideIndicator);
 		titleIndicator.setViewPager(titlePager);
 		titleIndicator.setCurrentItem(titleAdapter.getCount() / 2);
-		
-		ActionBar actionBar = (ActionBar) findViewById(R.id.slideActionBar);
-		actionBar.setTitle("Setup");
-        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_HOME_ACTIVITY), R.drawable.ic_actionbar_home));
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
 	}
 	
 	public FragmentType getCurrentFragment() {

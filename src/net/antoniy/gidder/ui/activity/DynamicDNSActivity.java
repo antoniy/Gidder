@@ -1,9 +1,10 @@
 package net.antoniy.gidder.ui.activity;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 import net.antoniy.gidder.R;
-import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.PrefsConstants;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -19,9 +20,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeListener {
 
@@ -40,6 +38,8 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 
 	@Override
 	protected void setup() {
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		setContentView(R.layout.dynamic_dns);
 	}
 
@@ -53,11 +53,6 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 		String username = prefs.getString(PrefsConstants.DYNDNS_USERNAME.getKey(), "");
 		String password = prefs.getString(PrefsConstants.DYNDNS_PASSWORD.getKey(), "");
 		
-		ActionBar actionBar = (ActionBar) findViewById(R.id.dynamicDnsActionBar);
-		actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_HOME_ACTIVITY), R.drawable.ic_actionbar_home));
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-        actionBar.setTitle("Dynamic DNS");
-        
         providerSpinner = (Spinner) findViewById(R.id.dynamicDnsProvider);
         providerSpinner.setSelection(providerIndex);
         
@@ -104,6 +99,14 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
         
         cancelButton = (Button) findViewById(R.id.dynamicDnsCancelButton);
         cancelButton.setOnClickListener(this);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Update").setIcon(R.drawable.ic_action_refresh)
+			.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		
+		return true;
 	}
 	
 	@Override

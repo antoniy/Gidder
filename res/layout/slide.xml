@@ -4,9 +4,9 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <com.markupartist.android.widget.ActionBar
-        android:id="@+id/slideActionBar"
-        style="@style/ActionBar"/>
+<!--     <com.markupartist.android.widget.ActionBar -->
+<!--         android:id="@+id/slideActionBar" -->
+<!--         style="@style/ActionBar"/> -->
     
 	<com.viewpagerindicator.TitlePageIndicator
         android:id="@+id/slideIndicator"

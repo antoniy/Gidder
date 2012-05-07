@@ -1,7 +1,6 @@
 package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
-import net.antoniy.gidder.ui.util.BroadcastAction;
 import net.antoniy.gidder.ui.util.C;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,8 +11,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.paypal.android.MEP.CheckoutButton;
 import com.paypal.android.MEP.PayPal;
 
@@ -45,11 +42,6 @@ public class DonateActivity extends BaseActivity {
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
 		Intent intent = new Intent(C.action.LEAVE_DONATE_ACTIVITY);
-		
-		ActionBar actionBar = (ActionBar) findViewById(R.id.donateActionBar);
-		actionBar.setHomeAction(new BroadcastAction(this, intent, R.drawable.ic_actionbar_home));
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-        actionBar.setTitle("Donate");
 		
 		amountEditText = (EditText) findViewById(R.id.donateAmount);
 		

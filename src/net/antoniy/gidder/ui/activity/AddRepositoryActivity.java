@@ -5,13 +5,11 @@ import java.sql.SQLException;
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
-import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.GidderCommons;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -21,9 +19,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class AddRepositoryActivity extends BaseActivity {
 	private final static String TAG = AddRepositoryActivity.class.getSimpleName();
@@ -40,8 +35,6 @@ public class AddRepositoryActivity extends BaseActivity {
 	private int repositoryId;
 	private GitRepositoryDao repositoryDao;
 
-	private ActionBar actionBar;
-	
 	@Override
 	protected void setup() {
 		setContentView(R.layout.add_repository);
@@ -88,15 +81,10 @@ public class AddRepositoryActivity extends BaseActivity {
 		mappingEditText = (EditText) findViewById(R.id.addRepositoryMapping);
 		descriptionEditText = (EditText) findViewById(R.id.addRepositoryDescription);
 		
-		actionBar = (ActionBar) findViewById(R.id.addRepositoryActionBar);
-        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-
         if(editMode) {
-        	actionBar.setTitle(R.string.add_repository_edittitle);
+        	getSupportActionBar().setTitle(R.string.add_repository_edittitle);
         } else {
-        	actionBar.setTitle(R.string.add_repository_title);
+        	getSupportActionBar().setTitle(R.string.add_repository_title);
         }
         
 		if(editMode) {

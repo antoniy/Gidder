@@ -8,18 +8,19 @@
 
     <!-- android:background="#D4D4D4" -->
 
-    <com.markupartist.android.widget.ActionBar
-        android:id="@+id/homeActionBar"
-        style="@style/ActionBar" />
+<!--     <com.markupartist.android.widget.ActionBar -->
+<!--         android:id="@+id/homeActionBar" -->
+<!--         style="@style/ActionBar" /> -->
 
     <LinearLayout
         android:id="@+id/homeWifiStatusContainer"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/homeActionBar"
-        android:layout_centerInParent="true"
+        android:gravity="center"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp" >
+<!--         android:layout_centerInParent="true" -->
+<!--         android:layout_below="@id/homeActionBar" -->
 
         <TextView
             android:id="@+id/homeWifiStatus"
@@ -72,7 +73,6 @@
         android:layout_below="@+id/homeBtnStartStop"
         android:layout_margin="8dp"
         android:background="@drawable/server_info_bg"
-        android:editable="false"
         android:gravity="center"
         android:textSize="16sp"
         android:textStyle="bold"

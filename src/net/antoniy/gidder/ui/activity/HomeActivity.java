@@ -18,9 +18,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -34,9 +31,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.AbstractAction;
-import com.markupartist.android.widget.ActionBar.IntentAction;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	private final static String TAG = HomeActivity.class.getSimpleName();
@@ -132,16 +129,6 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	protected void initComponents(Bundle savedInstanceState) {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		ActionBar actionBar = (ActionBar) findViewById(R.id.homeActionBar);
-		actionBar.setHomeAction(new AbstractAction(R.drawable.ic_actionbar_home) {
-			@Override
-			public void performAction(View view) {
-				// do nothing
-			}
-		});
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-        actionBar.setTitle("Gidder");
-
         boolean isSshServiceRunning = GidderCommons.isSshServiceRunning(this);
         
         startStopButton = (Button) findViewById(R.id.homeBtnStartStop);
@@ -189,9 +176,10 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSupportMenuInflater();
 	    inflater.inflate(R.menu.home_menu, menu);
-	    return true;
+	    
+        return true;
 	}
 	
 	@Override
@@ -270,7 +258,8 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 		
 		switch(item.getType()) {
 		case SETUP: {
-			Intent intent = new Intent(C.action.START_SLIDE_ACTIVITY);
+//			Intent intent = new Intent(C.action.START_SLIDE_ACTIVITY);
+			Intent intent = new Intent(C.action.START_SETUP_ACTIVITY);
 			startActivity(intent);
 			break;
 		}

@@ -32,9 +32,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
-
 public class RepositoryDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnActionItemClickListener, OnDismissListener, OnPermissionListItemClickListener {
 	private final static String TAG = RepositoryDetailsActivity.class.getSimpleName();
 
@@ -76,12 +73,6 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		ActionBar actionBar = (ActionBar) findViewById(R.id.repositoryDetailsActionBar);
-		actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-		actionBar.setTitle(R.string.repository_details);
-		
 		ActionItem editItem = new ActionItem(QUICK_ACTION_DETAILS, "Details", getResources().getDrawable(R.drawable.ic_db_details));
 		ActionItem deleteItem = new ActionItem(QUICK_ACTION_REMOVE, "Remove", getResources().getDrawable(R.drawable.ic_db_remove));
 		
