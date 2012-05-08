@@ -97,7 +97,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.SetupActivity" android:label="Setup" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.SetupActivity" android:label="Setup" >
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_SETUP_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>

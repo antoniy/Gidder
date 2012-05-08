@@ -10,39 +10,36 @@ import net.antoniy.gidder.ui.util.FragmentType;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class SetupActivity extends SherlockFragmentActivity {
 
-	private TabHost tabHost;
-    private ViewPager  viewPager;
-//    private SetupAdapter setupAdapter;
+    private ViewPager viewPager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 //		setTheme(com.actionbarsherlock.R.style.Theme_Sherlock_ForceOverflow_DarkActionBar_ForceOverflow);
+		setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.setup);
-        tabHost = (TabHost)findViewById(android.R.id.tabhost);
-        tabHost.setup();
+		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         viewPager = (ViewPager)findViewById(R.id.pager);
 
-//        SetupAdapter setupAdapter = 
-        new SetupAdapter(this, tabHost, viewPager);
+        new SetupAdapter(this, viewPager);
 
-        if (savedInstanceState != null) {
-            tabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-        }
+//        if (savedInstanceState != null) {
+//            tabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+//        }
 	}
 	
 	static class DummyTabFactory implements TabHost.TabContentFactory {
@@ -62,19 +59,16 @@ public class SetupActivity extends SherlockFragmentActivity {
     }
 	
 	public static class SetupAdapter extends FragmentPagerAdapter 
-			implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+			implements ViewPager.OnPageChangeListener, ActionBar.TabListener {
 
 		private List<BaseFragment> fragments;
-		private final TabHost tabHost;
 		private final ViewPager pager;
-		private final Context context;
+		private final SherlockFragmentActivity activity;
 		
-		public SetupAdapter(FragmentActivity activity, TabHost tabHost, ViewPager pager) {
+		public SetupAdapter(SherlockFragmentActivity activity, ViewPager pager) {
 			super(activity.getSupportFragmentManager());
-			this.context = activity;
+			this.activity = activity;
 			
-			this.tabHost = tabHost;
-			this.tabHost.setOnTabChangedListener(this);
 			this.pager = pager;
 			this.pager.setAdapter(this);
 			this.pager.setOnPageChangeListener(this);
@@ -83,9 +77,11 @@ public class SetupActivity extends SherlockFragmentActivity {
 			fragments = new ArrayList<BaseFragment>(fragmentTypes.length);
 			for (FragmentType fragmentType : fragmentTypes) {
 				fragments.add(FragmentFactory.createFragment(fragmentType));
-				tabHost.addTab(tabHost.newTabSpec(fragmentType.getTitle())
-						.setIndicator(fragmentType.getTitle())
-						.setContent(new DummyTabFactory(context)));
+
+				ActionBar.Tab tab = activity.getSupportActionBar().newTab();
+				tab.setTabListener(this);
+				tab.setText(fragmentType.getTitle());
+				activity.getSupportActionBar().addTab(tab);
 			}
 		}
 
@@ -110,22 +106,20 @@ public class SetupActivity extends SherlockFragmentActivity {
 
 		@Override
 		public void onPageSelected(int position) {
-			// Unfortunately when TabHost changes the current tab, it kindly
-            // also takes care of putting focus on it when not in touch mode.
-            // The jerk.
-            // This hack tries to prevent this from pulling focus out of our
-            // ViewPager.
-            TabWidget widget = tabHost.getTabWidget();
-            int oldFocusability = widget.getDescendantFocusability();
-            widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-            tabHost.setCurrentTab(position);
-            widget.setDescendantFocusability(oldFocusability);
+			activity.getSupportActionBar().setSelectedNavigationItem(position);
 		}
 
 		@Override
-		public void onTabChanged(String tabId) {
-			int position = tabHost.getCurrentTab();
-            pager.setCurrentItem(position);
+		public void onTabReselected(Tab tab, FragmentTransaction transaction) {
+		}
+
+		@Override
+		public void onTabSelected(Tab tab, FragmentTransaction transaction) {
+			pager.setCurrentItem(tab.getPosition());
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, FragmentTransaction transaction) {
 		}
 		
 	}
