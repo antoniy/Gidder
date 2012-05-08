@@ -7,7 +7,6 @@ public abstract class C {
 		public final static String START_DONATE_ACTIVITY = "net.antoniy.gidder.START_DONATE_ACTIVITY";
 		public final static String START_ADD_USER_ACTIVITY = "net.antoniy.gidder.START_ADD_USER_ACTIVITY";		
 		public final static String START_ADD_REPOSITORY_ACTIVITY = "net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY";
-		public final static String START_SLIDE_ACTIVITY = "net.antoniy.gidder.START_SLIDE_ACTIVITY";
 		public final static String START_PREFERENCE_ACTIVITY = "net.antoniy.gidder.START_PREFERENCE_ACTIVITY";
 		public final static String START_DYNAMIC_DNS_ACTIVITY = "net.antoniy.gidder.START_DYNAMIC_DNS_ACTIVITY";
 		public final static String START_USER_DETAILS = "net.antoniy.gidder.START_USER_DETAILS";

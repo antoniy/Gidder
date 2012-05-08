@@ -3,6 +3,10 @@ package net.antoniy.gidder.ui.fragment;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.activity.AddUserActivity;
@@ -48,6 +52,13 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 	private TextView noUsersTextView;
 	
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		LinearLayout mainContainer = (LinearLayout) inflater.inflate(R.layout.users, null);
 
@@ -74,6 +85,24 @@ public class UsersFragment extends BaseFragment implements OnClickListener, OnIt
 		return mainContainer;
 	}
 	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		Log.i("BLAAAAA", "IN THE HOUSE!!!");
+		MenuItem addMenuItem = menu.add("Add");
+		addMenuItem.setIcon(android.R.drawable.ic_menu_add);
+		addMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		addMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem arg0) {
+				Intent intent = new Intent(INTENT_ACTION_START_ADD_USER);
+				startActivityForResult(intent, AddUserActivity.REQUEST_CODE_ADD_USER);
+				return true;
+			}
+			
+		});
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();

@@ -18,7 +18,8 @@
     <application
         android:name=".app.GidderApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Styled" >
         
         <activity android:name=".ui.activity.SplashScreenActivity" android:screenOrientation="portrait" >
             <intent-filter >
@@ -41,13 +42,6 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.SlideActivity" android:configChanges="orientation" android:screenOrientation="portrait">
-            <intent-filter >
-                <action android:name="net.antoniy.gidder.START_SLIDE_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
-        
         <activity android:name=".ui.activity.RepositoryPermissionsActivity" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_REPOSITORY_PERMISSIONS_ACTIVITY"/>
@@ -62,7 +56,7 @@
 			</intent-filter>
         </activity>
 		
-        <activity android:name=".ui.activity.HomeActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.HomeActivity">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_HOME_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>

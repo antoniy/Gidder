@@ -6,19 +6,19 @@ import java.util.List;
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.ui.fragment.BaseFragment;
 import net.antoniy.gidder.ui.fragment.FragmentFactory;
+import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.FragmentType;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.widget.TabHost;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class SetupActivity extends SherlockFragmentActivity {
 
@@ -29,6 +29,8 @@ public class SetupActivity extends SherlockFragmentActivity {
 //		setTheme(com.actionbarsherlock.R.style.Theme_Sherlock_ForceOverflow_DarkActionBar_ForceOverflow);
 		setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		setContentView(R.layout.setup);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -42,21 +44,17 @@ public class SetupActivity extends SherlockFragmentActivity {
 //        }
 	}
 	
-	static class DummyTabFactory implements TabHost.TabContentFactory {
-        private final Context context;
-
-        public DummyTabFactory(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public View createTabContent(String tag) {
-            View v = new View(context);
-            v.setMinimumWidth(0);
-            v.setMinimumHeight(0);
-            return v;
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == android.R.id.home) {
+			Intent intent = new Intent(C.action.START_HOME_ACTIVITY);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			
+			finish();
+			startActivity(intent);
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 	public static class SetupAdapter extends FragmentPagerAdapter 
 			implements ViewPager.OnPageChangeListener, ActionBar.TabListener {
