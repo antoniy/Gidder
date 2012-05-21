@@ -8,13 +8,10 @@ import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.adapter.BasePermissionListAdapter;
+import net.antoniy.gidder.ui.adapter.BasePopupListAdapter;
+import net.antoniy.gidder.ui.adapter.RepositoriesPopupListAdapter;
 import net.antoniy.gidder.ui.adapter.RepositoryPermissionListAdapter;
 import net.antoniy.gidder.ui.popup.OnPermissionListItemClickListener;
-import net.antoniy.gidder.ui.popup.RepositoryListPopupWindow;
-import net.antoniy.gidder.ui.quickactions.ActionItem;
-import net.antoniy.gidder.ui.quickactions.QuickAction;
-import net.antoniy.gidder.ui.quickactions.QuickAction.OnActionItemClickListener;
-import net.antoniy.gidder.ui.quickactions.QuickAction.OnDismissListener;
 import net.antoniy.gidder.ui.util.C;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,24 +19,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnActionItemClickListener, OnDismissListener, OnPermissionListItemClickListener {
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnPermissionListItemClickListener {
 	private final static String TAG = UserDetailsActivity.class.getSimpleName();
 
 	private final static int EDIT_USER_REQUEST_CODE = 1;
-	private final static int QUICK_ACTION_DETAILS = 1;
-	private final static int QUICK_ACTION_REMOVE = 2;
-	private final static int QUICK_ACTION_PERMISSION_ALL = 3;
-	private final static int QUICK_ACTION_PERMISSION_PULL = 4;
 	
 	private int userId;
 	private TextView fullnameTextView;
@@ -49,13 +47,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	private TextView noPermissionsTextView;
 	private ListView permissionsListView;
 	private ImageView userPhotoImageView;
-	private BasePermissionListAdapter repositoryPermissionsListAdapter;
-	private Button editButton;
-	private Button activateButton;
-	private Button deleteButton;
-	private TextView addButton;
-	private QuickAction quickAction;
-	private int selectedRow;
+	private BasePermissionListAdapter permissionsListAdapter;
 	
 	@Override
 	protected void setup() {
@@ -73,33 +65,11 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		ActionItem editItem = new ActionItem(QUICK_ACTION_DETAILS, "Details", getResources().getDrawable(R.drawable.ic_db_details));
-		ActionItem deleteItem = new ActionItem(QUICK_ACTION_REMOVE, "Remove", getResources().getDrawable(R.drawable.ic_db_remove));
-		
-		quickAction = new QuickAction(this);
-		quickAction.setOnActionItemClickListener(this);
-		quickAction.setOnDismissListener(this);
-		
-		quickAction.addActionItem(editItem);
-		quickAction.addActionItem(deleteItem);
-		
 		fullnameTextView = (TextView) findViewById(R.id.userDetailsName);
 		emailTextView = (TextView) findViewById(R.id.userDetailsMail);
 		usernameTextView = (TextView) findViewById(R.id.userDetailsUsername);
 		activateImageView = (ImageView) findViewById(R.id.userDetailsActive);
 		userPhotoImageView = (ImageView) findViewById(R.id.userDetailsPhoto);
-		
-		editButton = (Button) findViewById(R.id.userDetailsBtnEdit);
-		editButton.setOnClickListener(this);
-		
-		activateButton = (Button) findViewById(R.id.userDetailsBtnActivateDeactivate);
-		activateButton.setOnClickListener(this);
-		
-		deleteButton = (Button) findViewById(R.id.userDetailsBtnDelete);
-		deleteButton.setOnClickListener(this);
-		
-		addButton = (TextView) findViewById(R.id.userDetailsPermissionsAddBtn);
-		addButton.setOnClickListener(this);
 		
 		noPermissionsTextView = (TextView) findViewById(R.id.userDetailsNoPermissions);
 		
@@ -107,11 +77,136 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		permissionsListView.setOnItemLongClickListener(this);
 		permissionsListView.setOnItemClickListener(this);
 		
-		loadUserPermissionsListContent();
+		loadPermissionsListContent();
 		populateFieldsWithUserData();
 	}
 	
-	private void loadUserPermissionsListContent() {
+	@Override
+	protected void setupActionBar() {
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == android.R.id.home) {
+			Intent intent = new Intent(C.action.START_SETUP_ACTIVITY);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			
+			finish();
+			startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuItem deleteMenuItem = menu.add("Delete").setIcon(R.drawable.ic_actionbar_delete);
+		deleteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		deleteMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+				    @Override
+				    public void onClick(DialogInterface dialog, int which) {
+				        if(which == DialogInterface.BUTTON_POSITIVE) {
+				            try {
+								getHelper().getUserDao().deleteById(userId);
+
+								setResult(Activity.RESULT_OK);
+								finish();
+							} catch (SQLException e) {
+								Log.e(TAG, "Problem while deleting user.", e);
+							}
+				        }
+				    }
+				};
+
+				User user = null;
+				try {
+					user = getHelper().getUserDao().queryForId(userId);
+				} catch (SQLException e) {
+					Log.e(TAG, "Error retrieving user with id " + userId, e);
+					return true;
+				}
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(UserDetailsActivity.this);
+				builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
+				    .setNegativeButton("No", null).show();
+				return true;
+			}
+			
+		});
+		
+		try {
+			User user = getHelper().getUserDao().queryForId(userId);
+
+			MenuItem activateMenuItem = menu.add(user.isActive() ? "Deactivate" : "Activate");
+			activateMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			activateMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					User user = null;
+					try {
+						user = getHelper().getUserDao().queryForId(userId);
+						user.setActive(!user.isActive());
+						getHelper().getUserDao().update(user);
+					} catch (SQLException e) {
+						Log.e(TAG, "Error retrieving user with id " + userId, e);
+						return true;
+					}
+					
+					item.setTitle(user.isActive() ? "Deactivate" : "Activate");
+					populateFieldsWithUserData();
+					return true;
+				}
+				
+			});
+		} catch (SQLException e) {
+			Log.e(TAG, "Error retrieving user with id " + userId, e);
+		}
+		
+		MenuItem editMenuItem = menu.add("Edit").setIcon(R.drawable.ic_actionbar_edit);
+		editMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		editMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent editUserIntent = new Intent(C.action.START_ADD_USER_ACTIVITY);
+				editUserIntent.putExtra("userId", userId);
+				
+				startActivityForResult(editUserIntent, EDIT_USER_REQUEST_CODE);
+				return true;
+			}
+			
+		});
+		
+		MenuItem addPermissionMenuItem = menu.add("Add Permission").setIcon(R.drawable.ic_actionbar_add_repository);
+		addPermissionMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		addPermissionMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				try {
+					List<Repository> repositories = getHelper().getRepositoryDao().getAllRepositoriesWithoutPermissionForUserId(userId);
+					RepositoryListFragment repositoryListFragment = new RepositoryListFragment(repositories, UserDetailsActivity.this);
+					repositoryListFragment.show(getSupportFragmentManager(), "userPermissions");
+				} catch (SQLException e) {
+					Log.e(TAG, "Couldn't retrieve permissions.", e);
+					Toast.makeText(UserDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT);
+				}
+				return true;
+			}
+			
+		});
+		
+		return true;
+	}
+	
+	private void loadPermissionsListContent() {
 		List<Permission> permissions = null;
 		try {
 			permissions = getHelper().getPermissionDao().getAllByUserId(userId);
@@ -120,13 +215,13 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			return;
 		}
 		
-		showUserPermissionsList(permissions.size() > 0);
+		showPermissionsList(permissions.size() > 0);
 		
-		repositoryPermissionsListAdapter = new RepositoryPermissionListAdapter(this, permissions, R.drawable.ic_db_pull, R.drawable.ic_db_pull_push);
-		permissionsListView.setAdapter(repositoryPermissionsListAdapter);
+		permissionsListAdapter = new RepositoryPermissionListAdapter(this, permissions, R.drawable.ic_db_pull, R.drawable.ic_db_pull_push);
+		permissionsListView.setAdapter(permissionsListAdapter);
 	}
 	
-	private void showUserPermissionsList(boolean show) {
+	private void showPermissionsList(boolean show) {
 		if(show) {
 			permissionsListView.setVisibility(View.VISIBLE);
 			noPermissionsTextView.setVisibility(View.GONE);
@@ -151,74 +246,11 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		usernameTextView.setText(user.getUsername());
 		if(user.isActive()) {
 			activateImageView.setImageResource(R.drawable.ic_activated);
-			activateButton.setText("Deactivate");
 			userPhotoImageView.setImageResource(R.drawable.ic_user_active);
 		} else {
 			activateImageView.setImageResource(R.drawable.ic_deactivated);
-			activateButton.setText("Activate");
 			userPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
 		}
-	}
-	
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		
-		if(v.getId() == R.id.userDetailsBtnEdit) {
-			Intent editUserIntent = new Intent(C.action.START_ADD_USER_ACTIVITY);
-			editUserIntent.putExtra("userId", userId);
-			
-			startActivityForResult(editUserIntent, EDIT_USER_REQUEST_CODE);
-		} else if(v.getId() == R.id.userDetailsBtnActivateDeactivate) {
-			User user = null;
-			try {
-				user = getHelper().getUserDao().queryForId(userId);
-				user.setActive(!user.isActive());
-				getHelper().getUserDao().update(user);
-			} catch (SQLException e) {
-				Log.e(TAG, "Error retrieving user with id " + userId, e);
-				return;
-			}
-			
-			populateFieldsWithUserData();
-		} else if(v.getId() == R.id.userDetailsBtnDelete) {
-			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-			    @Override
-			    public void onClick(DialogInterface dialog, int which) {
-			        if(which == DialogInterface.BUTTON_POSITIVE) {
-			            try {
-							getHelper().getUserDao().deleteById(userId);
-
-							setResult(Activity.RESULT_OK);
-							finish();
-						} catch (SQLException e) {
-							Log.e(TAG, "Problem while deleting user.", e);
-						}
-			        }
-			    }
-			};
-
-			User user = null;
-			try {
-				user = getHelper().getUserDao().queryForId(userId);
-			} catch (SQLException e) {
-				Log.e(TAG, "Error retrieving user with id " + userId, e);
-				return;
-			}
-			
-			AlertDialog.Builder builder = new AlertDialog.Builder(UserDetailsActivity.this);
-			builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
-			    .setNegativeButton("No", null).show();
-		} else if(v.getId() == R.id.userDetailsPermissionsAddBtn) {
-			try {
-				List<Repository> repositories = getHelper().getRepositoryDao().getAllRepositoriesWithoutPermissionForUserId(userId);
-				new RepositoryListPopupWindow(v, userId, repositories, this, 400).showLikeQuickAction();
-			} catch (SQLException e) {
-				Log.e(TAG, "Couldn't retrieve permissions.", e);
-				Toast.makeText(UserDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT);
-			}
-		}
-		
 	}
 	
 	@Override
@@ -232,74 +264,14 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Permission permission = repositoryPermissionsListAdapter.getItem(position);
-		
-		selectedRow = position; //set the selected row
-		
-		// Delete quick action items (if any of them exists) for activate and deactivate
-		quickAction.deleteActionItem(QUICK_ACTION_PERMISSION_ALL);
-		quickAction.deleteActionItem(QUICK_ACTION_PERMISSION_PULL);
-		
-		ActionItem activateDeactivateItem = null;
-		if(permission.isReadOnly()) {
-			activateDeactivateItem = new ActionItem(QUICK_ACTION_PERMISSION_ALL, "Push/Pull", getResources().getDrawable(R.drawable.ic_db_pull_push));
-		} else {
-			activateDeactivateItem = new ActionItem(QUICK_ACTION_PERMISSION_PULL, "Pull", getResources().getDrawable(R.drawable.ic_db_pull));
-		}
-		
-		quickAction.addActionItem(activateDeactivateItem);
-		quickAction.show(view);
+		startActionMode(new UserPermissionActionMode(position));
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		onItemClick(parent, view, position, id);
-		return false;
-	}
-
-	@Override
-	public void onDismiss() {
-	}
-
-	@Override
-	public void onItemClick(QuickAction source, int pos, int actionId) {
-		final Permission permission = repositoryPermissionsListAdapter.getItem(selectedRow);
 		
-		if (actionId == QUICK_ACTION_DETAILS) {
-			Intent intent = new Intent(C.action.START_REPOSITORY_DETAILS);
-			intent.putExtra("repositoryId", permission.getRepository().getId());
-			
-			startActivity(intent);
-		} else if (actionId == QUICK_ACTION_REMOVE) {
-			try {
-				getHelper().getPermissionDao().deleteById(permission.getId());
-			} catch (SQLException e) {
-				Log.e(TAG, "Unable to remove permission.", e);
-				Toast.makeText(UserDetailsActivity.this, "Unable to remove permission!", Toast.LENGTH_SHORT).show();
-			}
-			
-			loadUserPermissionsListContent();
-		} else if (actionId == QUICK_ACTION_PERMISSION_PULL) {
-			try {
-				permission.setReadOnly(true);
-				getHelper().getPermissionDao().update(permission);
-			} catch (SQLException e) {
-				Log.e(TAG, "Unable to remove permission.", e);
-				Toast.makeText(UserDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
-			}
-			
-			loadUserPermissionsListContent();
-		} else if (actionId == QUICK_ACTION_PERMISSION_ALL) {
-			try {
-				permission.setReadOnly(false);
-				getHelper().getPermissionDao().update(permission);
-			} catch (SQLException e) {
-				Log.e(TAG, "Unable to remove permission.", e);
-				Toast.makeText(UserDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
-			}
-			
-			loadUserPermissionsListContent();
-		}
+		return true;
 	}
 
 	@Override
@@ -320,7 +292,171 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			Toast.makeText(UserDetailsActivity.this, "Problem creating new user permission.", Toast.LENGTH_SHORT);
 		}
 		
-		loadUserPermissionsListContent();
+		loadPermissionsListContent();
 	}
+	
+	private final class UserPermissionActionMode implements ActionMode.Callback {
 
+		private final int position;
+
+		public UserPermissionActionMode(int position) {
+			this.position = position;
+		}
+		
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			mode.finish();
+			return true;
+		}
+
+		@Override
+		public boolean onCreateActionMode(final ActionMode mode, Menu menu) {
+			final Permission permission = permissionsListAdapter.getItem(position);
+			mode.setTitle(permission.getRepository().getName());
+			
+			menu.add("Remove")
+				.setIcon(R.drawable.ic_actionbar_delete)
+				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+				.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						try {
+							getHelper().getPermissionDao().deleteById(permission.getId());
+						} catch (SQLException e) {
+							Log.e(TAG, "Unable to remove permission.", e);
+							Toast.makeText(UserDetailsActivity.this, "Unable to remove permission!", Toast.LENGTH_SHORT).show();
+						}
+						
+						loadPermissionsListContent();
+						
+						mode.finish();
+						return true;
+					}
+					
+				});
+			
+			menu.add("Details")
+            	.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            	.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						Intent intent = new Intent(C.action.START_REPOSITORY_DETAILS);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						intent.putExtra("repositoryId", permission.getRepository().getId());
+						
+						startActivity(intent);
+						
+						mode.finish();
+						return true;
+					}
+					
+				});
+			
+			if(!permission.isReadOnly()) {
+				menu.add("Pull")
+					.setIcon(R.drawable.ic_actionbar_pull)
+	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+						
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							try {
+								permission.setReadOnly(true);
+								getHelper().getPermissionDao().update(permission);
+							} catch (SQLException e) {
+								Log.e(TAG, "Unable to remove permission.", e);
+								Toast.makeText(UserDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
+							}
+							
+							loadPermissionsListContent();
+							
+							mode.finish();
+							return true;
+						}
+						
+					});
+			} else {
+				menu.add("Pull & Push")
+					.setIcon(R.drawable.ic_actionbar_pull_push)
+	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+						
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							try {
+								permission.setReadOnly(false);
+								getHelper().getPermissionDao().update(permission);
+							} catch (SQLException e) {
+								Log.e(TAG, "Unable to remove permission.", e);
+								Toast.makeText(UserDetailsActivity.this, "Unable to update permission!", Toast.LENGTH_SHORT).show();
+							}
+							
+							loadPermissionsListContent();
+							
+							mode.finish();
+							return true;
+						}
+						
+					});
+			}
+			return true;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+		
+	}
+	
+	public static class RepositoryListFragment extends BaseDialogFragment {
+
+		private final List<Repository> repositories;
+		private final OnPermissionListItemClickListener listener;
+
+		public RepositoryListFragment(List<Repository> repositories, OnPermissionListItemClickListener listener) {
+			this.repositories = repositories;
+			this.listener = listener;
+		}
+		
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			getDialog().setTitle("Add permission");
+			
+			ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_list_dialog, null);
+
+			TextView noRepositoriesTextView = (TextView) root.findViewById(R.id.popupListDialogNoRepositories);
+			noRepositoriesTextView.setText(R.string.no_repositories);
+			
+			ListView repositoriesListView = (ListView) root.findViewById(R.id.popupListDialogListView);
+
+			if(repositories.size() > 0) {
+				BasePopupListAdapter<Repository> repositoryListAdapter = new RepositoriesPopupListAdapter(getActivity(), repositories, R.drawable.ic_db_pull_small, R.drawable.ic_db_pull_push_small);
+				repositoryListAdapter.addOnRepositoryListItemClick(listener);
+				repositoryListAdapter.addOnRepositoryListItemClick(new OnPermissionListItemClickListener() {
+					@Override
+					public void onPermissionItemClick(int entityId, boolean readOnlyPermission) {
+						dismiss();
+					}
+				});
+				
+				repositoriesListView.setAdapter(repositoryListAdapter);
+				
+				repositoriesListView.setVisibility(View.VISIBLE);
+				noRepositoriesTextView.setVisibility(View.GONE);
+			} else {
+				repositoriesListView.setVisibility(View.GONE);
+				noRepositoriesTextView.setVisibility(View.VISIBLE);
+			}
+			
+			return root;
+		}
+	}
+	
 }

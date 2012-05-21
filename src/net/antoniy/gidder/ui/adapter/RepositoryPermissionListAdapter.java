@@ -13,7 +13,7 @@ public class RepositoryPermissionListAdapter extends BasePermissionListAdapter {
 	
 	@Override
 	protected String getItemName(int position) {
-		return items.get(0).getRepository().getName();
+		return items.get(position).getRepository().getName();
 	}
 
 }

@@ -1,84 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#E0E0E0"
-    android:orientation="vertical" >
-
-<!--     <com.markupartist.android.widget.ActionBar -->
-<!--         android:id="@+id/addRepositoryActionBar" -->
-<!--         style="@style/ActionBar" /> -->
-
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    android:background="@drawable/bg_main"
+    android:orientation="vertical"
+    android:padding="16dp">
         
-    	<LinearLayout
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="wrap_content"
-    	    android:orientation="vertical">
-    	    
-    		<LinearLayout android:layout_width="fill_parent"
-    			android:layout_height="wrap_content" android:layout_margin="5dp"
-    			android:background="@drawable/bg_box"
-    			android:orientation="vertical" android:padding="5dp">
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:background="@drawable/bg_content_box"
+		android:orientation="vertical">
 
-    			<TextView android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				android:text="@string/add_repository_name"
-    				android:layout_margin="5dp" />
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/add_repository_name"
+			android:textColor="@android:color/primary_text_dark"
+			android:textSize="16sp"/>
 
-    			<EditText android:id="@+id/addRepositoryName"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				android:inputType="textCapWords">
-    			</EditText>
+		<EditText android:id="@+id/addRepositoryName"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:inputType="textCapWords">
+		</EditText>
 
-    			<TextView android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				android:text="@string/add_repository_mapping"
-    				android:layout_margin="5dp" />
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/add_repository_mapping"
+			android:textColor="@android:color/primary_text_dark"
+			android:textSize="16sp"
+			android:layout_marginTop="8dp" />
 
-    			<EditText android:id="@+id/addRepositoryMapping"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content" android:inputType="text" />
+		<EditText android:id="@+id/addRepositoryMapping"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:inputType="text" />
 
-    			<TextView android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				android:text="@string/add_repository_description"
-    				android:layout_margin="5dp" />
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/add_repository_description"
+			android:textColor="@android:color/primary_text_dark"
+			android:textSize="16sp"
+			android:layout_marginTop="8dp" />
 
-    			<EditText android:id="@+id/addRepositoryDescription"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content" android:inputType="text" />
-    		</LinearLayout>
-
-    		<LinearLayout android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-    			android:background="@android:color/transparent"
-    			android:gravity="bottom" android:orientation="horizontal">
-
-    			<Button android:id="@+id/addRepositoryBtnAdd"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				style="@style/blue_background_white_shadowed_font"
-    				android:text="@string/btn_add"
-    				android:layout_weight="1"
-    				android:layout_marginLeft="5dp"
-    				android:layout_marginRight="3dp" />
-
-    			<Button android:id="@+id/addRepositoryBtnCancel"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				style="@style/blue_background_white_shadowed_font"
-    				android:text="@string/btn_cancel"
-    				android:layout_weight="1"
-    				android:layout_marginLeft="3dp"
-    				android:layout_marginRight="5dp" />
-    		</LinearLayout>
-    		
-    	</LinearLayout>
-    	
-    </ScrollView>
-
-</LinearLayout>
+		<EditText 
+		    android:id="@+id/addRepositoryDescription"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:inputType="text" />
+	</LinearLayout>
+</ScrollView>

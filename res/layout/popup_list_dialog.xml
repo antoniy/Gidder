@@ -3,43 +3,14 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_box_shadow">
-    
-    <LinearLayout 
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:layout_margin="5dp">
-         
-		<TextView 
-			android:id="@+id/popupListDialogHeaderTitle"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="5dp"
-			android:layout_marginBottom="5dp"
-			android:layout_gravity="bottom"
-			android:gravity="left"
-			android:text="@string/add_permission"
-			android:textStyle="italic"
-			android:textColor="#0768cb"
-			android:textSize="16sp"/>
-		
-		<View
-			android:id="@+id/popupListDialogDelimiterHorizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="#0768cb"/>
-	
-	</LinearLayout>
+    android:padding="16dp">
     
     <TextView 
 		android:id="@+id/popupListDialogNoRepositories"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_marginTop="20dp"
-		android:layout_marginBottom="20dp"
 		android:gravity="center"
-		android:textColor="@android:color/darker_gray"
+		android:textColor="@android:color/secondary_text_dark"
 		android:textStyle="italic"
 		android:textSize="14sp"
 		android:visibility="gone"/>
@@ -49,7 +20,6 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:cacheColorHint="#00000000"
-		android:divider="#D4D4D4"
 		android:dividerHeight="1dp"
 		android:footerDividersEnabled="false"
 		android:headerDividersEnabled="false"

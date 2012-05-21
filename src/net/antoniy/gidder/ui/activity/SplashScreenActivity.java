@@ -44,7 +44,7 @@ public class SplashScreenActivity extends BaseActivity {
 		pendingIntent = PendingIntent.getBroadcast(this, REQUEST_MOVE_ON, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5L * 1000L, pendingIntent);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3L * 1000L, pendingIntent);
 		
 		View donateButton = findViewById(R.id.splashScreenDonateButton);
 		donateButton.setOnClickListener(this);

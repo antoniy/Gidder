@@ -1,11 +1,7 @@
 package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
-import net.antoniy.gidder.app.GidderApplication;
-import net.antoniy.gidder.dns.DynamicDNSManager;
 import net.antoniy.gidder.service.SSHDaemonService;
-import net.antoniy.gidder.ui.adapter.NavigationAdapter;
-import net.antoniy.gidder.ui.adapter.NavigationAdapter.NavigationItem;
 import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.GidderCommons;
 import net.antoniy.gidder.ui.util.PrefsConstants;
@@ -24,24 +20,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class HomeActivity extends BaseActivity implements OnItemClickListener {
-	private final static String TAG = HomeActivity.class.getSimpleName();
+public class HomeActivity extends BaseActivity {
+//	private final static String TAG = HomeActivity.class.getSimpleName();
 
 	private Button startStopButton;
 	private ImageView wirelessImageView;
-	private NavigationAdapter navigationAdapter;
-	private GridView navigationGridView; 
 	private TextView wifiStatusTextView;
 	private TextView wifiSSIDTextView;
 	private TextView homeServerInfoTextView;
@@ -140,14 +130,6 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
         }
         
         wirelessImageView = (ImageView) findViewById(R.id.homeWirelessImage);
-        
-        navigationAdapter = new NavigationAdapter(this);
-        
-        navigationGridView = (GridView) findViewById(R.id.homeNavigationGrid);
-        navigationGridView.setAdapter(navigationAdapter);
-//        navigationGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        navigationGridView.setOnItemClickListener(this);
-        
         wifiStatusTextView = (TextView) findViewById(R.id.homeWifiStatus);
         wifiSSIDTextView = (TextView) findViewById(R.id.homeWifiSSID);
         
@@ -176,26 +158,46 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
-	    inflater.inflate(R.menu.home_menu, menu);
+	    MenuItem settingsMenuItem = menu.add("Settings").setIcon(R.drawable.ic_actionbar_settings);
+	    settingsMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+	    settingsMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(C.action.START_PREFERENCE_ACTIVITY);
+				startActivity(intent);
+				return true;
+			}
+			
+		});
+	    
+	    MenuItem setupMenuItem = menu.add("Setup");
+	    setupMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+	    setupMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(C.action.START_SETUP_ACTIVITY);
+				startActivity(intent);
+				return true;
+			}
+			
+		});
+	    
+	    MenuItem dynamicDnsMenuItem = menu.add("Dynamic DNS").setIcon(R.drawable.ic_actionbar_dns);
+	    dynamicDnsMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+	    dynamicDnsMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(C.action.START_DYNAMIC_DNS_ACTIVITY);
+				startActivity(intent);
+				return true;
+			}
+			
+		});
 	    
         return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-	    case R.id.homeMenuSettings:
-	    	Intent intent = new Intent(this, GidderPreferencesActivity.class);
-			startActivity(intent);
-	        return true;
-	    case R.id.homeMenuUpdateDns:
-			new DynamicDNSManager(HomeActivity.this).update();
-			((GidderApplication)((Context)HomeActivity.this).getApplicationContext()).setUpdateDynDnsTime(System.currentTimeMillis());
-	        return true;
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
 	}
 
 	@Override
@@ -249,29 +251,6 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 				stopService(intent);
 				GidderCommons.stopStatusBarNotification(HomeActivity.this);
 			}
-		}
-	}
-	
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		NavigationItem item = navigationAdapter.getItem(position);
-		
-		switch(item.getType()) {
-		case SETUP: {
-//			Intent intent = new Intent(C.action.START_SLIDE_ACTIVITY);
-			Intent intent = new Intent(C.action.START_SETUP_ACTIVITY);
-			startActivity(intent);
-			break;
-		}
-		case DNS: {
-			Intent intent = new Intent(C.action.START_DYNAMIC_DNS_ACTIVITY);
-			startActivity(intent);
-			break;
-		}
-		case LOGS: {
-			// TODO: ...
-			break;
-		}
 		}
 	}
 	

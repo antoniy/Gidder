@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
-public abstract class BaseActivity extends SherlockActivity implements OnClickListener {
+public abstract class BaseActivity extends SherlockFragmentActivity implements OnClickListener {
 
 	private volatile DBHelper helper;
 	private volatile boolean created = false;
@@ -37,11 +37,15 @@ public abstract class BaseActivity extends SherlockActivity implements OnClickLi
 		
 		setup();
 		initComponents(savedInstanceState);
+		setupActionBar();
 	}
 	
 	protected abstract void setup();
 	
 	protected abstract void initComponents(Bundle savedInstanceState);
+	
+	protected void setupActionBar() {
+	}
 	
 	@Override
 	public void onClick(View v) {

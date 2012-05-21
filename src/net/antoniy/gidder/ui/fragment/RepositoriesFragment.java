@@ -8,8 +8,6 @@ import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.git.GitRepositoryDao;
 import net.antoniy.gidder.ui.activity.AddRepositoryActivity;
 import net.antoniy.gidder.ui.adapter.RepositoryAdapter;
-import net.antoniy.gidder.ui.quickactions.ActionItem;
-import net.antoniy.gidder.ui.quickactions.QuickAction;
 import net.antoniy.gidder.ui.util.C;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,37 +17,36 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-public class RepositoriesFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener, OnItemClickListener, QuickAction.OnActionItemClickListener, PopupWindow.OnDismissListener {
-	private final static String TAG = RepositoriesFragment.class.getSimpleName();
-	private final static String INTENT_ACTION_START_ADD_REPOSITORY = "net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY";
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
-	private final static int QUICK_ACTION_EDIT = 1;
-	private final static int QUICK_ACTION_DELETE = 2;
-	
-	private Button addButton;
+public class RepositoriesFragment extends BaseFragment implements OnItemLongClickListener, OnItemClickListener, PopupWindow.OnDismissListener {
+	private final static String TAG = RepositoriesFragment.class.getSimpleName();
+
 	private ListView repositoriesListView;
 	private RepositoryAdapter repositoriesListAdapter;
-	private QuickAction quickAction;
-	private int selectedRow;
 	private TextView noRepositoriesTextView;
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		LinearLayout mainContainer = (LinearLayout) inflater.inflate(R.layout.repositories, null);
-
-		addButton = (Button) mainContainer.findViewById(R.id.repositoriesAddButton);
-		addButton.setOnClickListener(this);
 
 		noRepositoriesTextView = (TextView) mainContainer.findViewById(R.id.repositoriesNoRepositoriesTextView);
 		
@@ -58,16 +55,6 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 		repositoriesListView.setOnItemLongClickListener(this);
 		repositoriesListView.setOnItemClickListener(this);
 
-		ActionItem editItem = new ActionItem(1, "Edit", getResources().getDrawable(R.drawable.ic_action_edit));
-		ActionItem deleteItem = new ActionItem(2, "Delete", getResources().getDrawable(R.drawable.ic_action_delete));
-		
-		quickAction = new QuickAction(getActivity());
-		quickAction.setOnActionItemClickListener(this);
-		quickAction.setOnDismissListener(this);
-		
-		quickAction.addActionItem(editItem);
-		quickAction.addActionItem(deleteItem);
-		
 		return mainContainer;
 	}
 
@@ -97,14 +84,6 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	}
 
 	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.repositoriesAddButton) {
-			Intent intent = new Intent(INTENT_ACTION_START_ADD_REPOSITORY);
-			startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_ADD_REPOSITORY);
-		}
-	}
-
-	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
 			Log.i(TAG, "Refreshing repositories...");
@@ -131,8 +110,7 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		selectedRow = position;
-		quickAction.show(view);
+		actionMode = getSherlockActivity().startActionMode(new UserListActionMode(position));
 
 		return true;
 	}
@@ -148,39 +126,132 @@ public class RepositoriesFragment extends BaseFragment implements OnClickListene
 	}
 	
 	@Override
-	public void onItemClick(QuickAction source, int pos, int actionId) {
-		final Repository repository = repositoriesListAdapter.getItem(selectedRow);
-		
-		if(actionId == QUICK_ACTION_EDIT) {
-			Intent intent = new Intent(C.action.START_ADD_REPOSITORY_ACTIVITY);
-			intent.putExtra("repositoryId", repository.getId());
-			startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_EDIT_REPOSITORY);
-		} else if(actionId == QUICK_ACTION_DELETE) {
-			
-			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-			    @Override
-			    public void onClick(DialogInterface dialog, int which) {
-			        if(which == DialogInterface.BUTTON_POSITIVE) {
-			            try {
-			            	new GitRepositoryDao(getActivity()).deleteRepository(repository.getMapping());
-							getHelper().getRepositoryDao().deleteById(repository.getId());
-							updateRepositoriesList();
-						} catch (SQLException e) {
-							Log.e(TAG, "Problem while deleting repository.", e);
-						}
-			        }
-			    }
-			};
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setMessage("Delete " + repository.getName() + "?").setPositiveButton("Yes", dialogClickListener)
-			    .setNegativeButton("No", null).show();
-		}
-	}
-
-	@Override
 	public void onDismiss() {
-		// TODO Auto-generated method stub
+	}
+	
+	private final class UserListActionMode implements ActionMode.Callback {
+
+		private final int position;
+
+		public UserListActionMode(int position) {
+			this.position = position;
+		}
+		
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			mode.finish();
+			return true;
+		}
+
+		@Override
+		public boolean onCreateActionMode(final ActionMode mode, Menu menu) {
+			final Repository repository = repositoriesListAdapter.getItem(position);
+			mode.setTitle(repository.getName());
+			
+			menu.add("Delete")
+				.setIcon(R.drawable.ic_actionbar_delete)
+            	.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            	.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+					
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+						    @Override
+						    public void onClick(DialogInterface dialog, int which) {
+						        if(which == DialogInterface.BUTTON_POSITIVE) {
+						            try {
+						            	new GitRepositoryDao(getActivity()).deleteRepository(repository.getMapping());
+										getHelper().getRepositoryDao().deleteById(repository.getId());
+										updateRepositoriesList();
+									} catch (SQLException e) {
+										Log.e(TAG, "Problem while deleting repository.", e);
+									}
+						        }
+						    }
+						};
+
+						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+						builder.setMessage("Delete " + repository.getName() + "?").setPositiveButton("Yes", dialogClickListener)
+						    .setNegativeButton("No", null).show();
+						
+						mode.finish();
+						return true;
+					}
+					
+				});
+			
+			if(!repository.isActive()) {
+				menu.add("Activate")
+	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+						
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							repository.setActive(true);
+							
+							try {
+								getHelper().getRepositoryDao().update(repository);
+								updateRepositoriesList();
+							} catch (SQLException e) {
+								Log.e(TAG, "Problem while activating repository.", e);
+							}
+							
+							mode.finish();
+							return true;
+						}
+						
+					});
+			} else {
+				menu.add("Deactivate")
+	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+						
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							repository.setActive(false);
+							
+							try {
+								getHelper().getRepositoryDao().update(repository);
+								updateRepositoriesList();
+							} catch (SQLException e) {
+								Log.e(TAG, "Problem while deactivating repository.", e);
+							}
+							
+							mode.finish();
+							return true;
+						}
+						
+					});
+			}
+			
+			menu.add("Edit")
+			.setIcon(R.drawable.ic_actionbar_edit)
+			.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+			.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					Intent intent = new Intent(C.action.START_ADD_REPOSITORY_ACTIVITY);
+					intent.putExtra("repositoryId", repository.getId());
+					startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_EDIT_REPOSITORY);
+					
+					mode.finish();
+					return true;
+				}
+				
+			});
+			
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+		}
 	}
 
 }

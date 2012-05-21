@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <style name="Theme.Styled" parent="Theme.Sherlock.Light.DarkActionBar.ForceOverflow">
-        <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+<!--     <style name="Theme.Styled" parent="Theme.Sherlock.Light.DarkActionBar.ForceOverflow"> -->
+	<style name="Theme.Styled" parent="Theme.Sherlock">
+<!--         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item> -->
+<!--         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item> -->
     </style>
     <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@android:color/black</item>

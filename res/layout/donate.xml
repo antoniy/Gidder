@@ -2,24 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#E0E0E0" >
-    
-<!--     <com.markupartist.android.widget.ActionBar -->
-<!--         android:id="@+id/donateActionBar" -->
-<!--         style="@style/ActionBar" /> -->
+    android:padding="16dp"
+    android:background="@drawable/bg_main" >
     
     <RelativeLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/donateActionBar"
-        android:layout_margin="5dp"
-        android:background="@drawable/bg_box">
+        android:background="@drawable/bg_content_box">
         
         <TextView 
             android:id="@+id/donateAmountLabel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/primary_text_dark"
 	  		android:textSize="16sp"
 			android:text="Amount"/>
         
@@ -28,7 +23,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/donateAmountLabel"
-            android:layout_marginTop="5dp"
             android:inputType="number"/>
         
         <RelativeLayout 
@@ -36,7 +30,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/donateAmount"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"/>
         
@@ -44,7 +38,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/donateContent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/donate_web_selector"
             android:textColor="#1b3664"
             android:text="Donate with PayPal (web)"

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.paypal.android.MEP.CheckoutButton;
 import com.paypal.android.MEP.PayPal;
@@ -60,6 +61,27 @@ public class DonateActivity extends BaseActivity {
 		launchPayPalButton.setLayoutParams(params);
 		launchPayPalButton.setOnClickListener(this);
 		((RelativeLayout)findViewById(R.id.donateContent)).addView(launchPayPalButton);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuItem continueMenuItem = menu.add("Continue");
+		continueMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		continueMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem arg0) {
+				Intent intent = new Intent(C.action.START_HOME_ACTIVITY);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				
+				finish();
+				startActivity(intent);
+				return true;
+			}
+			
+		});
+		
+		return true;
 	}
 	
 	@Override
