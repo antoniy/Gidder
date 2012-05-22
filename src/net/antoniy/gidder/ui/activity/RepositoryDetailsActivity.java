@@ -102,21 +102,6 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuItem editMenuItem = menu.add("Edit").setIcon(R.drawable.ic_actionbar_edit);
-		editMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-		editMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-			
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				Intent editUserIntent = new Intent(C.action.START_ADD_REPOSITORY_ACTIVITY);
-				editUserIntent.putExtra("repositoryId", repositoryId);
-				
-				startActivityForResult(editUserIntent, EDIT_REPOSITORY_REQUEST_CODE);
-				return true;
-			}
-			
-		});
-		
 		try {
 			Repository repository = getHelper().getRepositoryDao().queryForId(repositoryId);
 			
@@ -180,6 +165,21 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 				AlertDialog.Builder builder = new AlertDialog.Builder(RepositoryDetailsActivity.this);
 				builder.setMessage("Delete " + repository.getName() + "?").setPositiveButton("Yes", dialogClickListener)
 				    .setNegativeButton("No", null).show();
+				return true;
+			}
+			
+		});
+		
+		MenuItem editMenuItem = menu.add("Edit").setIcon(R.drawable.ic_actionbar_edit);
+		editMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		editMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent editUserIntent = new Intent(C.action.START_ADD_REPOSITORY_ACTIVITY);
+				editUserIntent.putExtra("repositoryId", repositoryId);
+				
+				startActivityForResult(editUserIntent, EDIT_REPOSITORY_REQUEST_CODE);
 				return true;
 			}
 			

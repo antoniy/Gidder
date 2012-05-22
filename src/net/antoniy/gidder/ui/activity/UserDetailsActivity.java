@@ -102,6 +102,35 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		try {
+			User user = getHelper().getUserDao().queryForId(userId);
+
+			MenuItem activateMenuItem = menu.add(user.isActive() ? "Deactivate" : "Activate");
+			activateMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			activateMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					User user = null;
+					try {
+						user = getHelper().getUserDao().queryForId(userId);
+						user.setActive(!user.isActive());
+						getHelper().getUserDao().update(user);
+					} catch (SQLException e) {
+						Log.e(TAG, "Error retrieving user with id " + userId, e);
+						return true;
+					}
+					
+					item.setTitle(user.isActive() ? "Deactivate" : "Activate");
+					populateFieldsWithUserData();
+					return true;
+				}
+				
+			});
+		} catch (SQLException e) {
+			Log.e(TAG, "Error retrieving user with id " + userId, e);
+		}
+		
 		MenuItem deleteMenuItem = menu.add("Delete").setIcon(R.drawable.ic_actionbar_delete);
 		deleteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		deleteMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -139,35 +168,6 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			}
 			
 		});
-		
-		try {
-			User user = getHelper().getUserDao().queryForId(userId);
-
-			MenuItem activateMenuItem = menu.add(user.isActive() ? "Deactivate" : "Activate");
-			activateMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			activateMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-				
-				@Override
-				public boolean onMenuItemClick(MenuItem item) {
-					User user = null;
-					try {
-						user = getHelper().getUserDao().queryForId(userId);
-						user.setActive(!user.isActive());
-						getHelper().getUserDao().update(user);
-					} catch (SQLException e) {
-						Log.e(TAG, "Error retrieving user with id " + userId, e);
-						return true;
-					}
-					
-					item.setTitle(user.isActive() ? "Deactivate" : "Activate");
-					populateFieldsWithUserData();
-					return true;
-				}
-				
-			});
-		} catch (SQLException e) {
-			Log.e(TAG, "Error retrieving user with id " + userId, e);
-		}
 		
 		MenuItem editMenuItem = menu.add("Edit").setIcon(R.drawable.ic_actionbar_edit);
 		editMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);

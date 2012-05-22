@@ -156,17 +156,6 @@ public class AddRepositoryActivity extends BaseActivity {
 		descriptionEditText.setText(repository.getDescription());
 	}
 
-//	@Override
-//	public void onClick(View v) {
-//		super.onClick(v);
-//		
-//		if(v.getId() == R.id.addRepositoryBtnAdd) {
-//			processRepositoryAction();
-//		} else if(v.getId() == R.id.addRepositoryBtnCancel) {
-//			finish();
-//		}
-//	}
-	
 	private void processRepositoryAction() {
 		if(!isFieldsValid()) {
 			return;

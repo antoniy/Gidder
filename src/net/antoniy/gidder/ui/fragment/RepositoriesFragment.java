@@ -57,6 +57,13 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 
 		return mainContainer;
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		loadRepositoriesListContent();
+	}
 
 	private void showRepositoryList(boolean show) {
 		if(show) {

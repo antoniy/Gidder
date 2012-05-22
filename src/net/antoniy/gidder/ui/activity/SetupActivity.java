@@ -101,7 +101,7 @@ public class SetupActivity extends SherlockFragmentActivity {
 
 		return super.onCreateOptionsMenu(menu);
 	}
-
+	
 	public FragmentType getCurrentFragment() {
 		return currentFragment;
 	}

@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -36,8 +37,6 @@ public class AddUserActivity extends BaseActivity {
 	public final static int REQUEST_CODE_ADD_USER = 1;
 	public final static int REQUEST_CODE_EDIT_USER = 2;
 	
-//	private Button addEditButton;
-//	private Button cancelButton;
 	private EditText fullnameEditText;
 	private EditText emailEditText;
 	private EditText usernameEditText;
@@ -45,7 +44,6 @@ public class AddUserActivity extends BaseActivity {
 	private boolean editMode = false;
 	private int userId;
 	private CheckBox activateCheckox;
-//	private TextView contactPicker;
 	
 	@Override
 	protected void setup() {
@@ -67,20 +65,6 @@ public class AddUserActivity extends BaseActivity {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-//		contactPicker = (TextView) findViewById(R.id.add_user_contacts);
-//		contactPicker.setOnClickListener(this);
-		
-//		addEditButton = (Button) findViewById(R.id.addUserBtnAddEdit);
-//		addEditButton.setOnClickListener(this);
-//		if(editMode) {
-//			addEditButton.setText(R.string.btn_save);
-//		} else {
-//			addEditButton.setText(R.string.btn_add);
-//		}
-//		
-//		cancelButton = (Button) findViewById(R.id.addUserBtnCancel);
-//		cancelButton.setOnClickListener(this);
-		
 		fullnameEditText = (EditText) findViewById(R.id.addUserFullname);
 		emailEditText = (EditText) findViewById(R.id.addUserEmail);
 		usernameEditText = (EditText) findViewById(R.id.addUserUsername);
@@ -181,23 +165,26 @@ public class AddUserActivity extends BaseActivity {
 		
 	}
 	
-//	@Override
-//	public void onClick(View v) {
-//		super.onClick(v);
-//		
-//		if(v.getId() == R.id.addUserBtnAddEdit) {
-//			processUserAction();
-//		} else if(v.getId() == R.id.addUserBtnCancel) {
-//			finish();
-//		} else 
-//		if(v.getId() == R.id.add_user_contacts) {
-//			Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-//			startActivityForResult(intent, CONTACT_PICKER);
-//		}
-//	}
-	
 	private void processUserAction() {
 		if(!isFieldsValid(editMode)) {
+			return;
+		}
+		
+		try {
+			User checkUser = getHelper().getUserDao().queryForUsername(usernameEditText.getText().toString().trim());
+			if(checkUser != null) {
+				Toast.makeText(AddUserActivity.this, "Username already exists.", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			checkUser = getHelper().getUserDao().queryForEmail(emailEditText.getText().toString().trim());
+			if(checkUser != null) {
+				Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
+				return;
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "SQL problem.", e);
+			Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		

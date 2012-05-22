@@ -24,6 +24,9 @@ public abstract class BaseFragment extends SherlockFragment {
 		}
 	}
 
+	public void reloadData() {
+	}
+	
 	/**
 	 * Get a helper for this action.
 	 */
