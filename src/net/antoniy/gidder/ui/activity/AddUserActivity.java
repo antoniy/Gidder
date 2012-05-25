@@ -3,13 +3,14 @@ package net.antoniy.gidder.ui.activity;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.GidderCommons;
+
+import org.apache.commons.validator.routines.EmailValidator;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,29 +20,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class AddUserActivity extends BaseActivity {
 	private final static String TAG = AddUserActivity.class.getSimpleName();
 	
-//	private static final Pattern emailPattern = Pattern.compile( "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-	private static final Pattern emailPattern = Pattern.compile("^[\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"); 
 	private static final int CONTACT_PICKER = 1;
 	
 	public final static int REQUEST_CODE_ADD_USER = 1;
 	public final static int REQUEST_CODE_EDIT_USER = 2;
 	
-	private Button addEditButton;
-	private Button cancelButton;
 	private EditText fullnameEditText;
 	private EditText emailEditText;
 	private EditText usernameEditText;
@@ -49,7 +44,6 @@ public class AddUserActivity extends BaseActivity {
 	private boolean editMode = false;
 	private int userId;
 	private CheckBox activateCheckox;
-	private TextView contactPicker;
 	
 	@Override
 	protected void setup() {
@@ -71,40 +65,81 @@ public class AddUserActivity extends BaseActivity {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		contactPicker = (TextView) findViewById(R.id.add_user_contacts);
-		contactPicker.setOnClickListener(this);
-		
-		addEditButton = (Button) findViewById(R.id.addUserBtnAddEdit);
-		addEditButton.setOnClickListener(this);
-		if(editMode) {
-			addEditButton.setText(R.string.btn_save);
-		} else {
-			addEditButton.setText(R.string.btn_add);
-		}
-		
-		cancelButton = (Button) findViewById(R.id.addUserBtnCancel);
-		cancelButton.setOnClickListener(this);
-		
 		fullnameEditText = (EditText) findViewById(R.id.addUserFullname);
 		emailEditText = (EditText) findViewById(R.id.addUserEmail);
 		usernameEditText = (EditText) findViewById(R.id.addUserUsername);
 		passwordEditText = (EditText) findViewById(R.id.addUserPassword);
 		activateCheckox = (CheckBox) findViewById(R.id.addUserActivate);
 		
-		ActionBar actionBar = (ActionBar) findViewById(R.id.addUserActionBar);
-        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-
-        if(editMode) {
-        	actionBar.setTitle(R.string.add_user_edittitle);
-        } else {
-        	actionBar.setTitle(R.string.add_user_title);
-        }
-		
 		if(editMode) {
 			populateFieldsWithUserData();
 		}
+	}
+	
+	@Override
+	protected void setupActionBar() {
+		if(editMode) {
+        	getSupportActionBar().setTitle(R.string.add_user_edittitle);
+        } else {
+        	getSupportActionBar().setTitle(R.string.add_user_title);
+        }
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == android.R.id.home) {
+			Intent intent = new Intent(C.action.START_SETUP_ACTIVITY);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			
+			finish();
+			startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuItem doneMenuItem = menu.add("Save").setIcon(R.drawable.ic_actionbar_accept);
+		doneMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		doneMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				processUserAction();
+				return true;
+			}
+			
+		});
+		
+		MenuItem fromContactMenuItem = menu.add("From Contact");
+		fromContactMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		fromContactMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+				startActivityForResult(intent, CONTACT_PICKER);
+				return true;
+			}
+			
+		});
+		
+		MenuItem cancelMenuItem = menu.add("Cancel").setIcon(R.drawable.ic_actionbar_cancel);
+		cancelMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		cancelMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				finish();
+				return false;
+			}
+			
+		});
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	private void populateFieldsWithUserData() {
@@ -130,51 +165,59 @@ public class AddUserActivity extends BaseActivity {
 		
 	}
 	
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		
-		if(v.getId() == R.id.addUserBtnAddEdit) {
-			if(!isFieldsValid(editMode)) {
-				return;
-			}
-			
-			String fullname = fullnameEditText.getText().toString();
-			String email = emailEditText.getText().toString();
-			String username = usernameEditText.getText().toString();
-			String password = passwordEditText.getText().toString();
-			boolean active = activateCheckox.isChecked();
-			
-			try {
-				if(editMode) {
-					User user = getHelper().getUserDao().queryForId(userId);
-					user.setFullname(fullname);
-					user.setEmail(email);
-					
-					if(password != null && !"".equals(password.trim())) {
-						user.setPassword(GidderCommons.generateSha1(password));
-					}
-					user.setUsername(username);
-					user.setActive(active);
-					
-					getHelper().getUserDao().update(user);
-				} else {
-					getHelper().getUserDao().create(new User(0, fullname, email, username, GidderCommons.generateSha1(password), active, System.currentTimeMillis()));
-				}
-			} catch (SQLException e) {
-				Log.e(TAG, "Problem when add new user.", e);
-				finish();
-				return;
-			}
-			
-			setResult(RESULT_OK, null);
-			finish();
-		} else if(v.getId() == R.id.addUserBtnCancel) {
-			finish();
-		} else if(v.getId() == R.id.add_user_contacts) {
-			Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-			startActivityForResult(intent, CONTACT_PICKER);
+	private void processUserAction() {
+		if(!isFieldsValid(editMode)) {
+			return;
 		}
+		
+		try {
+			User checkUser = getHelper().getUserDao().queryForUsername(usernameEditText.getText().toString().trim());
+			if(checkUser != null) {
+				Toast.makeText(AddUserActivity.this, "Username already exists.", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			checkUser = getHelper().getUserDao().queryForEmail(emailEditText.getText().toString().trim());
+			if(checkUser != null) {
+				Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
+				return;
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "SQL problem.", e);
+			Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		String fullname = fullnameEditText.getText().toString();
+		String email = emailEditText.getText().toString();
+		String username = usernameEditText.getText().toString();
+		String password = passwordEditText.getText().toString();
+		boolean active = activateCheckox.isChecked();
+		
+		try {
+			if(editMode) {
+				User user = getHelper().getUserDao().queryForId(userId);
+				user.setFullname(fullname);
+				user.setEmail(email);
+				
+				if(password != null && !"".equals(password.trim())) {
+					user.setPassword(GidderCommons.generateSha1(password));
+				}
+				user.setUsername(username);
+				user.setActive(active);
+				
+				getHelper().getUserDao().update(user);
+			} else {
+				getHelper().getUserDao().create(new User(0, fullname, email, username, GidderCommons.generateSha1(password), active, System.currentTimeMillis()));
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "Problem when add new user.", e);
+			finish();
+			return;
+		}
+		
+		setResult(RESULT_OK, null);
+		finish();
 	}
 	
 	@Override
@@ -288,15 +331,7 @@ public class AddUserActivity extends BaseActivity {
 			return false;
 		}
 		
-		String email = emailEditText.getText().toString();
-		Matcher matcher = emailPattern.matcher(email);
-		if(!matcher.matches()) {
-			emailEditText.startAnimation(AnimationUtils.loadAnimation(AddUserActivity.this, R.anim.shake));
-			emailEditText.setError("E-mail address is incorrect");
-			return false;
-		}
-		
-		return true;
+		return EmailValidator.getInstance().isValid(emailEditText.getText().toString().trim());
 	}
 	
 }

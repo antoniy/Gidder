@@ -46,11 +46,11 @@ public class UsersAdapter extends BaseAdapter {
 		TextView userFullname = (TextView) v.findViewById(R.id.usersItemFullname);
 		userFullname.setText(user.getFullname());
 		
-		TextView userUsername = (TextView) v.findViewById(R.id.usersItemUsername);
-		userUsername.setText(user.getUsername());
-		
-		TextView userEmail = (TextView) v.findViewById(R.id.usersItemEmail);
-		userEmail.setText(user.getEmail());
+//		TextView userUsername = (TextView) v.findViewById(R.id.usersItemUsername);
+//		userUsername.setText(user.getUsername());
+//		
+//		TextView userEmail = (TextView) v.findViewById(R.id.usersItemEmail);
+//		userEmail.setText(user.getEmail());
 		
 		return v;
 	}

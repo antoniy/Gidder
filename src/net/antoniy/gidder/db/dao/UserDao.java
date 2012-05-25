@@ -30,6 +30,18 @@ public class UserDao extends BaseDao<DBHelper, User, Integer>{
 		return null;
 	}
 	
+	public User queryForEmail(String email) throws SQLException {
+		SelectArg usernameArg = new SelectArg(email);
+		
+		List<User> users = dao.queryBuilder().where().eq(DBC.users.column_email, usernameArg).query();
+		
+		if(users.size() > 0) {
+			return users.get(0);
+		}
+		
+		return null;
+	}
+	
 	public User queryForUsernameAndActive(String username) throws SQLException {
 		SelectArg usernameArg = new SelectArg(username);
 		

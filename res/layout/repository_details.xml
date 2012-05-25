@@ -2,20 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#E0E0E0" >
+    android:background="@drawable/bg_main"
+    android:padding="16dp">
 
-    <com.markupartist.android.widget.ActionBar
-        android:id="@+id/repositoryDetailsActionBar"
-        android:layout_alignParentTop="true"
-        style="@style/ActionBar"/>
-    
     <RelativeLayout
         android:id="@+id/repositoryDetailsGeneralBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/repositoryDetailsActionBar"
-        android:layout_margin="5dp"
-        android:background="@drawable/bg_box" >
+        android:background="@drawable/bg_content_box" >
  
         <ImageView
             android:id="@+id/repositoryDetailsPhoto"
@@ -30,12 +24,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/repositoryDetailsPhoto"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
             android:text="Some name"
-            android:textColor="@android:color/black"
-			android:textSize="20sp"
+            android:textColor="@android:color/primary_text_dark"
+			android:textSize="16sp"
 			android:shadowColor="@android:color/black" 
 			android:shadowDx="1.0"
 			android:shadowDy="1.0" 
@@ -47,10 +41,11 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/repositoryDetailsPhoto"
             android:layout_below="@+id/repositoryDetailsName"
+            android:layout_marginTop="4dp"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="10dp"
             android:text="Some description"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/secondary_text_dark"
 			android:textStyle="italic"
 			android:textSize="14sp"/>
         
@@ -61,10 +56,9 @@
             android:layout_below="@+id/repositoryDetailsDescription"
             android:layout_toRightOf="@+id/repositoryDetailsPhoto"
             android:src="@drawable/ic_deactivated"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp" 
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
         
         <TextView 
             android:id="@+id/repositoryDetailsMapping"
@@ -72,10 +66,9 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/repositoryDetailsActive"
             android:layout_below="@+id/repositoryDetailsDescription"
-            android:layout_marginTop="1dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@android:color/secondary_text_dark"
 			android:textStyle="italic"
 			android:textSize="14sp"/>
 
@@ -86,19 +79,17 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/repositoryDetailsGeneralBox"
-        android:layout_above="@+id/repositoryDetailsButtonBox"
-        android:layout_margin="5dp"
-        android:background="@drawable/bg_box" >
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:background="@drawable/bg_content_box" >
 	
         <TextView 
             android:id="@+id/repositoryDetailsNoPermissions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:text="@string/no_permissions"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/secondary_text_dark"
 			android:textStyle="italic"
 			android:textSize="14sp"
 			android:visibility="gone"/>
@@ -107,48 +98,25 @@
             android:id="@+id/repositoryDetailsPermissionsHeader"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             
-            <LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="bottom">
-            
-				<TextView 
-					android:id="@+id/repositoryDetailsPermissionsHeaderTitle"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="5dp"
-					android:layout_marginBottom="5dp"
-					android:layout_gravity="bottom"
-					android:gravity="left"
-					android:text="@string/permissions"
-					android:textStyle="italic"
-					android:textColor="#0768cb"
-					android:textSize="18sp"/>
-				
-				<View
-					android:id="@+id/repositoryDetailsDelimiterHorizontal"
-					android:layout_width="fill_parent"
-					android:layout_height="1dp"
-					android:background="#0768cb"/>
-		
-			</LinearLayout>
+			<TextView 
+				android:id="@+id/repositoryDetailsPermissionsHeaderTitle"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="4dp"
+				android:layout_gravity="bottom"
+				android:gravity="left"
+				android:text="@string/permissions"
+				android:textStyle="italic"
+				android:textColor="@android:color/primary_text_dark"
+				android:textSize="18sp"/>
 			
-            <TextView 
-	            android:id="@+id/repositoryDetailsPermissionsAddBtn"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:background="@drawable/white_btn_selector"
-				android:layout_marginLeft="5dp"
-				android:layout_gravity="right"
-	        	android:paddingRight="7dp"
-				android:drawableRight="@drawable/ic_db_add2"
-				android:gravity="center"
-				android:clickable="true" />
+			<View
+				android:id="@+id/repositoryDetailsDelimiterHorizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:background="#0768cb"/>
             
 		</LinearLayout>
 		
@@ -158,50 +126,10 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:cacheColorHint="#00000000"
-			android:divider="#D4D4D4"
 			android:dividerHeight="1dp"
 			android:footerDividersEnabled="false"
 			android:headerDividersEnabled="false"/>
 	
 	</RelativeLayout>
-	
-    <LinearLayout
-        android:id="@+id/repositoryDetailsButtonBox"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-        
-    	<Button 
-    	    android:id="@+id/repositoryDetailsBtnEdit"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:layout_weight="1"
-    		style="@style/blue_background_white_shadowed_font"
-    		android:text="@string/edit" 
-    		android:layout_marginRight="3dp" />
-
-    	<Button 
-    	    android:id="@+id/repositoryDetailsBtnActivateDeactivate"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:layout_weight="0.8"
-    		style="@style/blue_background_white_shadowed_font"
-    		android:text="@string/activate" 
-    		android:layout_marginLeft="3dp"
-    		android:layout_marginRight="3dp" />
-    	
-    	<Button 
-    	    android:id="@+id/repositoryDetailsBtnDelete"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:layout_weight="1"
-    		style="@style/blue_background_white_shadowed_font"
-    		android:background="@drawable/red_btn_selector"
-    		android:text="@string/delete" 
-    		android:layout_marginLeft="3dp" />
-    	
-    </LinearLayout>
 
 </RelativeLayout>

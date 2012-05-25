@@ -18,12 +18,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class AddRepositoryActivity extends BaseActivity {
 	private final static String TAG = AddRepositoryActivity.class.getSimpleName();
@@ -31,8 +30,8 @@ public class AddRepositoryActivity extends BaseActivity {
 	public final static int REQUEST_CODE_ADD_REPOSITORY = 1;
 	public final static int REQUEST_CODE_EDIT_REPOSITORY = 2;
 	
-	private Button addEditButton;
-	private Button cancelButton;
+//	private Button addEditButton;
+//	private Button cancelButton;
 	private EditText nameEditText;
 	private EditText mappingEditText;
 	private EditText descriptionEditText;
@@ -40,8 +39,6 @@ public class AddRepositoryActivity extends BaseActivity {
 	private int repositoryId;
 	private GitRepositoryDao repositoryDao;
 
-	private ActionBar actionBar;
-	
 	@Override
 	protected void setup() {
 		setContentView(R.layout.add_repository);
@@ -64,16 +61,16 @@ public class AddRepositoryActivity extends BaseActivity {
 	protected void initComponents(Bundle savedInstanceState) {
 		repositoryDao = new GitRepositoryDao(this);
 		
-		addEditButton = (Button) findViewById(R.id.addRepositoryBtnAdd);
-		addEditButton.setOnClickListener(this);
-		if(editMode) {
-			addEditButton.setText(R.string.btn_save);
-		} else {
-			addEditButton.setText(R.string.btn_add);
-		}
-		
-		cancelButton = (Button) findViewById(R.id.addRepositoryBtnCancel);
-		cancelButton.setOnClickListener(this);
+//		addEditButton = (Button) findViewById(R.id.addRepositoryBtnAdd);
+//		addEditButton.setOnClickListener(this);
+//		if(editMode) {
+//			addEditButton.setText(R.string.btn_save);
+//		} else {
+//			addEditButton.setText(R.string.btn_add);
+//		}
+//		
+//		cancelButton = (Button) findViewById(R.id.addRepositoryBtnCancel);
+//		cancelButton.setOnClickListener(this);
 		
 		nameEditText = (EditText) findViewById(R.id.addRepositoryName);
 		nameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -88,20 +85,61 @@ public class AddRepositoryActivity extends BaseActivity {
 		mappingEditText = (EditText) findViewById(R.id.addRepositoryMapping);
 		descriptionEditText = (EditText) findViewById(R.id.addRepositoryDescription);
 		
-		actionBar = (ActionBar) findViewById(R.id.addRepositoryActionBar);
-        actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_SLIDE_ACTIVITY), R.drawable.ic_actionbar_home));
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-
-        if(editMode) {
-        	actionBar.setTitle(R.string.add_repository_edittitle);
-        } else {
-        	actionBar.setTitle(R.string.add_repository_title);
-        }
-        
 		if(editMode) {
 			populateFieldsWithRepositoryData();
 		}
+	}
+	
+	@Override
+	protected void setupActionBar() {
+		if(editMode) {
+        	getSupportActionBar().setTitle(R.string.add_repository_edittitle);
+        } else {
+        	getSupportActionBar().setTitle(R.string.add_repository_title);
+        }
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == android.R.id.home) {
+			Intent intent = new Intent(C.action.START_SETUP_ACTIVITY);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			
+			finish();
+			startActivity(intent);
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuItem doneMenuItem = menu.add("Done").setIcon(R.drawable.ic_actionbar_accept);
+		doneMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		doneMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				processRepositoryAction();
+				return true;
+			}
+			
+		});
+		
+		MenuItem cancelMenuItem = menu.add("Cancel").setIcon(R.drawable.ic_actionbar_cancel);
+		cancelMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		cancelMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				finish();
+				return false;
+			}
+			
+		});
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	private void populateFieldsWithRepositoryData() {
@@ -118,74 +156,66 @@ public class AddRepositoryActivity extends BaseActivity {
 		descriptionEditText.setText(repository.getDescription());
 	}
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
+	private void processRepositoryAction() {
+		if(!isFieldsValid()) {
+			return;
+		}
 		
-		if(v.getId() == R.id.addRepositoryBtnAdd) {
-			if(!isFieldsValid()) {
-				return;
-			}
+		final String name = nameEditText.getText().toString();
+		final String mapping = mappingEditText.getText().toString();
+		final String description = descriptionEditText.getText().toString();
+		
+		if(editMode) {
+			final ProgressDialog dialog = ProgressDialog.show(AddRepositoryActivity.this, "", "Renaming repository...", true);
+			dialog.show();
 			
-			final String name = nameEditText.getText().toString();
-			final String mapping = mappingEditText.getText().toString();
-			final String description = descriptionEditText.getText().toString();
+			new Thread(new Runnable() {
+				public void run() {
+					Looper.prepare();
+					
+					try {
+						repositoryDao.renameRepository(repositoryId, mapping);
 			
-			if(editMode) {
-				final ProgressDialog dialog = ProgressDialog.show(AddRepositoryActivity.this, "", "Renaming repository...", true);
-				dialog.show();
-				
-				new Thread(new Runnable() {
-					public void run() {
-						Looper.prepare();
+						// TODO: Fix edit of active and create datetime.
+						getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description, true, System.currentTimeMillis()));
 						
-						try {
-							repositoryDao.renameRepository(repositoryId, mapping);
-				
-							// TODO: Fix edit of active and create datetime.
-							getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description, true, System.currentTimeMillis()));
-							
-							setResult(RESULT_OK, null);
-							finish();
-						} catch (SQLException e) {
-							Log.e(TAG, "Problem when add new repository.", e);
-							Toast.makeText(AddRepositoryActivity.this, "Error! Database error.", Toast.LENGTH_SHORT).show();
-						} finally {
-							dialog.dismiss();
-							Looper.loop();
-						}
+						setResult(RESULT_OK, null);
+						finish();
+					} catch (SQLException e) {
+						Log.e(TAG, "Problem when add new repository.", e);
+						Toast.makeText(AddRepositoryActivity.this, "Error! Database error.", Toast.LENGTH_SHORT).show();
+					} finally {
+						dialog.dismiss();
+						Looper.loop();
 					}
-				}).start();
-			} else {
-				final ProgressDialog dialog = ProgressDialog.show(AddRepositoryActivity.this, "", "Creating repository...", true);
-				dialog.show();
-	
-				new Thread(new Runnable() {
-					public void run() {
-						Looper.prepare();
-						
-						try {
-							getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
-							repositoryDao.createRepository(mapping);
+				}
+			}).start();
+		} else {
+			final ProgressDialog dialog = ProgressDialog.show(AddRepositoryActivity.this, "", "Creating repository...", true);
+			dialog.show();
 
-							setResult(RESULT_OK, null);
-							finish();
-						} catch (RepositoryNotFoundException e) {
-							Log.e(TAG, "Problem while creating repository.", e);
-							Toast.makeText(AddRepositoryActivity.this, "Error! Cannot create repository.", Toast.LENGTH_SHORT).show();
-						} catch (SQLException e) {
-							Log.e(TAG, "Problem when add new repository.", e);
-							Toast.makeText(AddRepositoryActivity.this, "Error! Database error.", Toast.LENGTH_SHORT).show();
-						} finally {
-							dialog.dismiss();
-							Looper.loop();
-						}
+			new Thread(new Runnable() {
+				public void run() {
+					Looper.prepare();
+					
+					try {
+						getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
+						repositoryDao.createRepository(mapping);
+
+						setResult(RESULT_OK, null);
+						finish();
+					} catch (RepositoryNotFoundException e) {
+						Log.e(TAG, "Problem while creating repository.", e);
+						Toast.makeText(AddRepositoryActivity.this, "Error! Cannot create repository.", Toast.LENGTH_SHORT).show();
+					} catch (SQLException e) {
+						Log.e(TAG, "Problem when add new repository.", e);
+						Toast.makeText(AddRepositoryActivity.this, "Error! Database error.", Toast.LENGTH_SHORT).show();
+					} finally {
+						dialog.dismiss();
+						Looper.loop();
 					}
-				}).start();
-			}
-			
-		} else if(v.getId() == R.id.addRepositoryBtnCancel) {
-			finish();
+				}
+			}).start();
 		}
 	}
 	

@@ -3,18 +3,30 @@ package net.antoniy.gidder.ui.fragment;
 import net.antoniy.gidder.db.DBHelper;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.ActionMode;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends SherlockFragment {
 	
 	private volatile DBHelper helper;
 	private volatile boolean created = false;
 	private volatile boolean destroyed = false;
+	protected ActionMode actionMode;
+	
+	public void disableActionMode() {
+		if(actionMode != null) {
+			actionMode.finish();
+			actionMode = null;
+		}
+	}
 
+	public void reloadData() {
+	}
+	
 	/**
 	 * Get a helper for this action.
 	 */

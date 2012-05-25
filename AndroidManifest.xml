@@ -4,7 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="7"/>
+<!--     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="7"/> -->
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="15"/>
+    
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -16,7 +18,8 @@
     <application
         android:name=".app.GidderApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Styled" >
         
         <activity android:name=".ui.activity.SplashScreenActivity" android:screenOrientation="portrait" >
             <intent-filter >
@@ -25,23 +28,16 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.AddUserActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.AddUserActivity" android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_USER_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.AddRepositoryActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.AddRepositoryActivity" android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
-        
-        <activity android:name=".ui.activity.SlideActivity" android:configChanges="orientation" android:screenOrientation="portrait">
-            <intent-filter >
-                <action android:name="net.antoniy.gidder.START_SLIDE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -53,44 +49,51 @@
             </intent-filter>
 		</activity>
 		
-        <activity android:name=".ui.activity.GidderPreferencesActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.GidderPreferencesActivity" android:label="Settings">
             <intent-filter>
             	<action android:name="net.antoniy.gidder.START_PREFERENCE_ACTIVITY"/>
             	<category android:name="android.intent.category.DEFAULT"/>    
 			</intent-filter>
         </activity>
 		
-        <activity android:name=".ui.activity.HomeActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.HomeActivity" android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_HOME_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.DynamicDNSActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.DynamicDNSActivity" android:label="DNS" android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_DYNAMIC_DNS_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.UserDetailsActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.UserDetailsActivity" android:label="User Details" android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_USER_DETAILS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.RepositoryDetailsActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.RepositoryDetailsActivity" android:label="Repository Details" android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_REPOSITORY_DETAILS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.DonateActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.DonateActivity" android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_DONATE_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".ui.activity.SetupActivity" android:label="Setup" android:uiOptions="splitActionBarWhenNarrow">
+            <intent-filter >
+                <action android:name="net.antoniy.gidder.START_SETUP_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

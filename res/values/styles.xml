@@ -1,29 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--     <style name="StyledIndicators" parent="@android:style/Theme.Light"> -->
-<!--         <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item> -->
-<!--         <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item> -->
-<!--     </style> -->
-
-    <style name="CustomTitlePageIndicator">
-        <item name="android:background">#4E4848</item>
-        <item name="footerColor">#FF55AAEE</item>
-        <item name="footerLineHeight">3dp</item>
-        <item name="footerIndicatorStyle">underline</item>
-        <item name="textColor">#FF999999</item>
-        <item name="selectedColor">#FFFFFFFF</item>
-        <item name="selectedBold">false</item>
-    </style>
-
-<!--     <style name="CustomCirclePageIndicator"> -->
-<!--         <item name="android:background">#FFCCCCCC</item> -->
-<!--         <item name="fillColor">#FF888888</item> -->
-<!--         <item name="strokeColor">#FF000000</item> -->
-<!--         <item name="strokeWidth">2dp</item> -->
-<!--         <item name="radius">10dp</item> -->
-<!--         <item name="centered">true</item> -->
-<!--     </style> -->
-    
 	<style name="Animations" />
 
 	<!-- PopDownMenu -->
@@ -78,14 +54,14 @@
 	</style>
 	
     <style name="general_list_style">
-        <item name="android:background">@drawable/bg_box</item>
+        <item name="android:background">@drawable/bg_content_box</item>
         <item name="android:cacheColorHint">#00000000</item>
-        <item name="android:divider">#D4D4D4</item>
+<!--         <item name="android:divider">#D4D4D4</item> -->
         <item name="android:dividerHeight">1dp</item>
         <item name="android:footerDividersEnabled">false</item>
         <item name="android:headerDividersEnabled">false</item>
         <item name="android:layout_margin">5dp</item>
-        <item name="android:padding">5dp</item>
+<!--         <item name="android:padding">5dp</item> -->
     </style>
     
     <style name="black_shadowed_font">

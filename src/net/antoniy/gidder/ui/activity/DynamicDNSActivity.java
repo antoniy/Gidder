@@ -1,8 +1,11 @@
 package net.antoniy.gidder.ui.activity;
 
 import net.antoniy.gidder.R;
+import net.antoniy.gidder.app.GidderApplication;
+import net.antoniy.gidder.dns.DynamicDNSManager;
 import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.PrefsConstants;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -12,7 +15,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -20,12 +22,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeListener {
 
-	private final static String TAG = DynamicDNSActivity.class.getSimpleName();
+//	private final static String TAG = DynamicDNSActivity.class.getSimpleName();
 	
 	private Spinner providerSpinner;
 	private EditText domainEditText;
@@ -34,9 +36,9 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 	private CheckBox activateCheckBox;
 	private CheckBox showPasswordCheckBox;
 	private LinearLayout mainContainer;
-	private Button saveButton;
+//	private Button saveButton;
 	private SharedPreferences prefs;
-	private View cancelButton;
+//	private View cancelButton;
 
 	@Override
 	protected void setup() {
@@ -53,11 +55,6 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 		String username = prefs.getString(PrefsConstants.DYNDNS_USERNAME.getKey(), "");
 		String password = prefs.getString(PrefsConstants.DYNDNS_PASSWORD.getKey(), "");
 		
-		ActionBar actionBar = (ActionBar) findViewById(R.id.dynamicDnsActionBar);
-		actionBar.setHomeAction(new IntentAction(this, new Intent(C.action.START_HOME_ACTIVITY), R.drawable.ic_actionbar_home));
-        actionBar.addAction(new IntentAction(this, new Intent(C.action.START_PREFERENCE_ACTIVITY), R.drawable.ic_actionbar_settings));
-        actionBar.setTitle("Dynamic DNS");
-        
         providerSpinner = (Spinner) findViewById(R.id.dynamicDnsProvider);
         providerSpinner.setSelection(providerIndex);
         
@@ -99,30 +96,93 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 //            new LayoutAnimationController(set, 0.25f);
 //        mainContainer.setLayoutAnimation(controller);
         
-        saveButton = (Button) findViewById(R.id.dynamicDnsSaveButton);
-        saveButton.setOnClickListener(this);
-        
-        cancelButton = (Button) findViewById(R.id.dynamicDnsCancelButton);
-        cancelButton.setOnClickListener(this);
+//        saveButton = (Button) findViewById(R.id.dynamicDnsSaveButton);
+//        saveButton.setOnClickListener(this);
+//        
+//        cancelButton = (Button) findViewById(R.id.dynamicDnsCancelButton);
+//        cancelButton.setOnClickListener(this);
 	}
 	
 	@Override
-	public void onClick(View v) {
-		int id = v.getId();
-		
-		if(id == R.id.dynamicDnsSaveButton) {
-			boolean isValid = isFieldDataValid();
+	protected void setupActionBar() {
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuItem doneMenuItem = menu.add("Done").setIcon(R.drawable.ic_actionbar_accept);
+		doneMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		doneMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			
-			if(!isValid) {
-				return;
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				processDoneAction();
+				return true;
 			}
 			
-			saveFieldData();
+		});
+		
+		MenuItem updateMenuItem = menu.add("Update").setIcon(R.drawable.ic_actionbar_refresh);
+		updateMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		updateMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				new DynamicDNSManager(DynamicDNSActivity.this).update();
+				((GidderApplication)((Context)DynamicDNSActivity.this).getApplicationContext()).setUpdateDynDnsTime(System.currentTimeMillis());
+				return true;
+			}
+			
+		});
+		
+		MenuItem cancelMenuItem = menu.add("Cancel").setIcon(R.drawable.ic_actionbar_cancel);
+		cancelMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		cancelMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				finish();
+				return false;
+			}
+			
+		});
+		
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == android.R.id.home) {
+			Intent intent = new Intent(C.action.START_HOME_ACTIVITY);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			
 			finish();
-		} else if(id == R.id.dynamicDnsCancelButton) {
-			finish();
+			startActivity(intent);
 		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+//	@Override
+//	public void onClick(View v) {
+//		int id = v.getId();
+//		
+//		if(id == R.id.dynamicDnsSaveButton) {
+//			processDoneAction();
+//		} else if(id == R.id.dynamicDnsCancelButton) {
+//			finish();
+//		}
+//	}
+	
+	private void processDoneAction() {
+		boolean isValid = isFieldDataValid();
+		
+		if(!isValid) {
+			return;
+		}
+		
+		saveFieldData();
+		
+		finish();
 	}
 	
 	@Override

@@ -2,47 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#E0E0E0"
-    android:orientation="vertical">
+    android:background="@drawable/bg_main"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-    	android:layout_height="0dip"
-    	android:layout_weight="1">
-    	
-    	<ListView 
-    	    android:id="@+id/usersListView"
-    		style="@style/general_list_style"
-    		android:layout_width="fill_parent"
-    		android:layout_height="fill_parent"/>
-    	
-    	<TextView 
-    	    android:id="@+id/usersNoUsersTextView"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="fill_parent"
-    	    android:background="@drawable/bg_box"
-    	    android:gravity="center"
-    	    android:layout_margin="5dp"
-    	    android:textColor="@android:color/black"
-    	    android:textSize="20sp"
-    	    android:text="@string/users_no_users_label"
-    	    android:shadowColor="#CCCCCC"
-			android:shadowDx="1.0"
-			android:shadowDy="1.0"
-			android:shadowRadius="1.0"/>
-
-	</LinearLayout>
-
-	<Button 
-	    android:id="@+id/usersAddButton"
-		android:layout_width="200dp"
-		android:layout_height="wrap_content" 
-		style="@style/blue_background_white_shadowed_font"
-		android:gravity="center" 
-		android:layout_gravity="center"
-		android:text="@string/btn_add_user"
-		android:layout_marginLeft="5dp"
-		android:layout_marginRight="5dp"
-		android:layout_marginBottom="5dp"/>
+   	<ListView 
+   	    android:id="@+id/usersListView"
+   		style="@style/general_list_style"
+   		android:layout_width="fill_parent"
+   		android:layout_height="fill_parent"/>
+   	
+   	<TextView 
+   	    android:id="@+id/usersNoUsersTextView"
+   	    android:layout_width="fill_parent"
+   	    android:layout_height="fill_parent"
+   	    android:background="@drawable/bg_content_box"
+   	    android:gravity="center"
+   	    android:layout_margin="5dp"
+   	    android:textColor="@android:color/primary_text_dark"
+   	    android:textSize="16sp"
+   	    android:text="@string/users_no_users_label"
+   	    android:shadowColor="#CCCCCC"
+		android:shadowDx="1.0"
+		android:shadowDy="1.0"
+		android:shadowRadius="1.0"/>
 
 </LinearLayout>

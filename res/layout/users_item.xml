@@ -1,51 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:layout_height="48dp"
+    android:orientation="horizontal">
 
     <ImageView 
         android:id="@+id/usersItemImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"/>
     
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_margin="5dp">
-        
-    	<TextView 
-    	    android:id="@+id/usersItemFullname"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:textColor="@android:color/black" 
-    		android:text="TextView"
-    		android:textSize="20sp" 
-    		
-    		android:shadowColor="#CCCCCC"
-			android:shadowDx="1.0"
-			android:shadowDy="1.0"
-			android:shadowRadius="1.0"/>
-
-    	<TextView 
-    	    android:id="@+id/usersItemUsername"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:textColor="@android:color/black" 
-    		android:text="TextView"
-    		android:textSize="16sp" />
-
-    	<TextView 
-    	    android:id="@+id/usersItemEmail"
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:textColor="@android:color/black" 
-    		android:text="TextView"
-    		android:textSize="16sp" />
-    	
-    </LinearLayout>
+   	<TextView 
+   	    android:id="@+id/usersItemFullname"
+   		android:layout_width="fill_parent"
+   		android:layout_height="wrap_content"
+   		android:textColor="@android:color/primary_text_dark" 
+   		android:textSize="16sp" 
+   		android:layout_gravity="center"
+   		
+   		android:shadowColor="#CCCCCC"
+		android:shadowDx="1.0"
+		android:shadowDy="1.0"
+		android:shadowRadius="1.0"/>
 
 </LinearLayout>

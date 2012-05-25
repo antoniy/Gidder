@@ -1,94 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="48dp"
     android:orientation="horizontal" >
 
     <ImageView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:src="@drawable/ic_repository"
-        android:layout_gravity="top"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"/>
     
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp">
-    
-	    <LinearLayout
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal">
-	    
-		    <LinearLayout
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:orientation="vertical"
-		        android:layout_weight="1">
-		        
-		    	<TextView 
-		    	    android:id="@+id/repositoriesItemName"
-		    		android:layout_width="fill_parent"
-		    		android:layout_height="wrap_content"
-		    		android:textColor="@android:color/black" 
-		    		android:text="TextView"
-		    		android:textSize="20sp" 
-		    		android:singleLine="true"
-		    		android:fadingEdge="horizontal"
-		    		android:fadingEdgeLength="10dp"
-		    		
-		    		android:shadowColor="#CCCCCC"
-					android:shadowDx="1.0"
-					android:shadowDy="1.0"
-					android:shadowRadius="1.0" />
+   	<TextView 
+   	    android:id="@+id/repositoriesItemName"
+   		android:layout_width="fill_parent"
+   		android:layout_height="wrap_content"
+   		android:textColor="@android:color/primary_text_dark" 
+   		android:textSize="16sp" 
+   		android:singleLine="true"
+   		android:fadingEdge="horizontal"
+   		android:fadingEdgeLength="10dp"
+   		android:layout_gravity="center"
+   		
+   		android:shadowColor="#CCCCCC"
+		android:shadowDx="1.0"
+		android:shadowDy="1.0"
+		android:shadowRadius="1.0" />
 		
-		    	<TextView 
-		    	    android:id="@+id/repositoriesItemMapping"
-		    		android:layout_width="fill_parent"
-		    		android:layout_height="wrap_content"
-		    		android:textColor="@android:color/black" 
-		    		android:text="TextView"
-		    		android:textSize="16sp" />
-		    	
-		    	
-		    </LinearLayout>
-	    
-	    	<LinearLayout
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_margin="5dp"
-		        android:gravity="left">
-		    	
-		    	<TextView 
-		    	    android:id="@+id/repositoriesItemUserCount"
-		    		android:layout_width="wrap_content"
-		    		android:layout_height="wrap_content" 
-		    		android:textColor="@android:color/black" 
-		    		android:text="0"
-		    		android:textSize="26sp"
-		    		android:layout_gravity="center_vertical" />
-		
-		    	<ImageView 
-		    	    android:layout_width="24dp"
-		    		android:layout_height="24dp"
-		    		android:src="@drawable/ic_user_inactive"
-		    		android:layout_gravity="center_vertical" />
-		    	
-		    </LinearLayout>
-	    	
-	    </LinearLayout>
-    
-	    <TextView 
-	   	    android:id="@+id/repositoriesItemDescription"
-	   		android:layout_width="fill_parent"
-	   		android:layout_height="wrap_content"
-	   		android:textColor="@android:color/darker_gray" 
-	   		android:text="TextView"
-	   		android:textSize="16sp" 
-	   		android:textStyle="italic" />
-    
-    </LinearLayout>
-    
 </LinearLayout>
