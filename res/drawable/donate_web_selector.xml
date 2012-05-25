@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     
-    <item android:state_pressed="false" android:drawable="@drawable/donate_web_notpressed"/>
-	<item android:state_pressed="true" android:drawable="@drawable/donate_web_pressed"/>
+    <item android:state_pressed="false" android:drawable="@drawable/donate_button_not_pressed"/>
+	<item android:state_pressed="true" android:drawable="@drawable/donate_button_pressed"/>
 	
 </selector>

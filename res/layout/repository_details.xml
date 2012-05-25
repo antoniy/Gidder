@@ -109,7 +109,7 @@
 				android:gravity="left"
 				android:text="@string/permissions"
 				android:textStyle="italic"
-				android:textColor="#0768cb"
+				android:textColor="@android:color/primary_text_dark"
 				android:textSize="18sp"/>
 			
 			<View
