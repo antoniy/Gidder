@@ -185,7 +185,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 			
 		});
 		
-		MenuItem addPermissionMenuItem = menu.add("Add Permission").setIcon(R.drawable.ic_actionbar_add_repository);
+		MenuItem addPermissionMenuItem = menu.add("Add Permission").setIcon(R.drawable.ic_actionbar_add_user);
 		addPermissionMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		addPermissionMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			

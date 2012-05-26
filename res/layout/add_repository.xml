@@ -12,30 +12,35 @@
 		android:background="@drawable/bg_content_box"
 		android:orientation="vertical">
 
-		<TextView android:layout_width="fill_parent"
+		<TextView 
+		    android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/add_repository_name"
 			android:textColor="@android:color/primary_text_dark"
 			android:textSize="16sp"/>
 
-		<EditText android:id="@+id/addRepositoryName"
+		<EditText 
+		    android:id="@+id/addRepositoryName"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:inputType="textCapWords">
-		</EditText>
+			android:inputType="textCapWords"/>
 
-		<TextView android:layout_width="fill_parent"
+		<TextView 
+		    android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/add_repository_mapping"
 			android:textColor="@android:color/primary_text_dark"
 			android:textSize="16sp"
 			android:layout_marginTop="8dp" />
 
-		<EditText android:id="@+id/addRepositoryMapping"
+		<EditText 
+		    android:id="@+id/addRepositoryMapping"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:inputType="text" />
+			android:layout_height="wrap_content" 
+			android:inputType="text" />
 
-		<TextView android:layout_width="fill_parent"
+		<TextView 
+		    android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/add_repository_description"
 			android:textColor="@android:color/primary_text_dark"
@@ -47,5 +52,17 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content" 
 			android:inputType="text" />
+	
+		<CheckBox 
+		    android:id="@+id/addRepositoryActivate"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/add_user_activate"
+			android:textColor="@android:color/primary_text_dark"
+			android:textSize="16sp"
+			android:paddingLeft="48sp"
+			android:checked="true" />
+		
 	</LinearLayout>
+	
 </ScrollView>

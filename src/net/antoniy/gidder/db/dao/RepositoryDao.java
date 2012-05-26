@@ -30,6 +30,18 @@ public class RepositoryDao extends BaseDao<DBHelper, Repository, Integer> {
 		return null;
 	}
 	
+	public Repository queryForMappingAndActive(String mapping) throws SQLException {
+		SelectArg usernameArg = new SelectArg(mapping);
+		
+		List<Repository> repositories = dao.queryBuilder().where().eq(DBC.repositories.column_mapping, usernameArg).and().eq(DBC.repositories.column_active, true).query();
+		
+		if(repositories.size() > 0) {
+			return repositories.get(0);
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public int deleteById(Integer id) throws SQLException {
 		dbHelper.getPermissionDao().deleteByRepositoryId(id);

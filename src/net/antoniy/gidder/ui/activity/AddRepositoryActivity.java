@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,11 +31,10 @@ public class AddRepositoryActivity extends BaseActivity {
 	public final static int REQUEST_CODE_ADD_REPOSITORY = 1;
 	public final static int REQUEST_CODE_EDIT_REPOSITORY = 2;
 	
-//	private Button addEditButton;
-//	private Button cancelButton;
 	private EditText nameEditText;
 	private EditText mappingEditText;
 	private EditText descriptionEditText;
+	private CheckBox activateCheckox;
 	private boolean editMode = false;
 	private int repositoryId;
 	private GitRepositoryDao repositoryDao;
@@ -61,17 +61,6 @@ public class AddRepositoryActivity extends BaseActivity {
 	protected void initComponents(Bundle savedInstanceState) {
 		repositoryDao = new GitRepositoryDao(this);
 		
-//		addEditButton = (Button) findViewById(R.id.addRepositoryBtnAdd);
-//		addEditButton.setOnClickListener(this);
-//		if(editMode) {
-//			addEditButton.setText(R.string.btn_save);
-//		} else {
-//			addEditButton.setText(R.string.btn_add);
-//		}
-//		
-//		cancelButton = (Button) findViewById(R.id.addRepositoryBtnCancel);
-//		cancelButton.setOnClickListener(this);
-		
 		nameEditText = (EditText) findViewById(R.id.addRepositoryName);
 		nameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
@@ -84,6 +73,7 @@ public class AddRepositoryActivity extends BaseActivity {
 		
 		mappingEditText = (EditText) findViewById(R.id.addRepositoryMapping);
 		descriptionEditText = (EditText) findViewById(R.id.addRepositoryDescription);
+		activateCheckox = (CheckBox) findViewById(R.id.addRepositoryActivate);
 		
 		if(editMode) {
 			populateFieldsWithRepositoryData();
@@ -154,6 +144,7 @@ public class AddRepositoryActivity extends BaseActivity {
 		nameEditText.setText(repository.getName());
 		mappingEditText.setText(repository.getMapping());
 		descriptionEditText.setText(repository.getDescription());
+		activateCheckox.setChecked(repository.isActive());
 	}
 
 	private void processRepositoryAction() {
@@ -161,13 +152,26 @@ public class AddRepositoryActivity extends BaseActivity {
 			return;
 		}
 		
-		final String name = nameEditText.getText().toString();
-		final String mapping = mappingEditText.getText().toString();
-		final String description = descriptionEditText.getText().toString();
+		final String name = nameEditText.getText().toString().trim();
+		final String mapping = mappingEditText.getText().toString().trim();
+		final String description = descriptionEditText.getText().toString().trim();
+		final boolean active = activateCheckox.isChecked();
 		
 		if(editMode) {
 			final ProgressDialog dialog = ProgressDialog.show(AddRepositoryActivity.this, "", "Renaming repository...", true);
 			dialog.show();
+			
+			try {
+				Repository checkRepository = getHelper().getRepositoryDao().queryForMapping(mapping);
+				if(checkRepository != null && checkRepository.getId() != repositoryId) {
+					Toast.makeText(AddRepositoryActivity.this, "Repository already exists.", Toast.LENGTH_SHORT).show();
+					return;
+				}
+			} catch (SQLException e) {
+				Log.e(TAG, "SQL problem.", e);
+				Toast.makeText(AddRepositoryActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			
 			new Thread(new Runnable() {
 				public void run() {
@@ -177,7 +181,7 @@ public class AddRepositoryActivity extends BaseActivity {
 						repositoryDao.renameRepository(repositoryId, mapping);
 			
 						// TODO: Fix edit of active and create datetime.
-						getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description, true, System.currentTimeMillis()));
+						getHelper().getRepositoryDao().update(new Repository(repositoryId, name, mapping, description, active, System.currentTimeMillis()));
 						
 						setResult(RESULT_OK, null);
 						finish();
@@ -193,13 +197,25 @@ public class AddRepositoryActivity extends BaseActivity {
 		} else {
 			final ProgressDialog dialog = ProgressDialog.show(AddRepositoryActivity.this, "", "Creating repository...", true);
 			dialog.show();
+			
+			try {
+				Repository checkRepository = getHelper().getRepositoryDao().queryForMapping(mapping);
+				if(checkRepository != null) {
+					Toast.makeText(AddRepositoryActivity.this, "Repository already exists.", Toast.LENGTH_SHORT).show();
+					return;
+				}
+			} catch (SQLException e) {
+				Log.e(TAG, "SQL problem.", e);
+				Toast.makeText(AddRepositoryActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
+				return;
+			}
 
 			new Thread(new Runnable() {
 				public void run() {
 					Looper.prepare();
 					
 					try {
-						getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, true, System.currentTimeMillis()));
+						getHelper().getRepositoryDao().create(new Repository(0, name, mapping, description, active, System.currentTimeMillis()));
 						repositoryDao.createRepository(mapping);
 
 						setResult(RESULT_OK, null);

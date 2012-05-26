@@ -1,152 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_main"
+    android:padding="16dp"
     android:orientation="vertical" >
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        
-    	<LinearLayout
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="wrap_content"
-    	    android:orientation="vertical">
-    	    
-    		<LinearLayout 
-    		    android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-    			android:background="@drawable/bg_content_box" 
-    			android:layout_margin="16dp"
-    			android:orientation="vertical">
-    			
-<!-- 				<TextView  -->
-<!--    		            android:id="@+id/add_user_contacts" -->
-<!--    		            android:layout_width="wrap_content" -->
-<!--    		            android:layout_height="0dip" -->
-<!--    		            style="@style/blue_background_white_shadowed_font" -->
-<!--    		            android:text="@string/use_contact" -->
-<!--    					android:textSize="16sp" -->
-<!--    					android:layout_weight="1" -->
-<!--    					android:layout_gravity="right" -->
-<!--    					android:paddingLeft="16dp" -->
-<!--    		        	android:paddingRight="16dp" -->
-<!--    					android:drawableRight="@drawable/ic_people" -->
-<!--    					android:drawablePadding="5dp" -->
-<!--    					android:gravity="center" -->
-<!--    					android:clickable="true" /> -->
-    		        
-    		    <TextView 
-    		        android:layout_width="fill_parent"
-    		        android:layout_height="wrap_content"
-    		        android:text="@string/add_user_fullname"
-    		        android:textSize="16sp"
-    		        android:textColor="@android:color/primary_text_dark"/>
-    		    
-    			<EditText 
-    			    android:id="@+id/addUserFullname"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				android:inputType="textCapWords">
-    			</EditText>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/bg_content_box" 
+		android:orientation="vertical">
+		
+	    <TextView 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/add_user_fullname"
+	        android:textSize="16sp"
+	        android:textColor="@android:color/primary_text_dark"/>
+	    
+		<EditText 
+		    android:id="@+id/addUserFullname"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:inputType="textCapWords"/>
 
-    			<TextView 
-    		        android:layout_width="fill_parent"
-    		        android:layout_height="wrap_content"
-    		        android:text="@string/add_user_email"
-    		        android:layout_marginTop="8dp"
-    		        android:textSize="16sp"
-    		        android:textColor="@android:color/primary_text_dark"/>
-    			
-    			<EditText 
-    			    android:id="@+id/addUserEmail"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				android:inputType="textEmailAddress"/>
+		<TextView 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/add_user_email"
+	        android:layout_marginTop="8dp"
+	        android:textSize="16sp"
+	        android:textColor="@android:color/primary_text_dark"/>
+		
+		<EditText 
+		    android:id="@+id/addUserEmail"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:inputType="textEmailAddress"/>
 
-    			<TextView 
-    		        android:layout_width="fill_parent"
-    		        android:layout_height="wrap_content"
-    		        android:text="@string/add_user_username"
-    		        android:layout_marginTop="8dp"
-    		        android:textSize="16sp"
-    		        android:textColor="@android:color/primary_text_dark"/>
-    			
-    			<EditText 
-    			    android:id="@+id/addUserUsername"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content" 
-    				android:inputType="text"/>
+		<TextView 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/add_user_username"
+	        android:layout_marginTop="8dp"
+	        android:textSize="16sp"
+	        android:textColor="@android:color/primary_text_dark"/>
+		
+		<EditText 
+		    android:id="@+id/addUserUsername"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:inputType="text"/>
 
-    			<TextView 
-    		        android:layout_width="fill_parent"
-    		        android:layout_height="wrap_content"
-    		        android:text="@string/add_user_password"
-    		        android:layout_marginTop="8dp"
-    		        android:textSize="16sp"
-    		        android:textColor="@android:color/primary_text_dark"/>
-    			
-    			<EditText 
-    			    android:id="@+id/addUserPassword"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				android:lines="1"
-    				android:inputType="textPassword"/>
+		<TextView 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/add_user_password"
+	        android:layout_marginTop="8dp"
+	        android:textSize="16sp"
+	        android:textColor="@android:color/primary_text_dark"/>
+		
+		<EditText 
+		    android:id="@+id/addUserPassword"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:lines="1"
+			android:inputType="textPassword"/>
 
-    		</LinearLayout>
+		<CheckBox 
+		    android:id="@+id/addUserActivate"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/add_user_activate"
+			android:textColor="@android:color/primary_text_dark"
+			android:textSize="16sp"
+			android:paddingLeft="48sp"
+			android:checked="true" />
 
-    		<LinearLayout 
-    		    android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-    			android:background="@drawable/bg_content_box" 
-    			android:layout_marginLeft="16dp"
-    			android:layout_marginRight="16dp"
-    			android:layout_marginBottom="16dp"
-    			android:orientation="vertical">
-
-    			<CheckBox 
-    			    android:id="@+id/addUserActivate"
-    				android:layout_width="fill_parent"
-    				android:layout_height="wrap_content"
-    				android:text="@string/add_user_activate"
-    				android:textColor="@android:color/primary_text_dark"
-    				android:textSize="16sp"
-    				android:paddingLeft="48sp"
-    				android:checked="true" />
-
-    		</LinearLayout>
-
-<!--     		<LinearLayout  -->
-<!--     		    android:layout_width="fill_parent" -->
-<!--     			android:layout_height="wrap_content" -->
-<!--     			android:orientation="horizontal" -->
-<!--     			android:background="@android:color/transparent" -->
-<!--     			android:gravity="bottom" -->
-<!--     			android:layout_marginBottom="16dp" -->
-<!--     			android:layout_marginLeft="16dp" -->
-<!--     			android:layout_marginRight="16dp"> -->
-
-<!--     			<Button  -->
-<!--     			    android:id="@+id/addUserBtnAddEdit" -->
-<!--     				android:layout_width="fill_parent" -->
-<!--     				android:layout_height="wrap_content"  -->
-<!--     				android:layout_weight="1" -->
-<!--     				style="@style/blue_background_white_shadowed_font" -->
-<!--     				android:layout_marginRight="8dp" /> -->
-
-<!--     			<Button  -->
-<!--     			    android:id="@+id/addUserBtnCancel" -->
-<!--     				android:layout_width="fill_parent" -->
-<!--     				android:layout_height="wrap_content" -->
-<!--     				style="@style/blue_background_white_shadowed_font" -->
-<!--     				android:text="@string/btn_cancel" -->
-<!--     				android:layout_weight="1"/> -->
-
-<!--     		</LinearLayout> -->
-    		
-    	</LinearLayout>
+   	</LinearLayout>
     	
-    </ScrollView>
-
-</LinearLayout>
+</ScrollView>

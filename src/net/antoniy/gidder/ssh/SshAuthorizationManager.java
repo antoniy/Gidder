@@ -36,7 +36,7 @@ public class SshAuthorizationManager {
 			}
 			
 			// Query for repository with specified mapping
-			Repository repository = dbHelper.getRepositoryDao().queryForMapping(repositoryMapping);
+			Repository repository = dbHelper.getRepositoryDao().queryForMappingAndActive(repositoryMapping);
 			
 			if(repository == null) {
 				throw new SshAuthorizationException("There should exactly one record in the database for repository mapping: " + repositoryMapping);

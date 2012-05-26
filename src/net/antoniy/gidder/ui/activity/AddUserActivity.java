@@ -170,32 +170,50 @@ public class AddUserActivity extends BaseActivity {
 			return;
 		}
 		
-		try {
-			User checkUser = getHelper().getUserDao().queryForUsername(usernameEditText.getText().toString().trim());
-			if(checkUser != null) {
-				Toast.makeText(AddUserActivity.this, "Username already exists.", Toast.LENGTH_SHORT).show();
+//		try {
+//			User checkUser = getHelper().getUserDao().queryForUsername(usernameEditText.getText().toString().trim());
+//			if(checkUser != null) {
+//				Toast.makeText(AddUserActivity.this, "Username already exists.", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
+//			
+//			checkUser = getHelper().getUserDao().queryForEmail(emailEditText.getText().toString().trim());
+//			if(checkUser != null) {
+//				Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
+//		} catch (SQLException e) {
+//			Log.e(TAG, "SQL problem.", e);
+//			Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
+//			return;
+//		}
+		
+		String fullname = fullnameEditText.getText().toString().trim();
+		String email = emailEditText.getText().toString().trim();
+		String username = usernameEditText.getText().toString().trim();
+		String password = passwordEditText.getText().toString().trim();
+		boolean active = activateCheckox.isChecked();
+		
+		if(editMode) {
+			try {
+				User checkUser = getHelper().getUserDao().queryForUsername(usernameEditText.getText().toString().trim());
+				if(checkUser != null && checkUser.getId() != userId) {
+					Toast.makeText(AddUserActivity.this, "Username already exists.", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+				checkUser = getHelper().getUserDao().queryForEmail(emailEditText.getText().toString().trim());
+				if(checkUser != null && checkUser.getId() != userId) {
+					Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
+					return;
+				}
+			} catch (SQLException e) {
+				Log.e(TAG, "SQL problem.", e);
+				Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
-			checkUser = getHelper().getUserDao().queryForEmail(emailEditText.getText().toString().trim());
-			if(checkUser != null) {
-				Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
-				return;
-			}
-		} catch (SQLException e) {
-			Log.e(TAG, "SQL problem.", e);
-			Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
-			return;
-		}
-		
-		String fullname = fullnameEditText.getText().toString();
-		String email = emailEditText.getText().toString();
-		String username = usernameEditText.getText().toString();
-		String password = passwordEditText.getText().toString();
-		boolean active = activateCheckox.isChecked();
-		
-		try {
-			if(editMode) {
+			try {
 				User user = getHelper().getUserDao().queryForId(userId);
 				user.setFullname(fullname);
 				user.setEmail(email);
@@ -207,13 +225,37 @@ public class AddUserActivity extends BaseActivity {
 				user.setActive(active);
 				
 				getHelper().getUserDao().update(user);
-			} else {
-				getHelper().getUserDao().create(new User(0, fullname, email, username, GidderCommons.generateSha1(password), active, System.currentTimeMillis()));
+			} catch (SQLException e) {
+				Log.e(TAG, "Problem when edit user.", e);
+				finish();
+				return;
 			}
-		} catch (SQLException e) {
-			Log.e(TAG, "Problem when add new user.", e);
-			finish();
-			return;
+		} else {
+			try {
+				User checkUser = getHelper().getUserDao().queryForUsername(usernameEditText.getText().toString().trim());
+				if(checkUser != null) {
+					Toast.makeText(AddUserActivity.this, "Username already exists.", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+				checkUser = getHelper().getUserDao().queryForEmail(emailEditText.getText().toString().trim());
+				if(checkUser != null) {
+					Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
+					return;
+				}
+			} catch (SQLException e) {
+				Log.e(TAG, "SQL problem.", e);
+				Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			try {
+				getHelper().getUserDao().create(new User(0, fullname, email, username, GidderCommons.generateSha1(password), active, System.currentTimeMillis()));
+			} catch (SQLException e) {
+				Log.e(TAG, "Problem when add user.", e);
+				finish();
+				return;
+			}
 		}
 		
 		setResult(RESULT_OK, null);
