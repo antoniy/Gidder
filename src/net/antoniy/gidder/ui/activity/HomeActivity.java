@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -228,28 +227,24 @@ public class HomeActivity extends BaseActivity {
 		if(id == R.id.homeBtnStartStop) {
 			boolean isSshServiceRunning = GidderCommons.isSshServiceRunning(HomeActivity.this);
 			
-			Intent intent = new Intent(HomeActivity.this, SSHDaemonService.class);
+			Intent intent = new Intent(C.action.START_SSH_SERVER);
 			if(!isSshServiceRunning) {
-				ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-				NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-//				if (!wifi.isConnected()) {
 				if (!GidderCommons.isWifiReady(HomeActivity.this)) {
 				    return;
 				}
 				
 				startService(intent);
 				
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-				boolean isStatusBarNotificationEnabled = prefs.getBoolean(PrefsConstants.STATUSBAR_NOTIFICATION.getKey(), 
-						"true".equals(PrefsConstants.STATUSBAR_NOTIFICATION.getDefaultValue()) ? true : false);
-				
-				if(isStatusBarNotificationEnabled) {
-					GidderCommons.makeStatusBarNotification(HomeActivity.this);
-				}
+//				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+//				boolean isStatusBarNotificationEnabled = prefs.getBoolean(PrefsConstants.STATUSBAR_NOTIFICATION.getKey(), 
+//						"true".equals(PrefsConstants.STATUSBAR_NOTIFICATION.getDefaultValue()) ? true : false);
+//				
+//				if(isStatusBarNotificationEnabled) {
+//					GidderCommons.makeStatusBarNotification(HomeActivity.this);
+//				}
 			} else {
 				stopService(intent);
-				GidderCommons.stopStatusBarNotification(HomeActivity.this);
+//				GidderCommons.stopStatusBarNotification(HomeActivity.this);
 			}
 		}
 	}

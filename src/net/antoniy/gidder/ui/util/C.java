@@ -17,5 +17,7 @@ public abstract class C {
 		public final static String SPLASH_SCREEN_TIMEOUT = "net.antoniy.gidder.SPLASH_SCREEN_TIMEOUT";
 		public final static String LEAVE_DONATE_ACTIVITY = "net.antoniy.gidder.LEAVE_DONATE_ACTIVITY";
 		public final static String START_SETUP_ACTIVITY = "net.antoniy.gidder.START_SETUP_ACTIVITY";
+		public final static String START_SSH_SERVER = "net.antoniy.gidder.START_SSH_SERVER";
+		public final static String TOGGLE_SSH_SERVER = "net.antoniy.gidder.TOGGLE_SSH_SERVER";
 	}
 }

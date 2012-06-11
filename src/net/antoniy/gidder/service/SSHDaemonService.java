@@ -3,6 +3,7 @@ package net.antoniy.gidder.service;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.DBHelper;
 import net.antoniy.gidder.db.entity.User;
 import net.antoniy.gidder.ssh.GidderCommandFactory;
@@ -11,17 +12,21 @@ import net.antoniy.gidder.ssh.NoShell;
 import net.antoniy.gidder.ui.util.C;
 import net.antoniy.gidder.ui.util.GidderCommons;
 import net.antoniy.gidder.ui.util.PrefsConstants;
+import net.antoniy.gidder.ui.widget.ToggleAppWidgetProvider;
 
 import org.apache.sshd.SshServer;
 import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 public class SSHDaemonService extends Service implements PasswordAuthenticator {
 	private final static String TAG = SSHDaemonService.class.getSimpleName();
@@ -62,6 +67,9 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 			if(sshServer != null) {
 				sshServer.stop(true);
 				sendBroadcast(new Intent(C.action.SSHD_STOPPED));
+				
+				toggleWidgetState(false);
+				GidderCommons.stopStatusBarNotification(this);
 			}
 			Log.i(TAG, "SSHd stopped!");
 		} catch (InterruptedException e) {
@@ -91,12 +99,31 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 		try {
 			sshServer.start();
 			sendBroadcast(new Intent(C.action.SSHD_STARTED));
+			
+			toggleWidgetState(true);
+			
+			boolean isStatusBarNotificationEnabled = prefs.getBoolean(PrefsConstants.STATUSBAR_NOTIFICATION.getKey(), 
+					"true".equals(PrefsConstants.STATUSBAR_NOTIFICATION.getDefaultValue()) ? true : false);
+			
+			if(isStatusBarNotificationEnabled) {
+				GidderCommons.makeStatusBarNotification(this);
+			}
+			
 			Log.i(TAG, "SSHd started!");
 		} catch (IOException e) {
 			Log.e(TAG, "Problem when starting SSHd.", e);
 		}
 
 		return START_STICKY;
+	}
+	
+	private void toggleWidgetState(boolean runningState) {
+		RemoteViews widgetViews = new RemoteViews(getPackageName(), R.layout.toggle_widget);
+		widgetViews.setImageViewResource(R.id.toggleWidgetButton, runningState ? R.drawable.ic_widget_active : R.drawable.ic_widget_inactive);
+		
+		ComponentName widget = new ComponentName(this, ToggleAppWidgetProvider.class);
+		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+		appWidgetManager.updateAppWidget(widget, widgetViews);
 	}
 
 	@Override
