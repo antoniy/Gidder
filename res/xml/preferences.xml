@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory android:title="@string/general_settings">
         
 		<CheckBoxPreference 
 		    android:key="statusbar_notification"
@@ -17,19 +17,19 @@
 		
     </PreferenceCategory>
     
-    <PreferenceCategory android:title="SSH">
+    <PreferenceCategory android:title="@string/server_settings">
         
         <EditTextPreference 
             android:key="ssh_port"
             android:title="@string/settings_ssh_server_port"
             android:defaultValue="2222"/>
         
-		<CheckBoxPreference 
-		    android:key="ssh_service_startup"
-		    android:title="@string/settings_start_on_boot"
-		    android:summaryOn="@string/click_to_disable"
-		    android:summaryOff="@string/click_to_enable"
-		    android:defaultValue="false"/>
+<!-- 		<CheckBoxPreference  -->
+<!-- 		    android:key="ssh_service_startup" -->
+<!-- 		    android:title="@string/settings_start_on_boot" -->
+<!-- 		    android:summaryOn="@string/click_to_disable" -->
+<!-- 		    android:summaryOff="@string/click_to_enable" -->
+<!-- 		    android:defaultValue="false"/> -->
 		
 		<CheckBoxPreference 
 		    android:key="autostart_on_wifi_on"

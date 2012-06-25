@@ -60,4 +60,7 @@
         <string name="delete">Delete</string>
         <string name="repository_details">Repository details</string>
         <string name="no_users">No users</string>
+        <string name="add_repository_activate">Activate repository</string>
+        <string name="server_settings">Server Settings</string>
+        <string name="general_settings">General Settings</string>
 </resources>

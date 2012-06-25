@@ -65,7 +65,7 @@ public class GidderPreferencesActivity extends SherlockPreferenceActivity implem
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if(key.equals("ssh_port")) {
+		if(key.equals(PrefsConstants.SSH_PORT)) {
 			sshPortPreferences.setSummary("SSH server port: " + sharedPreferences.getString(
 					PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue()));
 		} else if(key.equals("ssh_repositories_folder")) {

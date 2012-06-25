@@ -1,5 +1,6 @@
 package net.antoniy.gidder.ui.activity;
 
+import net.antoniy.gidder.R;
 import net.antoniy.gidder.db.DBHelper;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,8 +22,9 @@ public abstract class BaseDialogFragment extends SherlockDialogFragment {
 //		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 //		setTheme(android.R.style.Theme_DeviceDefault_Light);
 //		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar_ForceOverflow);
-//		setTheme(R.style.Theme_Styled);
+//		setTheme(R.style.Theme_Styled_Dialog);
 //		setTheme(R.style.Theme_Sherlock);
+		setStyle(STYLE_NORMAL, R.style.Theme_Styled_Dialog);
 		
 //		System.setProperty("java.net.preferIPv6Addresses", "false");
 //      getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,  WindowManager.LayoutParams.FLAG_FULLSCREEN);

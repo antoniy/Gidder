@@ -242,15 +242,20 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 		}
 		
 		nameTextView.setText(repository.getName());
-		descriptionTextView.setText(repository.getDescription());
+		if(repository.getDescription() == null || "".equals(repository.getDescription().trim())) {
+			descriptionTextView.setVisibility(View.GONE);
+		} else {
+			descriptionTextView.setVisibility(View.VISIBLE);
+			descriptionTextView.setText(repository.getDescription());
+		}
 		mappingTextView.setText("/" + repository.getMapping() + ".git");
 		
 		if(repository.isActive()) {
 			activateImageView.setImageResource(R.drawable.ic_activated);
-			repositoryPhotoImageView.setImageResource(R.drawable.ic_user_active);
+//			repositoryPhotoImageView.setImageResource(R.drawable.ic_user_active);
 		} else {
 			activateImageView.setImageResource(R.drawable.ic_deactivated);
-			repositoryPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
+//			repositoryPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
 		}
 	}
 	
@@ -356,7 +361,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 			
 			if(!permission.isReadOnly()) {
 				menu.add("Pull")
-					.setIcon(R.drawable.ic_actionbar_pull)
+//					.setIcon(R.drawable.ic_actionbar_pull)
 	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						
@@ -379,7 +384,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 					});
 			} else {
 				menu.add("Pull & Push")
-					.setIcon(R.drawable.ic_actionbar_pull_push)
+//					.setIcon(R.drawable.ic_actionbar_pull_push)
 	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						

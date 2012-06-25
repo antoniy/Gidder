@@ -57,7 +57,7 @@
 		    android:id="@+id/addRepositoryActivate"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/add_user_activate"
+			android:text="@string/add_repository_activate"
 			android:textColor="@android:color/primary_text_dark"
 			android:textSize="16sp"
 			android:paddingLeft="48sp"

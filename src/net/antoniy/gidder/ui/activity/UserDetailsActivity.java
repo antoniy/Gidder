@@ -246,10 +246,10 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		usernameTextView.setText(user.getUsername());
 		if(user.isActive()) {
 			activateImageView.setImageResource(R.drawable.ic_activated);
-			userPhotoImageView.setImageResource(R.drawable.ic_user_active);
+//			userPhotoImageView.setImageResource(R.drawable.ic_user_active);
 		} else {
 			activateImageView.setImageResource(R.drawable.ic_deactivated);
-			userPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
+//			userPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
 		}
 	}
 	
@@ -356,7 +356,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			
 			if(!permission.isReadOnly()) {
 				menu.add("Pull")
-					.setIcon(R.drawable.ic_actionbar_pull)
+//					.setIcon(R.drawable.ic_actionbar_pull)
 	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						
@@ -379,7 +379,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 					});
 			} else {
 				menu.add("Pull & Push")
-					.setIcon(R.drawable.ic_actionbar_pull_push)
+//					.setIcon(R.drawable.ic_actionbar_pull_push)
 	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						
