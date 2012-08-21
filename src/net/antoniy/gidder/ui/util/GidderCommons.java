@@ -152,7 +152,7 @@ public abstract class GidderCommons {
 	}
 	
 	public static void makeStatusBarNotification(Context context) {
-		Notification notification = new Notification(R.drawable.ic_launcher, "SSH server started!", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.ic_stat_notification, "SSH server started!", System.currentTimeMillis());
 		notification.defaults |= Notification.DEFAULT_SOUND;
 //		notification.defaults |= Notification.DEFAULT_VIBRATE;
 //		notification.flags = Notification.FLAG_AUTO_CANCEL;
