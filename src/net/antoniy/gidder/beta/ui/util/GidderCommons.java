@@ -18,6 +18,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
@@ -152,18 +153,22 @@ public abstract class GidderCommons {
 	}
 	
 	public static void makeStatusBarNotification(Context context) {
-		Notification notification = new Notification(R.drawable.ic_stat_notification, "SSH server started!", System.currentTimeMillis());
-		notification.defaults |= Notification.DEFAULT_SOUND;
-//		notification.defaults |= Notification.DEFAULT_VIBRATE;
-//		notification.flags = Notification.FLAG_AUTO_CANCEL;
-		notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-		
 		Intent notificationIntent = new Intent(C.action.START_HOME_ACTIVITY);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, 0);
 
 		String currentIpAddress = GidderCommons.getCurrentWifiIpAddress(context);
 		String sshPort = PreferenceManager.getDefaultSharedPreferences(context).getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
-		notification.setLatestEventInfo(context, "SSH server is running", currentIpAddress + ":" + sshPort, contentIntent);
+		
+		Notification notification = new NotificationCompat.Builder(context)
+				.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
+				.setTicker("SSH server started!")
+				.setContentIntent(contentIntent)
+				.setSmallIcon(R.drawable.ic_stat_notification)
+				.setContentText(currentIpAddress + ":" + sshPort)
+				.setContentTitle("SSH server is running")
+				.setOngoing(true)
+				.setWhen(System.currentTimeMillis())
+				.build();
 		
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(SSH_STARTED_NOTIFICATION_ID, notification);
