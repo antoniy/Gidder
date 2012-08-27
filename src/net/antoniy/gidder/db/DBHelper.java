@@ -8,7 +8,6 @@ import net.antoniy.gidder.db.dao.UserDao;
 import net.antoniy.gidder.db.entity.Permission;
 import net.antoniy.gidder.db.entity.Repository;
 import net.antoniy.gidder.db.entity.User;
-import net.antoniy.gidder.ui.util.GidderCommons;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
