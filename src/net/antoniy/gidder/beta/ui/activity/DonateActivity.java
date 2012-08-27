@@ -161,7 +161,7 @@ public class DonateActivity extends BaseActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuItem continueMenuItem = menu.add("Continue");
+		MenuItem continueMenuItem = menu.add("Skip");
 		continueMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		continueMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			

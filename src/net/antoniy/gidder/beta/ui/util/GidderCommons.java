@@ -157,10 +157,11 @@ public abstract class GidderCommons {
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, 0);
 
 		String currentIpAddress = GidderCommons.getCurrentWifiIpAddress(context);
-		String sshPort = PreferenceManager.getDefaultSharedPreferences(context).getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
+		String sshPort = PreferenceManager.getDefaultSharedPreferences(context)
+				.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
 		
 		Notification notification = new NotificationCompat.Builder(context)
-				.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
+				.setDefaults(Notification.DEFAULT_SOUND)
 				.setTicker("SSH server started!")
 				.setContentIntent(contentIntent)
 				.setSmallIcon(R.drawable.ic_stat_notification)
