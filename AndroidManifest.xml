@@ -21,77 +21,70 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Styled" >
         
-        <activity android:name=".ui.activity.SplashScreenActivity" android:screenOrientation="portrait" >
+        <activity android:name=".ui.activity.SplashScreenActivity" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.AddUserActivity" android:uiOptions="splitActionBarWhenNarrow">
+        <activity android:name=".ui.activity.AddUserActivity" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_USER_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.AddRepositoryActivity" android:uiOptions="splitActionBarWhenNarrow">
+        <activity android:name=".ui.activity.AddRepositoryActivity" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.RepositoryPermissionsActivity" android:screenOrientation="portrait">
-            <intent-filter >
-                <action android:name="net.antoniy.gidder.START_REPOSITORY_PERMISSIONS_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-		</activity>
-		
-        <activity android:name=".ui.activity.GidderPreferencesActivity" android:label="Settings">
+        <activity android:name=".ui.activity.GidderPreferencesActivity" android:label="Settings" android:exported="false">
             <intent-filter>
             	<action android:name="net.antoniy.gidder.START_PREFERENCE_ACTIVITY"/>
             	<category android:name="android.intent.category.DEFAULT"/>    
 			</intent-filter>
         </activity>
 		
-        <activity android:name=".ui.activity.HomeActivity" android:uiOptions="splitActionBarWhenNarrow">
+        <activity android:name=".ui.activity.HomeActivity" android:screenOrientation="portrait" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_HOME_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.DynamicDNSActivity" android:label="DNS" android:uiOptions="splitActionBarWhenNarrow">
+        <activity android:name=".ui.activity.DynamicDNSActivity" android:label="DNS" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_DYNAMIC_DNS_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.UserDetailsActivity" android:label="User Details" android:uiOptions="splitActionBarWhenNarrow">
+        <activity android:name=".ui.activity.UserDetailsActivity" android:label="User Details" android:uiOptions="splitActionBarWhenNarrow" android:screenOrientation="portrait" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_USER_DETAILS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.RepositoryDetailsActivity" android:label="Repository Details" android:uiOptions="splitActionBarWhenNarrow">
+        <activity android:name=".ui.activity.RepositoryDetailsActivity" android:label="Repository Details" android:uiOptions="splitActionBarWhenNarrow" android:screenOrientation="portrait" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_REPOSITORY_DETAILS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.DonateActivity" android:uiOptions="splitActionBarWhenNarrow">
+        <activity android:name=".ui.activity.DonateActivity" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_DONATE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".ui.activity.SetupActivity" android:label="Setup" android:uiOptions="splitActionBarWhenNarrow">
+        <activity android:name=".ui.activity.SetupActivity" android:label="Setup" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.START_SETUP_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -122,14 +115,14 @@
         	</intent-filter>    
 		</receiver>
 		
-        <receiver android:name=".ui.widget.ToggleAppWidgetProvider">
+        <receiver android:name=".ui.widget.ToggleAppWidgetProvider" android:exported="false">
             <intent-filter >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/toggle_appwidget_info"/>
         </receiver>
         
-        <receiver android:name=".receiver.ToggleSSHServerBroadcastReceiver">
+        <receiver android:name=".receiver.ToggleSSHServerBroadcastReceiver" android:exported="false">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.TOGGLE_SSH_SERVER"/>
             </intent-filter>

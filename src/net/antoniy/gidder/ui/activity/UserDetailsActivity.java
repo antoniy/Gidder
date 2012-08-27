@@ -46,7 +46,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	private ImageView activateImageView;
 	private TextView noPermissionsTextView;
 	private ListView permissionsListView;
-	private ImageView userPhotoImageView;
+//	private ImageView userPhotoImageView;
 	private BasePermissionListAdapter permissionsListAdapter;
 	
 	@Override
@@ -57,7 +57,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			userId = getIntent().getExtras().getInt("userId", -1);
 			
 			if(userId <= 0) {
-				Toast.makeText(this, "No user ID specified!", Toast.LENGTH_SHORT);
+				Toast.makeText(this, "No user ID specified!", Toast.LENGTH_SHORT).show();
 				finish();
 			}
 		}
@@ -69,7 +69,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		emailTextView = (TextView) findViewById(R.id.userDetailsMail);
 		usernameTextView = (TextView) findViewById(R.id.userDetailsUsername);
 		activateImageView = (ImageView) findViewById(R.id.userDetailsActive);
-		userPhotoImageView = (ImageView) findViewById(R.id.userDetailsPhoto);
+//		userPhotoImageView = (ImageView) findViewById(R.id.userDetailsPhoto);
 		
 		noPermissionsTextView = (TextView) findViewById(R.id.userDetailsNoPermissions);
 		
@@ -196,7 +196,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 					repositoryListFragment.show(getSupportFragmentManager(), "userPermissions");
 				} catch (SQLException e) {
 					Log.e(TAG, "Couldn't retrieve permissions.", e);
-					Toast.makeText(UserDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT);
+					Toast.makeText(UserDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT).show();
 				}
 				return true;
 			}
@@ -289,7 +289,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			getHelper().getPermissionDao().create(permission);
 		} catch (SQLException e) {
 			Log.e(TAG, "Problem creating new user permission.", e);
-			Toast.makeText(UserDetailsActivity.this, "Problem creating new user permission.", Toast.LENGTH_SHORT);
+			Toast.makeText(UserDetailsActivity.this, "Problem creating new user permission.", Toast.LENGTH_SHORT).show();
 		}
 		
 		loadPermissionsListContent();
@@ -457,6 +457,7 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			
 			return root;
 		}
+		
 	}
 	
 }

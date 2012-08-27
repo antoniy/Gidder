@@ -10,7 +10,7 @@ import net.antoniy.gidder.exception.SshAuthorizationException;
 import android.content.Context;
 
 public class SshAuthorizationManager {
-	private final static String TAG = SshAuthorizationManager.class.getSimpleName();
+//	private final static String TAG = SshAuthorizationManager.class.getSimpleName();
 	
 	private DBHelper dbHelper;
 

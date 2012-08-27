@@ -46,7 +46,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 	private ImageView activateImageView;
 	private TextView noPermissionsTextView;
 	private ListView permissionsListView;
-	private ImageView repositoryPhotoImageView;
+//	private ImageView repositoryPhotoImageView;
 	private BasePermissionListAdapter permissionsListAdapter;
 	
 	@Override
@@ -57,7 +57,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 			repositoryId = getIntent().getExtras().getInt("repositoryId", -1);
 			
 			if(repositoryId <= 0) {
-				Toast.makeText(this, "No repository ID specified!", Toast.LENGTH_SHORT);
+				Toast.makeText(this, "No repository ID specified!", Toast.LENGTH_SHORT).show();
 				finish();
 			}
 		}
@@ -75,7 +75,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 		descriptionTextView = (TextView) findViewById(R.id.repositoryDetailsDescription);
 		mappingTextView = (TextView) findViewById(R.id.repositoryDetailsMapping);
 		activateImageView = (ImageView) findViewById(R.id.repositoryDetailsActive);
-		repositoryPhotoImageView = (ImageView) findViewById(R.id.repositoryDetailsPhoto);
+//		repositoryPhotoImageView = (ImageView) findViewById(R.id.repositoryDetailsPhoto);
 		
 		noPermissionsTextView = (TextView) findViewById(R.id.repositoryDetailsNoPermissions);
 		
@@ -171,7 +171,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 		});
 		
 		MenuItem editMenuItem = menu.add("Edit").setIcon(R.drawable.ic_actionbar_edit);
-		editMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		editMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		editMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			
 			@Override
@@ -197,7 +197,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 					userListFragment.show(getSupportFragmentManager(), "repositoryPermissions");
 				} catch (SQLException e) {
 					Log.e(TAG, "Couldn't retrieve permissions.", e);
-					Toast.makeText(RepositoryDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT);
+					Toast.makeText(RepositoryDetailsActivity.this, "Couldn't retrieve permissions.", Toast.LENGTH_SHORT).show();
 				}
 				return true;
 			}
@@ -294,7 +294,7 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 			getHelper().getPermissionDao().create(permission);
 		} catch (SQLException e) {
 			Log.e(TAG, "Problem creating new repository permission.", e);
-			Toast.makeText(RepositoryDetailsActivity.this, "Problem creating new repository permission.", Toast.LENGTH_SHORT);
+			Toast.makeText(RepositoryDetailsActivity.this, "Problem creating new repository permission.", Toast.LENGTH_SHORT).show();
 		}
 		
 		loadPermissionsListContent();

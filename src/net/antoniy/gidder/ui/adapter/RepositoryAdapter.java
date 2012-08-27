@@ -17,10 +17,10 @@ public class RepositoryAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<Repository> items;
 	private final int itemResourceId;
-	private final Context context;
+//	private final Context context;
 	
 	public RepositoryAdapter(Context context, int textViewResourceId, List<Repository> items) {
-		this.context = context;
+//		this.context = context;
 		this.itemResourceId = textViewResourceId;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.items = items;

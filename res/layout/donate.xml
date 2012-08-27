@@ -11,46 +11,46 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_content_box">
         
-        <TextView 
-            android:id="@+id/donateHint"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/donateHint"
-            android:textColor="@android:color/primary_text_dark"
-	  		android:textSize="16sp"
-			android:text="Hint"/>
+<!--         <TextView  -->
+<!--             android:id="@+id/donateHint" -->
+<!--             android:layout_width="fill_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_below="@+id/donateHint" -->
+<!--             android:textColor="@android:color/primary_text_dark" -->
+<!-- 	  		android:textSize="16sp" -->
+<!-- 			android:text="Hint"/> -->
         
         <TextView 
-            android:id="@+id/donateHintContent"
+            android:id="@+id/donateText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/donateHint"
             android:textColor="@android:color/secondary_text_dark"
 	  		android:textSize="14sp"
-			android:text="There are two ways to make your donation. First - in-app PayPal framework which is entirely build by PayPal and my application just use it as library for easy payment. Second - standad donation using a web browser. There are two options because I understand some people (like myself) will feel insecure using in-app payment."/>
+	  		android:text="Thank you for your donation! Your support really keeps me motivated to continue working on the project and push it further. Hope you enjoy using it and I also hope it is as useful to you as it is to me."/>
+			<!-- android:text="There are two ways to make your donation. First - in-app PayPal framework which is entirely build by PayPal and my application just use it as library for easy payment. Second - standad donation using a web browser. There are two options because I understand some people (like myself) will feel insecure using in-app payment."/> -->
         
         <TextView 
-            android:id="@+id/donateAmountLabel"
+            android:id="@+id/donateAuthor"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/donateHintContent"
+            android:layout_below="@+id/donateText"
             android:layout_marginTop="8dp"
-            android:textColor="@android:color/primary_text_dark"
-	  		android:textSize="16sp"
-			android:text="Amount (USD)"/>
+            android:textColor="@android:color/secondary_text_dark"
+	  		android:textSize="14sp"
+			android:text="~Antoniy Chonkov~"/>
         
-        <EditText 
-            android:id="@+id/donateAmount"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/donateAmountLabel"
-            android:inputType="numberDecimal"/>
+<!--         <EditText  -->
+<!--             android:id="@+id/donateAmount" -->
+<!--             android:layout_width="fill_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_below="@+id/donateAmountLabel" -->
+<!--             android:inputType="numberDecimal"/> -->
         
         <RelativeLayout 
             android:id="@+id/donateContent"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/donateAmount"
+            android:layout_below="@+id/donateAuthor"
             android:layout_marginTop="16dp"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"/>

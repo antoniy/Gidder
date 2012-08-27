@@ -10,10 +10,10 @@
 		    android:summaryOff="@string/click_to_enable"
 		    android:defaultValue="true"/>
 		
-        <EditTextPreference 
-            android:key="git_repositories_dir"
-            android:title="@string/settings_git_repositories_directory"
-            android:defaultValue="/sdcard/gidder/repositories"/>
+<!--         <EditTextPreference  -->
+<!--             android:key="git_repositories_dir" -->
+<!--             android:title="@string/settings_git_repositories_directory" -->
+<!--             android:defaultValue="/sdcard/gidder/repositories"/> -->
 		
     </PreferenceCategory>
     
@@ -34,15 +34,15 @@
 		<CheckBoxPreference 
 		    android:key="autostart_on_wifi_on"
 		    android:title="Autostart"
-		    android:summaryOn="Autostart on wifi ON"
-		    android:summaryOff="Autostart on wifi ON"
+		    android:summaryOn="Autostart on WiFi ON"
+		    android:summaryOff="Autostart on WiFi ON"
 		    android:defaultValue="true"/>
         
         <CheckBoxPreference 
 		    android:key="autostop_on_wifi_off"
 		    android:title="Autostop"
-		    android:summaryOn="Autostop on wifi OFF"
-		    android:summaryOff="Autostop on wifi OFF"
+		    android:summaryOn="Autostop on WiFi OFF"
+		    android:summaryOff="Autostop on WiFi OFF"
 		    android:defaultValue="true"/>
 		
     </PreferenceCategory>

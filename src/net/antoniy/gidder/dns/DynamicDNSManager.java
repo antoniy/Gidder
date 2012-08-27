@@ -40,7 +40,7 @@ public class DynamicDNSManager {
 		} 
 
 		if("".equals(username.trim()) || "".equals(password.trim()) || "".equals(hostname.trim())) {
-			Toast.makeText(context, "Dynamic DNS information is NOT valid!", Toast.LENGTH_SHORT);
+			Toast.makeText(context, "Dynamic DNS information is NOT valid!", Toast.LENGTH_SHORT).show();
 		}
 		
 		final String address = GidderCommons.getCurrentWifiIpAddress(context);
@@ -70,8 +70,8 @@ public class DynamicDNSManager {
 					strategy.update(
 							URLEncoder.encode(hostname, "UTF-8"), 
 							URLEncoder.encode(address, "UTF-8"), 
-							URLEncoder.encode(username), 
-							URLEncoder.encode(password));
+							URLEncoder.encode(username, "UTF-8"),
+							URLEncoder.encode(password, "UTF-8"));
 				} catch (UnsupportedEncodingException e) {
 					Log.e(TAG, "Problem using UTF-8 encoding.", e);
 				}
@@ -84,8 +84,8 @@ public class DynamicDNSManager {
 			strategy.update(
 					URLEncoder.encode(hostname, "UTF-8"), 
 					URLEncoder.encode(address, "UTF-8"), 
-					URLEncoder.encode(username), 
-					URLEncoder.encode(password));
+					URLEncoder.encode(username, "UTF-8"), 
+					URLEncoder.encode(password, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			Log.e(TAG, "Problem using UTF-8 encoding.", e);
 		}

@@ -49,19 +49,19 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			Log.e(TAG, "Unable to create datbases", e);
 		}
 		
-		try {
-			initDevelopmentData(database);
-		} catch (SQLException e) {
-			Log.e(TAG, "Error while initializing development data.", e);
-		}
+//		try {
+//			initDevelopmentData(database);
+//		} catch (SQLException e) {
+//			Log.e(TAG, "Error while initializing development data.", e);
+//		}
 	}
 	
-	private void initDevelopmentData(SQLiteDatabase database) throws SQLException {
-		getUserDao().create(new User(0, "Antoniy Chonkov", "antoniy@gmail.com", "antoniy", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
-		getUserDao().create(new User(0, "Dimitar Kalinov", "dkalinoff@gmail.com", "miteto", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
-		getUserDao().create(new User(0, "Liliya Besaleva", "liliya_besaleva@hotmail.com", "lia", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
-		getUserDao().create(new User(0, "Jordan Grancharov", "phrone@gmail.com", "dakel", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
-	}
+//	private void initDevelopmentData(SQLiteDatabase database) throws SQLException {
+//		getUserDao().create(new User(0, "Antoniy Chonkov", "antoniy@gmail.com", "antoniy", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
+//		getUserDao().create(new User(0, "Dimitar Kalinov", "dkalinoff@gmail.com", "miteto", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
+//		getUserDao().create(new User(0, "Liliya Besaleva", "liliya_besaleva@hotmail.com", "lia", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
+//		getUserDao().create(new User(0, "Jordan Grancharov", "phrone@gmail.com", "dakel", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
+//	}
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
