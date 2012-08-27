@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spashScreenContainer"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/menu_bg">
+    android:background="@drawable/menu_bg"
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/splashScreenImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/splash" 
-        android:layout_marginTop="50dp"
-        android:contentDescription="Splash screen logo"/>
-    
-    <TextView 
-        android:id="@+id/splashScreenTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_below="@+id/splashScreenImageView"
-        android:gravity="center"
-        android:text="Gidder"
-        android:textColor="#000000" 
-        android:layout_centerInParent="true"
-        android:textSize="26sp"
-		android:drawableRight="@drawable/ic_beta"
-		android:drawablePadding="8dp"/>
-
-    <TextView 
-        android:text="Git server over SSH for Android"
-        android:id="@+id/splashScreenSubtitleTextView"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/splashScreenTitleTextView"
-        android:gravity="center" 
-        android:textColor="#000000" 
-        android:textSize="14sp" 
-        android:textStyle="italic"/>
-    
-    <LinearLayout 
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/splashScreenImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Splash screen logo"
+            android:src="@drawable/splash" />
+
+        <TextView
+            android:id="@+id/splashScreenTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Gidder"
+            android:textColor="#000000"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/splashScreenSubtitleTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Git server over SSH for Android"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/splashScreenDonateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:background="@drawable/donate_btn_selector"/>
-    
-</RelativeLayout>
+        android:background="@drawable/donate_btn_selector" />
+
+</LinearLayout>

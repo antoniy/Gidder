@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.antoniy.gidder"
+    package="net.antoniy.gidder.beta"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -30,63 +30,63 @@
         
         <activity android:name=".ui.activity.AddUserActivity" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_ADD_USER_ACTIVITY"/>
+                <action android:name="net.antoniy.gidder.beta.START_ADD_USER_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
         <activity android:name=".ui.activity.AddRepositoryActivity" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_ADD_REPOSITORY_ACTIVITY"/>
+                <action android:name="net.antoniy.gidder.beta.START_ADD_REPOSITORY_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
         <activity android:name=".ui.activity.GidderPreferencesActivity" android:label="Settings" android:exported="false">
             <intent-filter>
-            	<action android:name="net.antoniy.gidder.START_PREFERENCE_ACTIVITY"/>
+            	<action android:name="net.antoniy.gidder.beta.START_PREFERENCE_ACTIVITY"/>
             	<category android:name="android.intent.category.DEFAULT"/>    
 			</intent-filter>
         </activity>
 		
         <activity android:name=".ui.activity.HomeActivity" android:screenOrientation="portrait" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_HOME_ACTIVITY"/>
+                <action android:name="net.antoniy.gidder.beta.START_HOME_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
         <activity android:name=".ui.activity.DynamicDNSActivity" android:label="DNS" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_DYNAMIC_DNS_ACTIVITY"/>
+                <action android:name="net.antoniy.gidder.beta.START_DYNAMIC_DNS_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
         <activity android:name=".ui.activity.UserDetailsActivity" android:label="User Details" android:uiOptions="splitActionBarWhenNarrow" android:screenOrientation="portrait" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_USER_DETAILS"/>
+                <action android:name="net.antoniy.gidder.beta.START_USER_DETAILS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
         <activity android:name=".ui.activity.RepositoryDetailsActivity" android:label="Repository Details" android:uiOptions="splitActionBarWhenNarrow" android:screenOrientation="portrait" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_REPOSITORY_DETAILS"/>
+                <action android:name="net.antoniy.gidder.beta.START_REPOSITORY_DETAILS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
         <activity android:name=".ui.activity.DonateActivity" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_DONATE_ACTIVITY"/>
+                <action android:name="net.antoniy.gidder.beta.START_DONATE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
         <activity android:name=".ui.activity.SetupActivity" android:label="Setup" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_SETUP_ACTIVITY"/>
+                <action android:name="net.antoniy.gidder.beta.START_SETUP_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -99,7 +99,7 @@
         
         <service android:name=".service.SSHDaemonService" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.START_SSH_SERVER"/>
+                <action android:name="net.antoniy.gidder.beta.START_SSH_SERVER"/>
             </intent-filter>
 		</service>
         
@@ -111,7 +111,7 @@
 		
         <receiver android:name=".receiver.DynamicDNSReceiver" android:enabled="true" android:exported="false">
         	<intent-filter >
-        	    <action android:name="net.antoniy.gidder.UPDATE_DYNAMIC_DNS" />
+        	    <action android:name="net.antoniy.gidder.beta.UPDATE_DYNAMIC_DNS" />
         	</intent-filter>    
 		</receiver>
 		
@@ -124,7 +124,7 @@
         
         <receiver android:name=".receiver.ToggleSSHServerBroadcastReceiver" android:exported="false">
             <intent-filter >
-                <action android:name="net.antoniy.gidder.TOGGLE_SSH_SERVER"/>
+                <action android:name="net.antoniy.gidder.beta.TOGGLE_SSH_SERVER"/>
             </intent-filter>
         </receiver>
     </application>
