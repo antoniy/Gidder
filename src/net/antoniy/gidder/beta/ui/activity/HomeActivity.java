@@ -1,6 +1,7 @@
 package net.antoniy.gidder.beta.ui.activity;
 
 import net.antoniy.gidder.beta.R;
+import net.antoniy.gidder.beta.app.SimpleEula;
 import net.antoniy.gidder.beta.ui.util.C;
 import net.antoniy.gidder.beta.ui.util.GidderCommons;
 import net.antoniy.gidder.beta.ui.util.PrefsConstants;
@@ -111,6 +112,8 @@ public class HomeActivity extends BaseActivity {
 	@Override
 	protected void setup() {
 		setContentView(R.layout.home);
+		
+		new SimpleEula(this).show();
 	}
 
 	@Override

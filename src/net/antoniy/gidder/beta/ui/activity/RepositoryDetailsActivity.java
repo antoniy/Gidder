@@ -7,6 +7,7 @@ import net.antoniy.gidder.beta.R;
 import net.antoniy.gidder.beta.db.entity.Permission;
 import net.antoniy.gidder.beta.db.entity.Repository;
 import net.antoniy.gidder.beta.db.entity.User;
+import net.antoniy.gidder.beta.git.GitRepositoryDao;
 import net.antoniy.gidder.beta.ui.adapter.BasePermissionListAdapter;
 import net.antoniy.gidder.beta.ui.adapter.BasePopupListAdapter;
 import net.antoniy.gidder.beta.ui.adapter.UserPermissionListAdapter;
@@ -143,6 +144,9 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 				    public void onClick(DialogInterface dialog, int which) {
 				        if(which == DialogInterface.BUTTON_POSITIVE) {
 				            try {
+				            	Repository repository = getHelper().getRepositoryDao().queryForId(repositoryId);
+				            	
+				            	new GitRepositoryDao(RepositoryDetailsActivity.this).deleteRepository(repository.getMapping());
 								getHelper().getRepositoryDao().deleteById(repositoryId);
 
 								setResult(Activity.RESULT_OK);
