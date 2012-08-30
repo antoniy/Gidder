@@ -5,15 +5,15 @@
     android:layout_height="fill_parent"
     android:background="@drawable/bg_main"
     android:orientation="vertical" 
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center">
 
     <RelativeLayout
         android:id="@+id/homeWifiStatusContainer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_content_box"
-        android:layout_centerInParent="true"
-        android:padding="16dp">
+        android:background="@drawable/bg_content_box">
+<!--         android:padding="16dp"> -->
 
         <RelativeLayout 
             android:id="@+id/homeLabelContainer"
@@ -51,7 +51,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_below="@+id/homeLabelContainer"
 	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="16dp"
+	        android:layout_marginTop="8dp"
 	        android:src="@drawable/ic_wireless_disabled" />
 
 	    <Button
@@ -60,7 +60,7 @@
 	        android:layout_width="180dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"
-	        android:layout_marginTop="16dp"
+	        android:layout_marginTop="8dp"
 	        android:layout_below="@+id/homeWirelessImage"
 	        android:layout_centerInParent="true"
 	        android:text="@string/home_start"
@@ -81,21 +81,4 @@
         android:textColor="@android:color/white"
         android:visibility="visible" />
     
-<!--     <GridView -->
-<!-- 	    android:id="@+id/homeNavigationGrid" -->
-<!-- 	    android:layout_width="fill_parent" -->
-<!-- 	    android:layout_height="wrap_content" -->
-<!-- 	    android:layout_alignParentBottom="true" -->
-<!-- 	    android:layout_margin="20dp" -->
-<!-- 	    android:gravity="bottom" -->
-<!-- 	    android:numColumns="3" /> -->
-<!-- 	<GridView -->
-<!-- 	    android:id="@+id/homeNavigationGrid" -->
-<!-- 	    android:layout_width="fill_parent" -->
-<!-- 	    android:layout_height="wrap_content" -->
-<!-- 	    android:layout_alignParentBottom="true" -->
-<!-- 	    android:layout_margin="20dp" -->
-<!-- 	    android:gravity="bottom" -->
-<!-- 	    android:numColumns="3" /> -->
-
 </RelativeLayout>

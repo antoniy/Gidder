@@ -47,7 +47,7 @@
 			</intent-filter>
         </activity>
 		
-        <activity android:name=".ui.activity.HomeActivity" android:screenOrientation="portrait" android:uiOptions="splitActionBarWhenNarrow" android:exported="false">
+        <activity android:name=".ui.activity.HomeActivity" android:screenOrientation="portrait" android:uiOptions="splitActionBarWhenNarrow" android:exported="true">
             <intent-filter >
                 <action android:name="net.antoniy.gidder.beta.START_HOME_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>

@@ -174,6 +174,12 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 //	}
 	
 	private void processDoneAction() {
+		if(!activateCheckBox.isChecked()) {
+			removeFieldData();
+			finish();
+			return;
+		}
+		
 		boolean isValid = isFieldDataValid();
 		
 		if(!isValid) {
@@ -295,6 +301,18 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 		editPrefs.putString(PrefsConstants.DYNDNS_DOMAIN.getKey(), domainEditText.getText().toString());
 		editPrefs.putString(PrefsConstants.DYNDNS_USERNAME.getKey(), usernameEditText.getText().toString());
 		editPrefs.putString(PrefsConstants.DYNDNS_PASSWORD.getKey(), passwordEditText.getText().toString());
+		
+		editPrefs.commit();
+	}
+	
+	private void removeFieldData() {
+		Editor editPrefs = prefs.edit();
+		
+		editPrefs.putBoolean(PrefsConstants.DYNDNS_ACTIVE.getKey(), false);
+		editPrefs.putInt(PrefsConstants.DYNDNS_PROVIDER_INDEX.getKey(), 0);
+		editPrefs.putString(PrefsConstants.DYNDNS_DOMAIN.getKey(), "");
+		editPrefs.putString(PrefsConstants.DYNDNS_USERNAME.getKey(), "");
+		editPrefs.putString(PrefsConstants.DYNDNS_PASSWORD.getKey(), "");
 		
 		editPrefs.commit();
 	}

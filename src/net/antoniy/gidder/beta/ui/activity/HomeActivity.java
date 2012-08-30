@@ -166,6 +166,7 @@ public class HomeActivity extends BaseActivity {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent(C.action.START_PREFERENCE_ACTIVITY);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				return true;
 			}
@@ -179,6 +180,7 @@ public class HomeActivity extends BaseActivity {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent(C.action.START_SETUP_ACTIVITY);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				return true;
 			}
@@ -192,6 +194,7 @@ public class HomeActivity extends BaseActivity {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent(C.action.START_DYNAMIC_DNS_ACTIVITY);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				return true;
 			}

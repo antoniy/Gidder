@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ToggleSSHServerBroadcastReceiver extends BroadcastReceiver {
 	private final static String TAG = ToggleSSHServerBroadcastReceiver.class.getSimpleName();
@@ -18,6 +19,9 @@ public class ToggleSSHServerBroadcastReceiver extends BroadcastReceiver {
 			if(GidderCommons.isSshServiceRunning(context)) {
 				context.stopService(new Intent(C.action.START_SSH_SERVER));
 				Log.i(TAG, "Broadcast - stop service!");
+			} else if (!GidderCommons.isWifiReady(context)) {
+				Toast.makeText(context, "WiFi is NOT connected!", Toast.LENGTH_SHORT).show();
+				Log.i(TAG, "Broadcast failed - wifi is NOT connected!");
 			} else {
 				context.startService(new Intent(C.action.START_SSH_SERVER));
 				Log.i(TAG, "Broadcast - start service!");
