@@ -154,7 +154,7 @@ public abstract class GidderCommons {
 	
 	public static void makeStatusBarNotification(Context context) {
 		Intent notificationIntent = new Intent(C.action.START_HOME_ACTIVITY);
-		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, 0);
 

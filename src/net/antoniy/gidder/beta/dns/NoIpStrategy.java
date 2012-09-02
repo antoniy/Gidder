@@ -14,18 +14,15 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
-public class NoIpStrategy implements DynamicDNS {
+public class NoIpStrategy extends DynamicDNS {
 	
 	private final static String URL_TEMPLATE = "http://dynupdate.no-ip.com/nic/update?hostname=%s&myip=%s";
-//	private final static String URL_TEMPLATE = "http://dynupdate.no-ip.com/nic/update";
 	
 	private final static String RETURN_CODE_GOOD = "good";
 	private final static String RETURN_CODE_NOCHG = "nochg";
@@ -37,10 +34,9 @@ public class NoIpStrategy implements DynamicDNS {
 	private final static String RETURN_CODE_911 = "911";
 
 	private final static String TAG = NoIpStrategy.class.getSimpleName();
-	private final Context context;
 	
 	public NoIpStrategy(Context context) {
-		this.context = context;
+		super(context);
 	}
 
 	public void update(String hostname, String address, String username, String password) {
@@ -80,21 +76,21 @@ public class NoIpStrategy implements DynamicDNS {
             Log.i(TAG, "Content: " + content);
             
             if(content.startsWith(RETURN_CODE_GOOD)) {
-            	runToast("Dynamic DNS was successfully updated.");
+            	makeToast("Dynamic DNS was successfully updated.");
             } else if(content.startsWith(RETURN_CODE_NOCHG)) {
-            	runToast("Dynamic DNS was successfully updated.");
+            	makeToast("Dynamic DNS was successfully updated.");
             } else if(content.startsWith(RETURN_CODE_NOHOST)) {
-            	runToast("Dynamic DNS hostname is incorrect.");
+            	makeToast("Dynamic DNS hostname is incorrect.");
             } else if(content.startsWith(RETURN_CODE_BADAUTH)) {
-            	runToast("Dynamic DNS authentication failed.");
+            	makeToast("Dynamic DNS authentication failed.");
             } else if(content.startsWith(RETURN_CODE_BADAGENT)) {
             	Log.e(TAG, "Agent information is not correct!");
             } else if(content.startsWith(RETURN_CODE_DONATOR)) {
             	Log.w(TAG, "Update request include feature that is not available for the user!");
             } else if(content.startsWith(RETURN_CODE_ABUSE)) {
-            	runToast("Dynamic DNS username abuse problem.");
+            	makeToast("Dynamic DNS username abuse problem.");
             } else if(content.startsWith(RETURN_CODE_911)) {
-            	runToast("Dynamic DNS provider has fatal problem.");
+            	makeToast("Dynamic DNS provider has fatal problem.");
             }
             	
 		} catch (ConnectTimeoutException e) {
@@ -109,25 +105,11 @@ public class NoIpStrategy implements DynamicDNS {
 			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60L * 1000L, pendingIntent);
 		} catch (Exception e) {
 			Log.e(TAG, "Problem updating dynamic DNS.", e);
-			Toast.makeText(context, "Problem updating dynamic DNS.", Toast.LENGTH_SHORT);
+			makeToast("Problem updating dynamic DNS.");
 		} finally {
             httpClient.getConnectionManager().shutdown();
         }
 		return;
-	}
-	
-	private void runToast(final String text) {
-		if(context instanceof Activity) {
-			((Activity)context).runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-					Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-				}
-			});
-		} else {
-			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-		}
 	}
 	
 }

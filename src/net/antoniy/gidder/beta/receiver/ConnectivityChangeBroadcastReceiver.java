@@ -17,7 +17,7 @@ public class ConnectivityChangeBroadcastReceiver extends BroadcastReceiver {
 	private final static String TAG = ConnectivityChangeBroadcastReceiver.class.getSimpleName();
 	
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(final Context context, Intent intent) {
 		final String action = intent.getAction();
 
 		if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
@@ -28,10 +28,10 @@ public class ConnectivityChangeBroadcastReceiver extends BroadcastReceiver {
 			if (GidderCommons.isWifiReady(context)) {
 	        	Log.i(TAG, "[" + GidderCommons.getWifiSSID(context) + "] WiFi is active!");
 
-	        	GidderApplication application = (GidderApplication)context.getApplicationContext();
+	        	final GidderApplication application = (GidderApplication)context.getApplicationContext();
 	        	long lastDynDnsUpdateTime = application.getUpdateDynDnsTime();
 	        	if((System.currentTimeMillis() - lastDynDnsUpdateTime > GidderApplication.UPDATE_DYNDNS_INTERVAL)) {
-	        		new DynamicDNSManager(context).update();
+					new DynamicDNSManager(context).update();
 	        		application.setUpdateDynDnsTime(System.currentTimeMillis());
 	        	}
 	        	
