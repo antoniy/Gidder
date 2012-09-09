@@ -114,6 +114,12 @@ public class HomeActivity extends BaseActivity {
 		setContentView(R.layout.home);
 		
 		new SimpleEula(this).show();
+		
+		boolean firstrun = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("firstrun", true);
+	    if(firstrun) {
+	    	GidderCommons.showTutorialDialog(this);
+	    }
+	    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("firstrun", false).commit();
 	}
 
 	@Override

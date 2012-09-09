@@ -37,6 +37,7 @@ public class UsersFragment extends BaseFragment implements OnItemLongClickListen
 	private ListView usersListView;
 	private UsersAdapter usersListAdapter;
 	private TextView noUsersTextView;
+	private AlertDialog confirmDialog;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -64,6 +65,15 @@ public class UsersFragment extends BaseFragment implements OnItemLongClickListen
 		super.onResume();
 		
 		loadUsersListContent();
+	}
+	
+	@Override
+	public void onPause() {
+		if(confirmDialog != null) {
+			confirmDialog.dismiss();
+		}
+		
+		super.onPause();
 	}
 	
 	private void showUsersList(boolean show) {
@@ -176,7 +186,7 @@ public class UsersFragment extends BaseFragment implements OnItemLongClickListen
 						};
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-						builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
+						confirmDialog = builder.setMessage("Delete " + user.getFullname() + "?").setPositiveButton("Yes", dialogClickListener)
 						    .setNegativeButton("No", null).show();
 						
 						mode.finish();

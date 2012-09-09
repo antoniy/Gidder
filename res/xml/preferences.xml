@@ -36,14 +36,23 @@
 		    android:title="Autostart"
 		    android:summaryOn="Autostart on WiFi ON"
 		    android:summaryOff="Autostart on WiFi ON"
-		    android:defaultValue="true"/>
+		    android:defaultValue="false"/>
         
         <CheckBoxPreference 
 		    android:key="autostop_on_wifi_off"
 		    android:title="Autostop"
 		    android:summaryOn="Autostop on WiFi OFF"
 		    android:summaryOff="Autostop on WiFi OFF"
-		    android:defaultValue="true"/>
+		    android:defaultValue="false"/>
+		
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/about">
+        
+		<Preference 
+		    android:key="help_tutorial"
+		    android:title="Help"
+		    android:summary="Watch a video tutorial."/>
 		
     </PreferenceCategory>
 

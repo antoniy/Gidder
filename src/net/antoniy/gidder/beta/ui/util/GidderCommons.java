@@ -8,13 +8,16 @@ import org.bouncycastle.util.encoders.Hex;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
@@ -25,6 +28,23 @@ import android.view.WindowManager;
 
 public abstract class GidderCommons {
 	private final static int SSH_STARTED_NOTIFICATION_ID = 1;
+	
+	public static void showTutorialDialog(final Context context) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Watch a YouTube video tutorial?");
+        builder.setIcon(android.R.drawable.ic_dialog_info);
+        builder.setPositiveButton("Watch", new DialogInterface.OnClickListener() {                     
+	            @Override
+	            public void onClick(DialogInterface dialog, int which) {
+	            	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=LhiSWE5-ezM"));
+	    			context.startActivity(browserIntent);
+	            } 
+	        });
+
+        builder.setNeutralButton("Close", null);
+        AlertDialog alert = builder.create();
+        alert.show();
+	}
 	
 	public static int convertDpToPixels(WindowManager windowManager, float dp) {
 		DisplayMetrics metrics = new DisplayMetrics();

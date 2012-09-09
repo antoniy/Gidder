@@ -102,4 +102,5 @@
 		In no event shall Antoniy Chonkov be liable for any damages (including, without limitation, lost profits, business interruption, or lost information) rising out of \'Authorized Users\' use of or inability to use the SOFTWARE PRODUCT, even if Antoniy Chonkov has been advised of the possibility of such damages. In no event will Antoniy Chonkov be liable for loss of data or for indirect, special, incidental, consequential (including lost profit), or other damages based in contract, tort or otherwise. Antoniy Chonkov shall have no liability with respect to the content of the SOFTWARE PRODUCT or any part thereof, including but not limited to errors or omissions contained therein, libel, infringements of rights of publicity, privacy, trademark rights, business interruption, personal injury, loss of privacy, moral rights or the disclosure of confidential information.
 	</string>
 	<string name="updates"></string>
+	<string name="about">About</string>
 </resources>

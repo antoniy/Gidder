@@ -36,6 +36,7 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 	private ListView repositoriesListView;
 	private RepositoryAdapter repositoriesListAdapter;
 	private TextView noRepositoriesTextView;
+	private AlertDialog confirmDialog;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -63,6 +64,15 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 		super.onResume();
 		
 		loadRepositoriesListContent();
+	}
+	
+	@Override
+	public void onPause() {
+		if(confirmDialog != null) {
+			confirmDialog.dismiss();
+		}
+		
+		super.onPause();
 	}
 
 	private void showRepositoryList(boolean show) {
@@ -178,7 +188,7 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 						};
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-						builder.setMessage("Delete " + repository.getName() + "?").setPositiveButton("Yes", dialogClickListener)
+						confirmDialog = builder.setMessage("Delete " + repository.getName() + "?").setPositiveButton("Yes", dialogClickListener)
 						    .setNegativeButton("No", null).show();
 						
 						mode.finish();

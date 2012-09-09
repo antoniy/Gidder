@@ -2,35 +2,31 @@ package net.antoniy.gidder.beta.ui.activity;
 
 import net.antoniy.gidder.beta.R;
 import net.antoniy.gidder.beta.ui.util.C;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import com.actionbarsherlock.view.Window;
 
 public class SplashScreenActivity extends BaseActivity {
 
-	private final static int REQUEST_MOVE_ON = 1;
+//	private final static int REQUEST_MOVE_ON = 1;
 //	private PayPal paypal;
-	private PendingIntent pendingIntent;
-	
-	private BroadcastReceiver timeoutBroadcastReceiver = new BroadcastReceiver() {
-		
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			final String action = intent.getAction();
-
-			if (action.equals(C.action.SPLASH_SCREEN_TIMEOUT)) {
-				finish();
-				startActivity(new Intent(C.action.START_HOME_ACTIVITY));
-			}
-		}
-	};
+//	private PendingIntent pendingIntent;
+//	
+//	private BroadcastReceiver timeoutBroadcastReceiver = new BroadcastReceiver() {
+//		
+//		@Override
+//		public void onReceive(Context context, Intent intent) {
+//			final String action = intent.getAction();
+//
+//			if (action.equals(C.action.SPLASH_SCREEN_TIMEOUT)) {
+//				finish();
+//				startActivity(new Intent(C.action.START_HOME_ACTIVITY));
+//			}
+//		}
+//	};
 	
 	@Override
 	protected void setup() {
@@ -40,11 +36,20 @@ public class SplashScreenActivity extends BaseActivity {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		Intent intent = new Intent(C.action.SPLASH_SCREEN_TIMEOUT);
-		pendingIntent = PendingIntent.getBroadcast(this, REQUEST_MOVE_ON, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		new Handler().postDelayed(new Runnable() {
+	        public void run() {
+	        	Intent intent = new Intent(C.action.START_HOME_ACTIVITY);
+
+	        	SplashScreenActivity.this.startActivity(intent);
+	        	SplashScreenActivity.this.finish();
+	        }
+	    }, 3L * 1000L);
 		
-		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3L * 1000L, pendingIntent);
+//		Intent intent = new Intent(C.action.SPLASH_SCREEN_TIMEOUT);
+//		pendingIntent = PendingIntent.getBroadcast(this, REQUEST_MOVE_ON, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//		
+//		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3L * 1000L, pendingIntent);
 		
 		View donateButton = findViewById(R.id.splashScreenDonateButton);
 		donateButton.setOnClickListener(this);
@@ -62,17 +67,17 @@ public class SplashScreenActivity extends BaseActivity {
 //		((LinearLayout)findViewById(R.id.spashScreenDonateContainer)).addView(launchPayPalButton);
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		registerReceiver(timeoutBroadcastReceiver, new IntentFilter(C.action.SPLASH_SCREEN_TIMEOUT));
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		unregisterReceiver(timeoutBroadcastReceiver);
-	}
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		registerReceiver(timeoutBroadcastReceiver, new IntentFilter(C.action.SPLASH_SCREEN_TIMEOUT));
+//	}
+//	
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		unregisterReceiver(timeoutBroadcastReceiver);
+//	}
 	
 	@Override
 	public void onClick(View v) {
