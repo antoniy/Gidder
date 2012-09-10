@@ -5,6 +5,7 @@ import net.antoniy.gidder.beta.app.SimpleEula;
 import net.antoniy.gidder.beta.ui.util.C;
 import net.antoniy.gidder.beta.ui.util.GidderCommons;
 import net.antoniy.gidder.beta.ui.util.PrefsConstants;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,8 @@ public class HomeActivity extends BaseActivity {
 	private TextView wifiSSIDTextView;
 	private TextView homeServerInfoTextView;
 	private SharedPreferences prefs;
+	private AlertDialog tutorialDialog;
+	private AlertDialog eulaDialog;
 	
 	private BroadcastReceiver connectivityChangeBroadcastReceiver = new BroadcastReceiver() {
 		
@@ -112,14 +115,6 @@ public class HomeActivity extends BaseActivity {
 	@Override
 	protected void setup() {
 		setContentView(R.layout.home);
-		
-		new SimpleEula(this).show();
-		
-		boolean firstrun = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("firstrun", true);
-	    if(firstrun) {
-	    	GidderCommons.showTutorialDialog(this);
-	    }
-	    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("firstrun", false).commit();
 	}
 
 	@Override
@@ -221,6 +216,13 @@ public class HomeActivity extends BaseActivity {
 		sshdIntentFilter.addAction(C.action.SSHD_STOPPED);
 		
 		registerReceiver(sshdBroadcastReceiver, sshdIntentFilter);
+		
+		boolean firstrun = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("firstrun", true);
+	    if(firstrun) {
+	    	tutorialDialog = GidderCommons.showTutorialDialog(this);
+	    }
+
+	    eulaDialog = new SimpleEula(this).show();
 	}
 	
 	@Override
@@ -229,6 +231,14 @@ public class HomeActivity extends BaseActivity {
 		
 		unregisterReceiver(connectivityChangeBroadcastReceiver);
 		unregisterReceiver(sshdBroadcastReceiver);
+		
+		if(tutorialDialog != null) {
+			tutorialDialog.dismiss();
+		}
+		
+		if(eulaDialog != null) {
+			eulaDialog.dismiss();
+		}
 	}
 	
 	@Override

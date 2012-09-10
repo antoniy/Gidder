@@ -30,7 +30,7 @@ public class SimpleEula {
 		return pi;
 	}
 
-	public void show() {
+	public AlertDialog show() {
 		PackageInfo versionInfo = getPackageInfo();
 
 		// the eulaKey changes every time you increment the version number in
@@ -78,8 +78,17 @@ public class SimpleEula {
 								}
 
 							});
-			builder.create().show();
+			AlertDialog alert = builder.create();
+			alert.show();
+			
+			return alert;
 		}
+		
+		return null;
+	}
+	
+	public void dismiss() {
+		
 	}
 
 }

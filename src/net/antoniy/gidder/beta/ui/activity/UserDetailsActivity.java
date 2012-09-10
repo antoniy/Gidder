@@ -1,5 +1,6 @@
 package net.antoniy.gidder.beta.ui.activity;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener, OnPermissionListItemClickListener {
+public class UserDetailsActivity extends BaseActivity implements OnItemLongClickListener, OnItemClickListener {
 	private final static String TAG = UserDetailsActivity.class.getSimpleName();
 
 	private final static int EDIT_USER_REQUEST_CODE = 1;
@@ -48,6 +49,31 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	private ListView permissionsListView;
 //	private ImageView userPhotoImageView;
 	private BasePermissionListAdapter permissionsListAdapter;
+	private RepositoryListFragment repositoryListFragment;
+	
+	private OnPermissionListItemClickListener onPermissionListItemClickListener = new OnPermissionListItemClickListener() {
+		
+		@Override
+		public void onPermissionItemClick(int entityId, boolean readOnlyPermission) {
+			Log.i(TAG, "RepositoryId: " + entityId + ", Type: " + readOnlyPermission);
+			
+			User user = new User();
+			user.setId(userId);
+			
+			Repository repository = new Repository();
+			repository.setId(entityId);
+			
+			Permission permission = new Permission(0, user, repository, readOnlyPermission);
+			try {
+				getHelper().getPermissionDao().create(permission);
+			} catch (SQLException e) {
+				Log.e(TAG, "Problem creating new user permission.", e);
+				Toast.makeText(UserDetailsActivity.this, "Problem creating new user permission.", Toast.LENGTH_SHORT).show();
+			}
+			
+			loadPermissionsListContent();
+		}
+	};
 	
 	@Override
 	protected void setup() {
@@ -79,6 +105,15 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		
 		loadPermissionsListContent();
 		populateFieldsWithUserData();
+	}
+	
+	@Override
+	protected void onPause() {
+		if(repositoryListFragment != null) {
+			repositoryListFragment.dismiss();
+		}
+		
+		super.onPause();
 	}
 	
 	@Override
@@ -192,7 +227,13 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			public boolean onMenuItemClick(MenuItem item) {
 				try {
 					List<Repository> repositories = getHelper().getRepositoryDao().getAllRepositoriesWithoutPermissionForUserId(userId);
-					RepositoryListFragment repositoryListFragment = new RepositoryListFragment(repositories, UserDetailsActivity.this);
+					
+					repositoryListFragment = new RepositoryListFragment();
+					
+					Bundle args = new Bundle(1);
+					args.putSerializable("arguments", new RepositoryListArgs(repositories, onPermissionListItemClickListener));
+					repositoryListFragment.setArguments(args);
+					
 					repositoryListFragment.show(getSupportFragmentManager(), "userPermissions");
 				} catch (SQLException e) {
 					Log.e(TAG, "Couldn't retrieve permissions.", e);
@@ -274,27 +315,6 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		return true;
 	}
 
-	@Override
-	public void onPermissionItemClick(int entityId, boolean readOnlyPermission) {
-		Log.i(TAG, "RepositoryId: " + entityId + ", Type: " + readOnlyPermission);
-		
-		User user = new User();
-		user.setId(userId);
-		
-		Repository repository = new Repository();
-		repository.setId(entityId);
-		
-		Permission permission = new Permission(0, user, repository, readOnlyPermission);
-		try {
-			getHelper().getPermissionDao().create(permission);
-		} catch (SQLException e) {
-			Log.e(TAG, "Problem creating new user permission.", e);
-			Toast.makeText(UserDetailsActivity.this, "Problem creating new user permission.", Toast.LENGTH_SHORT).show();
-		}
-		
-		loadPermissionsListContent();
-	}
-	
 	private final class UserPermissionActionMode implements ActionMode.Callback {
 
 		private final int position;
@@ -417,12 +437,39 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	
 	public static class RepositoryListFragment extends BaseDialogFragment {
 
-		private final List<Repository> repositories;
-		private final OnPermissionListItemClickListener listener;
+		private List<Repository> repositories;
+		private OnPermissionListItemClickListener listener;
 
-		public RepositoryListFragment(List<Repository> repositories, OnPermissionListItemClickListener listener) {
-			this.repositories = repositories;
-			this.listener = listener;
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+
+			if(savedInstanceState == null) {
+				return;
+			}
+			
+			RepositoryListArgs args = (RepositoryListArgs) savedInstanceState.getSerializable("arguments");
+			if(args != null) {
+				this.repositories = args.repositories;
+				this.listener = args.listener;
+			}
+		}
+		
+		@Override
+		public void setArguments(Bundle bundle) {
+			RepositoryListArgs args = (RepositoryListArgs) bundle.getSerializable("arguments");
+			if(args != null) {
+				this.repositories = args.repositories;
+				this.listener = args.listener;
+			}
+			
+			super.setArguments(bundle);
+		}
+		
+		@Override
+		public void onSaveInstanceState(Bundle bundle) {
+			bundle.putSerializable("arguments", new RepositoryListArgs(repositories, listener));
+			super.onSaveInstanceState(bundle);
 		}
 		
 		@Override
@@ -458,6 +505,19 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			return root;
 		}
 		
+	}
+	
+	private static class RepositoryListArgs implements Serializable {
+
+		private static final long serialVersionUID = 20120910L;
+		
+		private final List<Repository> repositories;
+		private final OnPermissionListItemClickListener listener;
+		
+		public RepositoryListArgs(List<Repository> repositories, OnPermissionListItemClickListener listener) {
+			this.repositories = repositories;
+			this.listener = listener;
+		}
 	}
 	
 }

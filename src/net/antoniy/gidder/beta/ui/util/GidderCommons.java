@@ -29,21 +29,30 @@ import android.view.WindowManager;
 public abstract class GidderCommons {
 	private final static int SSH_STARTED_NOTIFICATION_ID = 1;
 	
-	public static void showTutorialDialog(final Context context) {
+	public static AlertDialog showTutorialDialog(final Context context) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Watch a YouTube video tutorial?");
         builder.setIcon(android.R.drawable.ic_dialog_info);
         builder.setPositiveButton("Watch", new DialogInterface.OnClickListener() {                     
 	            @Override
 	            public void onClick(DialogInterface dialog, int which) {
+	            	PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("firstrun", false).commit();
 	            	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=LhiSWE5-ezM"));
 	    			context.startActivity(browserIntent);
 	            } 
 	        });
 
-        builder.setNeutralButton("Close", null);
+        builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("firstrun", false).commit();
+				dialog.dismiss();
+			}
+		});
         AlertDialog alert = builder.create();
         alert.show();
+        
+        return alert;
 	}
 	
 	public static int convertDpToPixels(WindowManager windowManager, float dp) {
