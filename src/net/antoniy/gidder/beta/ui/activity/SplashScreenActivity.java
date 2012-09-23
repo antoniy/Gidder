@@ -28,6 +28,16 @@ public class SplashScreenActivity extends BaseActivity {
 //		}
 //	};
 	
+	private Handler handler;
+	private Runnable timeoutRunnable = new Runnable() {
+        public void run() {
+        	Intent intent = new Intent(C.action.START_HOME_ACTIVITY);
+
+        	SplashScreenActivity.this.startActivity(intent);
+        	SplashScreenActivity.this.finish();
+        }
+    };
+	
 	@Override
 	protected void setup() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -36,14 +46,8 @@ public class SplashScreenActivity extends BaseActivity {
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
-		new Handler().postDelayed(new Runnable() {
-	        public void run() {
-	        	Intent intent = new Intent(C.action.START_HOME_ACTIVITY);
-
-	        	SplashScreenActivity.this.startActivity(intent);
-	        	SplashScreenActivity.this.finish();
-	        }
-	    }, 3L * 1000L);
+		handler = new Handler();
+		handler.postDelayed(timeoutRunnable, 3L * 1000L);
 		
 //		Intent intent = new Intent(C.action.SPLASH_SCREEN_TIMEOUT);
 //		pendingIntent = PendingIntent.getBroadcast(this, REQUEST_MOVE_ON, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -83,6 +87,7 @@ public class SplashScreenActivity extends BaseActivity {
 	public void onClick(View v) {
 		
 		if(v.getId() == R.id.splashScreenDonateButton) {
+			handler.removeCallbacks(timeoutRunnable);
 			finish();
 			startActivity(new Intent(C.action.START_DONATE_ACTIVITY));
 		}
