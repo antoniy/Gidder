@@ -27,8 +27,6 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeListener {
 
-//	private final static String TAG = DynamicDNSActivity.class.getSimpleName();
-	
 	private Spinner providerSpinner;
 	private EditText domainEditText;
 	private EditText usernameEditText;
@@ -36,9 +34,7 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 	private CheckBox activateCheckBox;
 	private CheckBox showPasswordCheckBox;
 	private LinearLayout mainContainer;
-//	private Button saveButton;
 	private SharedPreferences prefs;
-//	private View cancelButton;
 
 	@Override
 	protected void setup() {
@@ -78,29 +74,6 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
         if(!isActive) {
         	mainContainer.setVisibility(View.GONE);
         }
-
-//        AnimationSet set = new AnimationSet(true);
-//
-//        Animation animation = new AlphaAnimation(0.0f, 1.0f);
-//        animation.setDuration(250);
-//        set.addAnimation(animation);
-//
-//        animation = new TranslateAnimation(
-//            Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-//            Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f
-//        );
-//        animation.setDuration(150);
-//        set.addAnimation(animation);
-//
-//        LayoutAnimationController controller =
-//            new LayoutAnimationController(set, 0.25f);
-//        mainContainer.setLayoutAnimation(controller);
-        
-//        saveButton = (Button) findViewById(R.id.dynamicDnsSaveButton);
-//        saveButton.setOnClickListener(this);
-//        
-//        cancelButton = (Button) findViewById(R.id.dynamicDnsCancelButton);
-//        cancelButton.setOnClickListener(this);
 	}
 	
 	@Override
@@ -162,17 +135,6 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 		return super.onOptionsItemSelected(item);
 	}
 	
-//	@Override
-//	public void onClick(View v) {
-//		int id = v.getId();
-//		
-//		if(id == R.id.dynamicDnsSaveButton) {
-//			processDoneAction();
-//		} else if(id == R.id.dynamicDnsCancelButton) {
-//			finish();
-//		}
-//	}
-	
 	private void processDoneAction() {
 		if(!activateCheckBox.isChecked()) {
 			removeFieldData();
@@ -202,17 +164,6 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 			
 			if(isChecked) {
 				// do activate
-//				int[] location = new int[2];
-//				doneButton.getLocationInWindow(location);
-//				Log.i(TAG, "Location: " + location[0] +", " + location[1]);
-//				
-//				Animation buttonAnimation = new TranslateAnimation(
-//		            Animation.ABSOLUTE, location[0], Animation.ABSOLUTE, -doneButton.getWidth(),
-//		            Animation.ABSOLUTE, location[1], Animation.ABSOLUTE, location[1]
-//		        );
-//				buttonAnimation.setDuration(1250);
-//				doneButton.startAnimation(buttonAnimation);
-				
 				Animation animation = new TranslateAnimation(
 		            Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f,
 		            Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f

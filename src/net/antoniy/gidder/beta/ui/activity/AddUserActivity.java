@@ -170,24 +170,6 @@ public class AddUserActivity extends BaseActivity {
 			return;
 		}
 		
-//		try {
-//			User checkUser = getHelper().getUserDao().queryForUsername(usernameEditText.getText().toString().trim());
-//			if(checkUser != null) {
-//				Toast.makeText(AddUserActivity.this, "Username already exists.", Toast.LENGTH_SHORT).show();
-//				return;
-//			}
-//			
-//			checkUser = getHelper().getUserDao().queryForEmail(emailEditText.getText().toString().trim());
-//			if(checkUser != null) {
-//				Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
-//				return;
-//			}
-//		} catch (SQLException e) {
-//			Log.e(TAG, "SQL problem.", e);
-//			Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
-//			return;
-//		}
-		
 		String fullname = fullnameEditText.getText().toString().trim();
 		String email = emailEditText.getText().toString().trim();
 		String username = usernameEditText.getText().toString().trim();

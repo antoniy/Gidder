@@ -255,17 +255,8 @@ public class HomeActivity extends BaseActivity {
 				}
 				
 				startService(intent);
-				
-//				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-//				boolean isStatusBarNotificationEnabled = prefs.getBoolean(PrefsConstants.STATUSBAR_NOTIFICATION.getKey(), 
-//						"true".equals(PrefsConstants.STATUSBAR_NOTIFICATION.getDefaultValue()) ? true : false);
-//				
-//				if(isStatusBarNotificationEnabled) {
-//					GidderCommons.makeStatusBarNotification(HomeActivity.this);
-//				}
 			} else {
 				stopService(intent);
-//				GidderCommons.stopStatusBarNotification(HomeActivity.this);
 			}
 		}
 	}

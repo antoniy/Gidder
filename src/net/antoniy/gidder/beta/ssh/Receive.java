@@ -52,7 +52,6 @@ public final class Receive extends AbstractGitCommand {
 	    
 	    
 		final ReceivePack rp = new ReceivePack(repo);
-//		rp.setRefLogIdent(new PersonIdent("test", "test@test.com"));
 		rp.setTimeout(timeout);
 		rp.receive(in, out, err);
 	}

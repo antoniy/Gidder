@@ -48,7 +48,6 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 	private ImageView activateImageView;
 	private TextView noPermissionsTextView;
 	private ListView permissionsListView;
-//	private ImageView repositoryPhotoImageView;
 	private BasePermissionListAdapter permissionsListAdapter;
 	private UserListFragment userListFragment;
 
@@ -102,7 +101,6 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 		descriptionTextView = (TextView) findViewById(R.id.repositoryDetailsDescription);
 		mappingTextView = (TextView) findViewById(R.id.repositoryDetailsMapping);
 		activateImageView = (ImageView) findViewById(R.id.repositoryDetailsActive);
-//		repositoryPhotoImageView = (ImageView) findViewById(R.id.repositoryDetailsPhoto);
 		
 		noPermissionsTextView = (TextView) findViewById(R.id.repositoryDetailsNoPermissions);
 		
@@ -297,10 +295,8 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 		
 		if(repository.isActive()) {
 			activateImageView.setImageResource(R.drawable.ic_activated);
-//			repositoryPhotoImageView.setImageResource(R.drawable.ic_user_active);
 		} else {
 			activateImageView.setImageResource(R.drawable.ic_deactivated);
-//			repositoryPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
 		}
 	}
 	
@@ -385,7 +381,6 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 			
 			if(!permission.isReadOnly()) {
 				menu.add("Pull")
-//					.setIcon(R.drawable.ic_actionbar_pull)
 	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						
@@ -408,7 +403,6 @@ public class RepositoryDetailsActivity extends BaseActivity implements OnItemLon
 					});
 			} else {
 				menu.add("Pull & Push")
-//					.setIcon(R.drawable.ic_actionbar_pull_push)
 	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						

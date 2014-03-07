@@ -28,7 +28,6 @@ public class SetupActivity extends SherlockFragmentActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-//		setTheme(com.actionbarsherlock.R.style.Theme_Sherlock_ForceOverflow_DarkActionBar_ForceOverflow);
 		setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
 		
@@ -146,7 +145,6 @@ public class SetupActivity extends SherlockFragmentActivity {
 		@Override
 		public Fragment getItem(int position) {
 			return fragments.get(position % fragments.size());
-//			return FragmentFactory.createFragment(FragmentType.values()[position]);
 		}
 
 		@Override

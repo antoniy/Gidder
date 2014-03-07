@@ -17,11 +17,9 @@ import com.actionbarsherlock.view.MenuItem;
 public class GidderPreferencesActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener {
 
 	private EditTextPreference sshPortPreferences;
-//	private EditTextPreference repositoriesDirectoryPreferences;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setTheme(R.style.Theme_Sherlock);
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -40,7 +38,6 @@ public class GidderPreferencesActivity extends SherlockPreferenceActivity implem
 				    return true;
 				}
 			});
-//		repositoriesDirectoryPreferences = (EditTextPreference) getPreferenceScreen().findPreference(PrefsConstants.GIT_REPOSITORIES_DIR.getKey());
 	}
 	
 	@Override
@@ -62,7 +59,6 @@ public class GidderPreferencesActivity extends SherlockPreferenceActivity implem
 		SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
 		
 		sshPortPreferences.setSummary("SSH server port: " + prefs.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue()));
-//		repositoriesDirectoryPreferences.setSummary(prefs.getString(PrefsConstants.GIT_REPOSITORIES_DIR.getKey(), PrefsConstants.SSH_PORT.getDefaultValue()));
 		
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
@@ -79,9 +75,6 @@ public class GidderPreferencesActivity extends SherlockPreferenceActivity implem
 		if(key.equals(PrefsConstants.SSH_PORT)) {
 			sshPortPreferences.setSummary("SSH server port: " + sharedPreferences.getString(
 					PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue()));
-//		} else if(key.equals("ssh_repositories_folder")) {
-//			repositoriesDirectoryPreferences.setSummary(sharedPreferences.getString(
-//					PrefsConstants.GIT_REPOSITORIES_DIR.getKey(), PrefsConstants.GIT_REPOSITORIES_DIR.getDefaultValue()));
 		}
 	}
 

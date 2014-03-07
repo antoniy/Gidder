@@ -18,7 +18,6 @@ public class SendMessageCommand extends BaseCommand {
 		this.exitCode = exitCode;
 	}
 
-
 	public void start(final Environment env) throws IOException {
 		String message;
 		message = getMessage(env.getEnv().get(Environment.ENV_USER));

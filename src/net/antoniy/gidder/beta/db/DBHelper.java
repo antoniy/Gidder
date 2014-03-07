@@ -33,13 +33,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	
 	@Override
 	public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
-//		
-//		Log.i(TAG, "Creating the database...");
-//		
-//		// Foreign keys are disabled by default in SQLite, so we need to enable them. 
-//		// This works since Froyo 2.2 because this feature is in SQLite since version 3.6.19 and Froyo comes with 2.6.22
-//		database.execSQL("PRAGMA foreign_keys=ON;");
-		
 		try {
 			TableUtils.createTable(connectionSource, User.class);
 			TableUtils.createTable(connectionSource, Repository.class);
@@ -47,20 +40,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		} catch (SQLException e) {
 			Log.e(TAG, "Unable to create datbases", e);
 		}
-		
-//		try {
-//			initDevelopmentData(database);
-//		} catch (SQLException e) {
-//			Log.e(TAG, "Error while initializing development data.", e);
-//		}
 	}
-	
-//	private void initDevelopmentData(SQLiteDatabase database) throws SQLException {
-//		getUserDao().create(new User(0, "Antoniy Chonkov", "antoniy@gmail.com", "antoniy", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
-//		getUserDao().create(new User(0, "Dimitar Kalinov", "dkalinoff@gmail.com", "miteto", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
-//		getUserDao().create(new User(0, "Liliya Besaleva", "liliya_besaleva@hotmail.com", "lia", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
-//		getUserDao().create(new User(0, "Jordan Grancharov", "phrone@gmail.com", "dakel", GidderCommons.generateSha1("asd"), true, System.currentTimeMillis()));
-//	}
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
@@ -100,43 +80,4 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		
 		return permissionDao;
 	}
-	
-//	@Override
-//	public void onCreate(SQLiteDatabase db) {
-//		String createUsers = String.format("create table %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT)", 
-//				USERS, USERS_ID, USERS_USERNAME, USERS_PASSWORD, USERS_FULLNAME, USERS_EMAIL);
-//		db.execSQL(createUsers);
-//		Log.i(TAG, "SQL: " + createUsers);
-//		
-////		ContentValues values = new ContentValues();
-////		values.put(USERS_USERNAME, "test");
-////		values.put(USERS_PASSWORD, encodeSha1("123", "test"));
-////		values.put(USERS_FULLNAME, "Test Testov");
-////		values.put(USERS_EMAIL, "test@testing.com");
-////		
-////		db.insert(USERS, null, values);
-//	}
-//
-//	@Override
-//	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//		db.rawQuery("", null);
-//		
-//	}
-	
-//	private String encodeSha1(String input, String keyString) {
-//			byte[] bytes = null;
-//			try {
-//				SecretKeySpec key = new SecretKeySpec((keyString).getBytes("UTF-8"), "HmacSHA1");
-//				Mac mac = Mac.getInstance("HmacSHA1");
-//				mac.init(key);
-//
-//				bytes = mac.doFinal(input.getBytes("UTF-8"));
-//			} catch (Exception e) {
-//				Log.e(TAG, "Unable to encode to SHA-1.", e);
-//				return null;
-//			}
-//
-//			return new String(Base64.encode(bytes, Base64.DEFAULT));
-//	}
-
 }

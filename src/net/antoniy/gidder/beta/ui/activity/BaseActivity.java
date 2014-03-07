@@ -20,16 +20,8 @@ public abstract class BaseActivity extends SherlockFragmentActivity implements O
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		requestWindowFeature(Window.FEATURE_NO_TITLE); 
-//		setTheme(android.R.style.Theme_DeviceDefault_Light);
-//		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar_ForceOverflow);
-//		setTheme(R.style.Theme_Styled);
-		
-//		setTheme(R.style.Theme_HoloEverywhereDark);
-//		setTheme(R.style.Theme_Sherlock);
 		
 		System.setProperty("java.net.preferIPv6Addresses", "false");
-//      getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,  WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		if (helper == null) {
 			helper = getHelperInternal(this);

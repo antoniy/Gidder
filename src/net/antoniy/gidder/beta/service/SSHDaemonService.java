@@ -36,15 +36,6 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 
 	public SSHDaemonService() {
 		Log.i(TAG, "Construct SSHDaemonService!");
-		
-//		dbHelper = new DBHelper(this);
-//		
-//		sshServer = SshServer.setUpDefaultServer();
-//		sshServer.setPort(6666);
-//		sshServer.setKeyPairProvider(new GidderHostKeyProvider(this));
-//		sshServer.setShellFactory(new NoShell());
-//		sshServer.setCommandFactory(new GidderCommandFactory(this));
-//		sshServer.setPasswordAuthenticator(this);
 	}
 	
 	@Override

@@ -47,7 +47,6 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 	private ImageView activateImageView;
 	private TextView noPermissionsTextView;
 	private ListView permissionsListView;
-//	private ImageView userPhotoImageView;
 	private BasePermissionListAdapter permissionsListAdapter;
 	private RepositoryListFragment repositoryListFragment;
 	
@@ -95,7 +94,6 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		emailTextView = (TextView) findViewById(R.id.userDetailsMail);
 		usernameTextView = (TextView) findViewById(R.id.userDetailsUsername);
 		activateImageView = (ImageView) findViewById(R.id.userDetailsActive);
-//		userPhotoImageView = (ImageView) findViewById(R.id.userDetailsPhoto);
 		
 		noPermissionsTextView = (TextView) findViewById(R.id.userDetailsNoPermissions);
 		
@@ -287,10 +285,8 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 		usernameTextView.setText(user.getUsername());
 		if(user.isActive()) {
 			activateImageView.setImageResource(R.drawable.ic_activated);
-//			userPhotoImageView.setImageResource(R.drawable.ic_user_active);
 		} else {
 			activateImageView.setImageResource(R.drawable.ic_deactivated);
-//			userPhotoImageView.setImageResource(R.drawable.ic_user_inactive);
 		}
 	}
 	
@@ -376,7 +372,6 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 			
 			if(!permission.isReadOnly()) {
 				menu.add("Pull")
-//					.setIcon(R.drawable.ic_actionbar_pull)
 	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						
@@ -399,7 +394,6 @@ public class UserDetailsActivity extends BaseActivity implements OnItemLongClick
 					});
 			} else {
 				menu.add("Pull & Push")
-//					.setIcon(R.drawable.ic_actionbar_pull_push)
 	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						

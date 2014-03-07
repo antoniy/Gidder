@@ -57,17 +57,7 @@ public class GitRepositoryDao {
 	}
 	
 	public org.eclipse.jgit.lib.Repository createRepository(final String mapping) throws RepositoryNotFoundException {
-//		new Thread() {
-//			@Override
-//			public void run() {
-//				try {
 		return repositoryManager.createRepository(mapping).getRepository();
-//				} catch (RepositoryNotFoundException e) {
-//					Log.e(TAG, "Problem while creating repository.", e);
-//					// TODO: Put some dialog message here perhaps.
-//				}
-//			}
-//		}.start();
 	}
 	
 	public void deleteRepository(final String mapping) {
@@ -82,10 +72,4 @@ public class GitRepositoryDao {
 			}
 		}.start();
 	}
-	
-//	public int getNumberOfBranches(final String mapping) {
-//		ReporepositoryManager.openRepository(mapping);
-//		
-//		return 0;
-//	}
 }
