@@ -2,5 +2,4 @@
 .idea
 build
 local.properties
-gradle/
 *.iml
