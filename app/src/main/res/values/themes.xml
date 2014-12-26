@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<!--     <style name="Theme.Styled" parent="Theme.Sherlock.Light.DarkActionBar.ForceOverflow"> -->
+	<style name="Theme.Styled" parent="Theme.Sherlock">
+<!-- 	<style name="Theme.Styled" parent="Theme.HoloEverywhereDark.Sherlock"> -->
+<!--         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item> -->
+<!--         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item> -->
+    </style>
+    
+	<!--<style name="Theme.Styled.Dialog" parent="Theme.Sherlock.Dialog"/>-->
+	<!--<style name="Theme.Styled.Dialog" parent="Theme"/>-->
+
+<!--     <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse"> -->
+<!--         <item name="background">@android:color/black</item> -->
+<!--         <item name="android:background">@android:color/black</item> -->
+        
+<!--         <item name="backgroundSplit">@drawable/bg_striped_split</item> -->
+<!--         <item name="android:backgroundSplit">@drawable/bg_striped_split</item> -->
+<!--     </style> -->
+</resources>
