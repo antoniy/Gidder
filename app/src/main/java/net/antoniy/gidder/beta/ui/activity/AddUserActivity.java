@@ -170,7 +170,6 @@ public class AddUserActivity extends BaseActivity {
 	
 	private void processUserAction() {
 		if(!isFieldsValid(editMode)) {
-            Log.i(TAG, "some fields are not valid");
 			return;
 		}
 		
@@ -376,7 +375,12 @@ public class AddUserActivity extends BaseActivity {
 			return false;
 		}
 		
-		return EmailValidator.getInstance().isValid(emailEditText.getText().toString().trim());
+		if(!EmailValidator.getInstance().isValid(emailEditText.getText().toString().trim())) {
+            tv.startAnimation(AnimationUtils.loadAnimation(AddUserActivity.this, R.anim.shake));
+            tv.setError("Field must contain a valid E-Mail");
+            return false;
+        }
+        return true;
 	}
 	
 }
