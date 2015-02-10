@@ -9,6 +9,7 @@
     <string name="btn_add">Add</string>
     <string name="btn_cancel">Cancel</string>
     <string name="add_user_password">Password</string>
+    <string name="add_user_publickey">Public Key</string>
     <string name="add_repository_name">Name</string>
     <string name="add_repository_mapping">Mapping</string>
     <string name="add_repository_description">Description</string>

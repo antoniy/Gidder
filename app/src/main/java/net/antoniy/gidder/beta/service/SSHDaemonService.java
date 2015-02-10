@@ -1,7 +1,9 @@
 package net.antoniy.gidder.beta.service;
 
 import java.io.IOException;
+import java.lang.Override;
 import java.sql.SQLException;
+import java.security.PublicKey;
 
 import net.antoniy.gidder.beta.R;
 import net.antoniy.gidder.beta.db.DBHelper;
@@ -16,6 +18,7 @@ import net.antoniy.gidder.beta.ui.widget.ToggleAppWidgetProvider;
 
 import org.apache.sshd.SshServer;
 import org.apache.sshd.server.PasswordAuthenticator;
+import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 
 import android.app.Service;
@@ -28,7 +31,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-public class SSHDaemonService extends Service implements PasswordAuthenticator {
+public class SSHDaemonService extends Service implements PasswordAuthenticator, PublickeyAuthenticator {
 	private final static String TAG = SSHDaemonService.class.getSimpleName();
 	
 	private SshServer sshServer;
@@ -144,5 +147,15 @@ public class SSHDaemonService extends Service implements PasswordAuthenticator {
 		
 		return false;
 	}
+
+    @Override
+    public boolean authenticate(String username, PublicKey key, ServerSession session) {
+        if(key == null) {
+            return false;
+        }
+
+        Log.e(TAG, "Public Key: " + key.getEncoded().toString());
+        return true;
+    }
 
 }

@@ -53,6 +53,18 @@ public class UserDao extends BaseDao<DBHelper, User, Integer>{
 		
 		return null;
 	}
+
+    public User queryForPublickey(String publickey) throws SQLException {
+        SelectArg publickeyArg = new SelectArg(publickey);
+
+        List<User> users = dao.queryBuilder().where().eq(DBC.users.column_publickey, publickeyArg).query();
+
+        if(users.size() > 0) {
+            return users.get(0);
+        }
+
+        return null;
+    }
 	
 	@Override
 	public int deleteById(Integer id) throws SQLException {

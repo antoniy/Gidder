@@ -41,6 +41,7 @@ public class AddUserActivity extends BaseActivity {
 	private EditText emailEditText;
 	private EditText usernameEditText;
 	private EditText passwordEditText;
+    private EditText publickeyEditText;
 	private boolean editMode = false;
 	private int userId;
 	private CheckBox activateCheckox;
@@ -69,6 +70,7 @@ public class AddUserActivity extends BaseActivity {
 		emailEditText = (EditText) findViewById(R.id.addUserEmail);
 		usernameEditText = (EditText) findViewById(R.id.addUserUsername);
 		passwordEditText = (EditText) findViewById(R.id.addUserPassword);
+        publickeyEditText = (EditText) findViewById(R.id.addUserPublickey);
 		activateCheckox = (CheckBox) findViewById(R.id.addUserActivate);
 		
 		if(editMode) {
@@ -154,6 +156,7 @@ public class AddUserActivity extends BaseActivity {
 		fullnameEditText.setText(user.getFullname());
 		emailEditText.setText(user.getEmail());
 		usernameEditText.setText(user.getUsername());
+        publickeyEditText.setText(user.getPublickey());
 
 		String password = user.getPassword();
 		if(password != null && password.length() > 16) {
@@ -167,6 +170,7 @@ public class AddUserActivity extends BaseActivity {
 	
 	private void processUserAction() {
 		if(!isFieldsValid(editMode)) {
+            Log.i(TAG, "some fields are not valid");
 			return;
 		}
 		
@@ -174,6 +178,8 @@ public class AddUserActivity extends BaseActivity {
 		String email = emailEditText.getText().toString().trim();
 		String username = usernameEditText.getText().toString().trim();
 		String password = passwordEditText.getText().toString().trim();
+        String publickey = publickeyEditText.getText().toString().trim();
+        Log.i(TAG, "read publickey: " + publickey);
 		boolean active = activateCheckox.isChecked();
 		
 		if(editMode) {
@@ -189,6 +195,12 @@ public class AddUserActivity extends BaseActivity {
 					Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
 					return;
 				}
+
+                checkUser = getHelper().getUserDao().queryForPublickey(publickeyEditText.getText().toString().trim());
+                if(checkUser != null && checkUser.getId() != userId) {
+                    Toast.makeText(AddUserActivity.this, "Public Key already exists.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 			} catch (SQLException e) {
 				Log.e(TAG, "SQL problem.", e);
 				Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
@@ -203,6 +215,9 @@ public class AddUserActivity extends BaseActivity {
 				if(password != null && !"".equals(password.trim())) {
 					user.setPassword(GidderCommons.generateSha1(password));
 				}
+                if(publickey != null && !"".equals(publickey)) {
+                    user.setPublickey(publickey);
+                }
 				user.setUsername(username);
 				user.setActive(active);
 				
@@ -225,6 +240,12 @@ public class AddUserActivity extends BaseActivity {
 					Toast.makeText(AddUserActivity.this, "E-mail already exists.", Toast.LENGTH_SHORT).show();
 					return;
 				}
+
+                checkUser = getHelper().getUserDao().queryForPublickey(publickeyEditText.getText().toString().trim());
+                if(checkUser != null && checkUser.getId() != userId) {
+                    Toast.makeText(AddUserActivity.this, "Public Key already exists.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 			} catch (SQLException e) {
 				Log.e(TAG, "SQL problem.", e);
 				Toast.makeText(AddUserActivity.this, "Database error.", Toast.LENGTH_SHORT).show();
@@ -232,7 +253,7 @@ public class AddUserActivity extends BaseActivity {
 			}
 			
 			try {
-				getHelper().getUserDao().create(new User(0, fullname, email, username, GidderCommons.generateSha1(password), active, System.currentTimeMillis()));
+				getHelper().getUserDao().create(new User(0, fullname, email, username, GidderCommons.generateSha1(password), publickey, active, System.currentTimeMillis()));
 			} catch (SQLException e) {
 				Log.e(TAG, "Problem when add user.", e);
 				finish();
