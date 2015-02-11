@@ -38,7 +38,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, Repository.class);
 			TableUtils.createTable(connectionSource, Permission.class);
 		} catch (SQLException e) {
-			Log.e(TAG, "Unable to create datbases", e);
+			Log.e(TAG, "Unable to create databases", e);
 		}
 	}
 	
