@@ -21,7 +21,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 	private final static String TAG = DBHelper.class.getSimpleName();
 	
 	private final static String DB_NAME = "gidder.db";
-	private final static int DB_VERSION = 20111127;
+	private final static int DB_VERSION = 20150210;
 	
 	private UserDao userDao;
 	private RepositoryDao repositoryDao;
