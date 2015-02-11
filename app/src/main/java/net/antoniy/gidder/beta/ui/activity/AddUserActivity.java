@@ -376,8 +376,8 @@ public class AddUserActivity extends BaseActivity {
 		}
 		
 		if(!EmailValidator.getInstance().isValid(emailEditText.getText().toString().trim())) {
-            tv.startAnimation(AnimationUtils.loadAnimation(AddUserActivity.this, R.anim.shake));
-            tv.setError("Field must contain a valid E-Mail");
+            emailEditText.startAnimation(AnimationUtils.loadAnimation(AddUserActivity.this, R.anim.shake));
+            emailEditText.setError("Field must contain a valid E-Mail");
             return false;
         }
         return true;
