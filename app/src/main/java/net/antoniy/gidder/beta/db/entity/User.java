@@ -15,40 +15,50 @@ public class User implements Serializable {
 
 	@DatabaseField(columnName = DBC.users.column_id, generatedId = true, canBeNull = false)
 	private int id;
-	
+
 	@DatabaseField(columnName = DBC.users.column_fullname, canBeNull = false)
 	private String fullname;
-	
+
 	@DatabaseField(columnName = DBC.users.column_email, canBeNull = false, unique = true)
 	private String email;
-	
+
 	@DatabaseField(columnName = DBC.users.column_username, canBeNull = false, unique = true)
 	private String username;
-	
+
 	@DatabaseField(columnName = DBC.users.column_password, canBeNull = false)
 	private String password;
-	
+
+    @DatabaseField(columnName = DBC.users.column_publickey, canBeNull = true, unique = true)
+    private String publickey;
+
 	@DatabaseField(columnName = DBC.users.column_active, canBeNull = false, defaultValue = "false")
 	private boolean active;
-	
+
 	@DatabaseField(columnName = DBC.users.column_create_date, canBeNull = false)
 	private long createDate;
-	
+
 	@ForeignCollectionField(eager = true, orderColumnName = DBC.permissions.column_user_id)
 	private Collection<Permission> permissions;
-	
+
 	public User() {
 	}
 
+    public User(int id, String fullname, String email, String username,
+                String password, String publickey, boolean active, long createDate) {
+        this.id = id;
+        this.fullname = fullname;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.publickey = publickey;
+        this.active = active;
+        this.createDate = createDate;
+    }
+
+    // left in for compatibility
 	public User(int id, String fullname, String email, String username,
 			String password, boolean active, long createDate) {
-		this.id = id;
-		this.fullname = fullname;
-		this.email = email;
-		this.username = username;
-		this.password = password;
-		this.active = active;
-		this.createDate = createDate;
+		this(id, fullname, email, username, password, null, active, createDate);
 	}
 
 	public int getId() {
@@ -91,6 +101,10 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+    public String getPublickey() { return publickey; }
+
+    public void setPublickey(String publickey) { this.publickey = publickey; }
+
 	public Collection<Permission> getPermissions() {
 		return permissions;
 	}
@@ -114,5 +128,5 @@ public class User implements Serializable {
 	public void setCreateDate(long createDate) {
 		this.createDate = createDate;
 	}
-	
+
 }

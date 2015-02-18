@@ -24,6 +24,9 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
     }
 
     lintOptions {
@@ -36,6 +39,7 @@ dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'org.apache.sshd:sshd-core:0.13.0'
+    compile 'org.apache.mina:mina-core:2.0.9'
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.6.0.201411121045-m1'
     compile 'commons-validator:commons-validator:1.4.0'
     compile 'org.bouncycastle:bcprov-jdk16:1.46'

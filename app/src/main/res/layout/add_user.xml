@@ -68,6 +68,21 @@
 			android:lines="1"
 			android:inputType="textPassword"/>
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_user_publickey"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/primary_text_dark"/>
+
+        <EditText
+            android:id="@+id/addUserPublickey"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:inputType="text"/>
+
 		<CheckBox 
 		    android:id="@+id/addUserActivate"
 			android:layout_width="fill_parent"
