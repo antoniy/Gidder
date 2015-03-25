@@ -1,6 +1,5 @@
 package net.antoniy.gidder.beta.ui.activity;
 
-import net.antoniy.gidder.beta.db.DBHelper;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -11,43 +10,45 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
+import net.antoniy.gidder.beta.db.DBHelper;
+
 public abstract class BaseActivity extends SherlockFragmentActivity implements OnClickListener {
 
 	private volatile DBHelper helper;
 	private volatile boolean created = false;
 	private volatile boolean destroyed = false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		System.setProperty("java.net.preferIPv6Addresses", "false");
-		
+
 		if (helper == null) {
 			helper = getHelperInternal(this);
 			created = true;
 		}
-		
+
 		setup();
 		initComponents(savedInstanceState);
 		setupActionBar();
 	}
-	
+
 	protected abstract void setup();
-	
+
 	protected abstract void initComponents(Bundle savedInstanceState);
-	
+
 	protected void setupActionBar() {
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 	}
-	
+
 	////////////////////////////////////////////////////////////
 	//////////////////////// OrmLite ///////////////////////////
 	////////////////////////////////////////////////////////////
-	
+
 
 	/**
 	 * Get a helper for this action.
@@ -85,7 +86,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity implements O
 	 * This is called internally by the class to populate the helper object instance. This should not be called directly
 	 * by client code unless you know what you are doing. Use {@link #getHelper()} to get a helper instance. If you are
 	 * managing your own helper creation, override this method to supply this activity with a helper instance.
-	 * 
+	 * <p/>
 	 * <p>
 	 * <b> NOTE: </b> If you override this method, you most likely will need to override the
 	 * {@link #releaseHelper(OrmLiteSqliteOpenHelper)} method as well.
@@ -99,7 +100,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity implements O
 	/**
 	 * Release the helper instance created in {@link #getHelperInternal(Context)}. You most likely will not need to call
 	 * this directly since {@link #onDestroy()} does it for you.
-	 * 
+	 * <p/>
 	 * <p>
 	 * <b> NOTE: </b> If you override this method, you most likely will need to override the
 	 * {@link #getHelperInternal(Context)} method as well.

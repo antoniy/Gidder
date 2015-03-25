@@ -14,7 +14,8 @@
 
 package net.antoniy.gidder.beta.ssh;
 
-import java.io.IOException;
+import android.content.Context;
+import android.util.Log;
 
 import net.antoniy.gidder.beta.exception.SshAuthorizationException;
 
@@ -22,32 +23,33 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.UploadPack;
 
-import android.content.Context;
-import android.util.Log;
+import java.io.IOException;
 
-/** Publishes Git repositories over SSH using the Git upload-pack protocol. */
+/**
+ * Publishes Git repositories over SSH using the Git upload-pack protocol.
+ */
 public final class Upload extends AbstractGitCommand {
 	private final static String TAG = Upload.class.getSimpleName();
 	private final static String MSG_REPOSITORY_PERMISSIONS = "[Gidder] Don't have permissions to PULL from this repository.\r\n";
-	
+
 	public Upload(Context context, String repoPath) {
 		super(context, repoPath);
 	}
-	
+
 	@Override
 	protected void runImpl() throws IOException {
-		if(!hasPermission()) {
+		if (!hasPermission()) {
 			err.write(MSG_REPOSITORY_PERMISSIONS.getBytes());
 			err.flush();
 			onExit(CODE_OK, MSG_REPOSITORY_PERMISSIONS);
 			return;
 		}
-		
+
 		Config config = new Config();
 //		int timeout = Integer.parseInt(config.getString("transfer", null,
 //				"timeout"));
 		int timeout = 10;
-		
+
 		PackConfig packConfig = new PackConfig();
 		packConfig.setDeltaCompress(false);
 		packConfig.setThreads(1);
@@ -61,7 +63,7 @@ public final class Upload extends AbstractGitCommand {
 
 	private boolean hasPermission() {
 		String username = session.getUsername();
-		
+
 		boolean hasPermission = false;
 		try {
 			hasPermission = sshAuthorizationManager.hasRepositoryPullPermission(username, getRepositoryMapping());
@@ -69,8 +71,8 @@ public final class Upload extends AbstractGitCommand {
 			Log.w(TAG, "Problem with user authorization.", e);
 			return false;
 		}
-		
+
 		return hasPermission;
 	}
-	
+
 }

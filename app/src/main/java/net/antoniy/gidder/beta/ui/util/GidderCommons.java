@@ -1,11 +1,5 @@
 package net.antoniy.gidder.beta.ui.util;
 
-import net.antoniy.gidder.beta.R;
-import net.antoniy.gidder.beta.service.SSHDaemonService;
-
-import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.util.encoders.Hex;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
@@ -26,43 +20,49 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
+import net.antoniy.gidder.beta.R;
+import net.antoniy.gidder.beta.service.SSHDaemonService;
+
+import org.bouncycastle.crypto.digests.SHA1Digest;
+import org.bouncycastle.util.encoders.Hex;
+
 public abstract class GidderCommons {
 	private final static int SSH_STARTED_NOTIFICATION_ID = 1;
-	
+
 	public static AlertDialog showTutorialDialog(final Context context) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Watch a YouTube video tutorial?");
-        builder.setIcon(android.R.drawable.ic_dialog_info);
-        builder.setPositiveButton("Watch", new DialogInterface.OnClickListener() {                     
-	            @Override
-	            public void onClick(DialogInterface dialog, int which) {
-	            	PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("firstrun", false).commit();
-	            	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=LhiSWE5-ezM"));
-	    			context.startActivity(browserIntent);
-	            } 
-	        });
+		builder.setTitle("Watch a YouTube video tutorial?");
+		builder.setIcon(android.R.drawable.ic_dialog_info);
+		builder.setPositiveButton("Watch", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("firstrun", false).commit();
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=LhiSWE5-ezM"));
+				context.startActivity(browserIntent);
+			}
+		});
 
-        builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+		builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("firstrun", false).commit();
 				dialog.dismiss();
 			}
 		});
-        AlertDialog alert = builder.create();
-        alert.show();
-        
-        return alert;
+		AlertDialog alert = builder.create();
+		alert.show();
+
+		return alert;
 	}
-	
+
 	public static int convertDpToPixels(WindowManager windowManager, float dp) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		windowManager.getDefaultDisplay().getMetrics(metrics);
 		float logicalDensity = metrics.density;
-		
+
 		return (int) (dp * logicalDensity + 0.5);
 	}
-	
+
 	public static boolean isWifiReady(Context context) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -169,28 +169,28 @@ public abstract class GidderCommons {
 			camelCaseString.append(toProperCase(part, isFirst));
 			isFirst = false;
 		}
-		
+
 		return camelCaseString.toString();
 	}
 
 	private static String toProperCase(String s, boolean firstLetterSmall) {
-		if(firstLetterSmall) {
+		if (firstLetterSmall) {
 			return s.toLowerCase();
 		}
-		
+
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
-	
+
 	public static void makeStatusBarNotification(Context context) {
 		Intent notificationIntent = new Intent(C.action.START_HOME_ACTIVITY);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		
+
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, 0);
 
 		String currentIpAddress = GidderCommons.getCurrentWifiIpAddress(context);
 		String sshPort = PreferenceManager.getDefaultSharedPreferences(context)
 				.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
-		
+
 		Notification notification = new NotificationCompat.Builder(context)
 				.setDefaults(Notification.DEFAULT_SOUND)
 				.setTicker("SSH server started!")
@@ -201,21 +201,21 @@ public abstract class GidderCommons {
 				.setOngoing(true)
 				.setWhen(System.currentTimeMillis())
 				.build();
-		
+
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(SSH_STARTED_NOTIFICATION_ID, notification);
 	}
-	
+
 	public static boolean isSshServiceRunning(Context context) {
-	    ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-	        if (SSHDaemonService.class.getName().equals(service.service.getClassName())) {
-	            return true;
-	        }
-	    }
-	    return false;
+		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+			if (SSHDaemonService.class.getName().equals(service.service.getClassName())) {
+				return true;
+			}
+		}
+		return false;
 	}
-	
+
 	public static void stopStatusBarNotification(Context context) {
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.cancel(SSH_STARTED_NOTIFICATION_ID);

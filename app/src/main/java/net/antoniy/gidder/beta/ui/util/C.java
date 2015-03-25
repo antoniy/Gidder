@@ -5,7 +5,7 @@ public abstract class C {
 	public static class action {
 		public final static String START_HOME_ACTIVITY = "net.antoniy.gidder.beta.START_HOME_ACTIVITY";
 		public final static String START_DONATE_ACTIVITY = "net.antoniy.gidder.beta.START_DONATE_ACTIVITY";
-		public final static String START_ADD_USER_ACTIVITY = "net.antoniy.gidder.beta.START_ADD_USER_ACTIVITY";		
+		public final static String START_ADD_USER_ACTIVITY = "net.antoniy.gidder.beta.START_ADD_USER_ACTIVITY";
 		public final static String START_ADD_REPOSITORY_ACTIVITY = "net.antoniy.gidder.beta.START_ADD_REPOSITORY_ACTIVITY";
 		public final static String START_PREFERENCE_ACTIVITY = "net.antoniy.gidder.beta.START_PREFERENCE_ACTIVITY";
 		public final static String START_DYNAMIC_DNS_ACTIVITY = "net.antoniy.gidder.beta.START_DYNAMIC_DNS_ACTIVITY";

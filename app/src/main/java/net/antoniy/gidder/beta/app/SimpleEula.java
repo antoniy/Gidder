@@ -1,6 +1,5 @@
 package net.antoniy.gidder.beta.app;
 
-import net.antoniy.gidder.beta.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +8,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+
+import net.antoniy.gidder.beta.R;
 
 public class SimpleEula {
 
@@ -71,7 +72,7 @@ public class SimpleEula {
 
 								@Override
 								public void onClick(DialogInterface dialog,
-										int which) {
+													int which) {
 									// Close the activity as they have declined
 									// the EULA
 									mActivity.finish();
@@ -80,15 +81,15 @@ public class SimpleEula {
 							});
 			AlertDialog alert = builder.create();
 			alert.show();
-			
+
 			return alert;
 		}
-		
+
 		return null;
 	}
-	
+
 	public void dismiss() {
-		
+
 	}
 
 }

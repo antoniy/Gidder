@@ -1,7 +1,5 @@
 package net.antoniy.gidder.beta.ui.activity;
 
-import net.antoniy.gidder.beta.R;
-import net.antoniy.gidder.beta.db.DBHelper;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -11,28 +9,30 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 
+import net.antoniy.gidder.beta.db.DBHelper;
+
 public abstract class BaseDialogFragment extends SherlockDialogFragment {
 
 	private volatile DBHelper helper;
 	private volatile boolean created = false;
 	private volatile boolean destroyed = false;
-	
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 //		setStyle(STYLE_NORMAL, R.style.Theme_Styled_Dialog);
-		
+
 		if (helper == null) {
 			helper = getHelperInternal(getActivity());
 			created = true;
 		}
-		
+
 		return super.onCreateDialog(savedInstanceState);
 	}
-	
+
 	////////////////////////////////////////////////////////////
 	//////////////////////// OrmLite ///////////////////////////
 	////////////////////////////////////////////////////////////
-	
+
 
 	/**
 	 * Get a helper for this action.
@@ -58,7 +58,7 @@ public abstract class BaseDialogFragment extends SherlockDialogFragment {
 	public ConnectionSource getConnectionSource() {
 		return getHelper().getConnectionSource();
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -70,7 +70,7 @@ public abstract class BaseDialogFragment extends SherlockDialogFragment {
 	 * This is called internally by the class to populate the helper object instance. This should not be called directly
 	 * by client code unless you know what you are doing. Use {@link #getHelper()} to get a helper instance. If you are
 	 * managing your own helper creation, override this method to supply this activity with a helper instance.
-	 * 
+	 * <p/>
 	 * <p>
 	 * <b> NOTE: </b> If you override this method, you most likely will need to override the
 	 * {@link #releaseHelper(OrmLiteSqliteOpenHelper)} method as well.
@@ -84,7 +84,7 @@ public abstract class BaseDialogFragment extends SherlockDialogFragment {
 	/**
 	 * Release the helper instance created in {@link #getHelperInternal(Context)}. You most likely will not need to call
 	 * this directly since {@link #onDestroy()} does it for you.
-	 * 
+	 * <p/>
 	 * <p>
 	 * <b> NOTE: </b> If you override this method, you most likely will need to override the
 	 * {@link #getHelperInternal(Context)} method as well.

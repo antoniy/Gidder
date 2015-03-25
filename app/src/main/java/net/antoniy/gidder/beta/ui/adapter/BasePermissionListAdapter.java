@@ -1,9 +1,5 @@
 package net.antoniy.gidder.beta.ui.adapter;
 
-import java.util.List;
-
-import net.antoniy.gidder.beta.R;
-import net.antoniy.gidder.beta.db.entity.Permission;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import net.antoniy.gidder.beta.R;
+import net.antoniy.gidder.beta.db.entity.Permission;
+
+import java.util.List;
 
 public abstract class BasePermissionListAdapter extends BaseAdapter {
 
@@ -26,34 +27,34 @@ public abstract class BasePermissionListAdapter extends BaseAdapter {
 		this.resourceIconPull = resourceIconPull;
 		this.resourceIconPushPull = resourceIconPushPull;
 	}
-	
+
 	protected abstract String getItemName(int position);
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v;
-		if(convertView == null) {
+		if (convertView == null) {
 			v = (LinearLayout) inflater.inflate(R.layout.permission_list_item, null);
 		} else {
 			v = convertView;
 		}
-		
+
 		Permission permission = items.get(position);
-		
+
 		ImageView dbIconImageView = (ImageView) v.findViewById(R.id.permissionListDbIcon);
 		TextView allowLabelTextView = (TextView) v.findViewById(R.id.permissionListAllowLabel);
-		
-		if(permission.isReadOnly()) {
+
+		if (permission.isReadOnly()) {
 			dbIconImageView.setImageResource(resourceIconPull);
 			allowLabelTextView.setText("Allow: pull");
 		} else {
 			dbIconImageView.setImageResource(resourceIconPushPull);
 			allowLabelTextView.setText("Allow: pull/push");
 		}
-		
+
 		TextView name = (TextView) v.findViewById(R.id.permissionListName);
 		name.setText(getItemName(position));
-		
+
 		return v;
 	}
 

@@ -1,9 +1,10 @@
 package net.antoniy.gidder.beta.ui.adapter;
 
-import java.util.List;
+import android.content.Context;
 
 import net.antoniy.gidder.beta.db.entity.Repository;
-import android.content.Context;
+
+import java.util.List;
 
 public class RepositoriesPopupListAdapter extends BasePopupListAdapter<Repository> {
 
@@ -13,7 +14,7 @@ public class RepositoriesPopupListAdapter extends BasePopupListAdapter<Repositor
 		super(context, resourceIconPullIcon, resourceIconPushPullIcon);
 		this.repositories = repositories;
 	}
-	
+
 	@Override
 	protected List<Repository> getData() {
 		return repositories;
@@ -33,5 +34,5 @@ public class RepositoriesPopupListAdapter extends BasePopupListAdapter<Repositor
 	protected String getDataItemName(int position) {
 		return repositories.get(position).getName();
 	}
-	
+
 }

@@ -1,7 +1,5 @@
 package net.antoniy.gidder.beta.ui.activity;
 
-import net.antoniy.gidder.beta.R;
-import net.antoniy.gidder.beta.ui.util.C;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,8 +9,11 @@ import android.widget.Button;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import net.antoniy.gidder.beta.R;
+import net.antoniy.gidder.beta.ui.util.C;
+
 public class DonateActivity extends BaseActivity {
-	
+
 	private final static String DONATE_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=antoniy%40chonkov%2enet&lc=US&item_name=Gidder&item_number=Gidder&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
 
 //	protected static final int INITIALIZE_SUCCESS = 0;
@@ -26,13 +27,13 @@ public class DonateActivity extends BaseActivity {
 //	
 //	// This is passed in for the startActivityForResult() android function, the value used is up to you
 //	private static final int request = 100;
-	
+
 //	private EditText amountEditText;
 //	private View mainContainer;
 	private Button webButton;
 //	private CheckoutButton launchPayPalButton;
 //	private ProgressDialog dialog;
-	
+
 //	private BroadcastReceiver leaveBroadcastReceiver = new BroadcastReceiver() {
 //		
 //		@Override
@@ -48,7 +49,7 @@ public class DonateActivity extends BaseActivity {
 //			}
 //		}
 //	};
-	
+
 //	private Handler paypalRefreshHandler = new Handler() {
 //		@Override
 //		public void handleMessage(Message msg) {
@@ -77,7 +78,7 @@ public class DonateActivity extends BaseActivity {
 	protected void setup() {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.donate);
-	} 
+	}
 
 	@Override
 	protected void initComponents(Bundle savedInstanceState) {
@@ -85,9 +86,9 @@ public class DonateActivity extends BaseActivity {
 //		
 //		mainContainer = (View) findViewById(R.id.donateMainContainer);
 //		mainContainer.setVisibility(View.INVISIBLE);
-		
+
 //		amountEditText = (EditText) findViewById(R.id.donateAmount);
-		
+
 		webButton = (Button) findViewById(R.id.donateWebButton);
 		webButton.setOnClickListener(this);
 
@@ -110,7 +111,7 @@ public class DonateActivity extends BaseActivity {
 //		
 //		dialog = ProgressDialog.show(DonateActivity.this, "", "Initializing PayPal library. Please wait...", true);
 	}
-	
+
 //	private void paypalSetupButton() {
 //		launchPayPalButton = PayPal.getInstance().getCheckoutButton(this, PayPal.BUTTON_278x43, CheckoutButton.TEXT_DONATE);
 //		launchPayPalButton.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
@@ -158,31 +159,31 @@ public class DonateActivity extends BaseActivity {
 //			launchPayPalButton.updateButton();
 //		}
 //	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuItem continueMenuItem = menu.add("Skip");
 		continueMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		continueMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-			
+
 			@Override
 			public boolean onMenuItemClick(MenuItem arg0) {
 				Intent intent = new Intent(C.action.START_HOME_ACTIVITY);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				
+
 				finish();
 				startActivity(intent);
 				return true;
 			}
-			
+
 		});
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public void onClick(View v) {
-		if(v.getId() == R.id.donateWebButton) {
+		if (v.getId() == R.id.donateWebButton) {
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(DONATE_PAYPAL_URL));
 			startActivity(browserIntent);
 //		} else if(v == launchPayPalButton) {
@@ -220,19 +221,19 @@ public class DonateActivity extends BaseActivity {
 //			startActivityForResult(paypalIntent, request);
 		}
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId() == android.R.id.home) {
+		if (item.getItemId() == android.R.id.home) {
 			Intent intent = new Intent(C.action.START_HOME_ACTIVITY);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			
+
 			finish();
 			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 //	@Override
 //	protected void onResume() {
 //		super.onResume();
