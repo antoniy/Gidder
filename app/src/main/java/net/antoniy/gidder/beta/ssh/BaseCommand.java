@@ -14,18 +14,18 @@
 
 package net.antoniy.gidder.beta.ssh;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public abstract class BaseCommand implements Command, SessionAware {
 	public final static int CODE_OK = 0;
 	public final static int CODE_ERROR = 255;
-	
+
 	protected InputStream in;
 	protected OutputStream out;
 	protected OutputStream err;
@@ -59,18 +59,17 @@ public abstract class BaseCommand implements Command, SessionAware {
 
 	/**
 	 * Terminate this command and return a result code to the remote client.
-	 * <p>
+	 * <p/>
 	 * Commands should invoke this at most once. Once invoked, the command may
 	 * lose access to request based resources as any callbacks previously
 	 * registered with {@link RequestCleanup} will fire.
-	 * 
-	 * @param rc
-	 *            exit code for the remote client.
+	 *
+	 * @param rc exit code for the remote client.
 	 */
 	protected void onExit(final int rc) {
 		exit.onExit(rc);
 	}
-	
+
 	protected void onExit(final int rc, final String message) {
 		exit.onExit(rc, message);
 	}

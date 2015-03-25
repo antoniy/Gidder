@@ -1,9 +1,5 @@
 package net.antoniy.gidder.beta.ui.adapter;
 
-import java.util.List;
-
-import net.antoniy.gidder.beta.R;
-import net.antoniy.gidder.beta.db.entity.User;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import net.antoniy.gidder.beta.R;
+import net.antoniy.gidder.beta.db.entity.User;
+
+import java.util.List;
 
 public class UsersAdapter extends BaseAdapter {
 
@@ -24,28 +25,28 @@ public class UsersAdapter extends BaseAdapter {
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.items = items;
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v;
-		if(convertView == null) {
+		if (convertView == null) {
 			v = (LinearLayout) inflater.inflate(itemResourceId, null);
 		} else {
 			v = convertView;
 		}
-		
+
 		User user = items.get(position);
-		
+
 		ImageView userImage = (ImageView) v.findViewById(R.id.usersItemImage);
-		if(user.isActive()) {
+		if (user.isActive()) {
 			userImage.setImageResource(R.drawable.ic_user_active);
 		} else {
 			userImage.setImageResource(R.drawable.ic_user_inactive);
 		}
-		
+
 		TextView userFullname = (TextView) v.findViewById(R.id.usersItemFullname);
 		userFullname.setText(user.getFullname());
-		
+
 		return v;
 	}
 

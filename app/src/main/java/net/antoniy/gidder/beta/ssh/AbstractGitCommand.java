@@ -1,6 +1,7 @@
 package net.antoniy.gidder.beta.ssh;
 
-import java.io.IOException;
+import android.content.Context;
+import android.util.Log;
 
 import net.antoniy.gidder.beta.git.GitRepositoryDao;
 
@@ -9,8 +10,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
-import android.content.Context;
-import android.util.Log;
+import java.io.IOException;
 
 public abstract class AbstractGitCommand extends BaseCommand {
 	private final static String TAG = AbstractGitCommand.class.getSimpleName();

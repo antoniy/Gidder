@@ -1,14 +1,5 @@
 package net.antoniy.gidder.beta.ui.fragment;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import net.antoniy.gidder.beta.R;
-import net.antoniy.gidder.beta.db.entity.Repository;
-import net.antoniy.gidder.beta.git.GitRepositoryDao;
-import net.antoniy.gidder.beta.ui.activity.AddRepositoryActivity;
-import net.antoniy.gidder.beta.ui.adapter.RepositoryAdapter;
-import net.antoniy.gidder.beta.ui.util.C;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,6 +21,16 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import net.antoniy.gidder.beta.R;
+import net.antoniy.gidder.beta.db.entity.Repository;
+import net.antoniy.gidder.beta.git.GitRepositoryDao;
+import net.antoniy.gidder.beta.ui.activity.AddRepositoryActivity;
+import net.antoniy.gidder.beta.ui.adapter.RepositoryAdapter;
+import net.antoniy.gidder.beta.ui.util.C;
+
+import java.sql.SQLException;
+import java.util.List;
+
 public class RepositoriesFragment extends BaseFragment implements OnItemLongClickListener, OnItemClickListener, PopupWindow.OnDismissListener {
 	private final static String TAG = RepositoriesFragment.class.getSimpleName();
 
@@ -41,16 +42,16 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		setHasOptionsMenu(true);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		LinearLayout mainContainer = (LinearLayout) inflater.inflate(R.layout.repositories, null);
 
 		noRepositoriesTextView = (TextView) mainContainer.findViewById(R.id.repositoriesNoRepositoriesTextView);
-		
+
 		repositoriesListView = (ListView) mainContainer.findViewById(R.id.repositoriesListView);
 		loadRepositoriesListContent();
 		repositoriesListView.setOnItemLongClickListener(this);
@@ -58,25 +59,25 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 
 		return mainContainer;
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		loadRepositoriesListContent();
 	}
-	
+
 	@Override
 	public void onPause() {
-		if(confirmDialog != null) {
+		if (confirmDialog != null) {
 			confirmDialog.dismiss();
 		}
-		
+
 		super.onPause();
 	}
 
 	private void showRepositoryList(boolean show) {
-		if(show) {
+		if (show) {
 			repositoriesListView.setVisibility(View.VISIBLE);
 			noRepositoriesTextView.setVisibility(View.GONE);
 		} else {
@@ -84,7 +85,7 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 			noRepositoriesTextView.setVisibility(View.VISIBLE);
 		}
 	}
-	
+
 	private void loadRepositoriesListContent() {
 		List<Repository> repositories = null;
 		try {
@@ -93,7 +94,7 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 			Log.e(TAG, "Could not retrieve repositories.", e);
 			return;
 		}
-		
+
 		showRepositoryList(repositories.size() > 0);
 
 		repositoriesListAdapter = new RepositoryAdapter(getActivity(), R.layout.repositories_item, repositories);
@@ -118,7 +119,7 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 			Log.e(TAG, "Could not retrieve repositories.", e);
 			return;
 		}
-		
+
 		showRepositoryList(repositories.size() > 0);
 
 		repositoriesListAdapter.setItems(repositories);
@@ -141,11 +142,11 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 
 		startActivityForResult(intent, 0);
 	}
-	
+
 	@Override
 	public void onDismiss() {
 	}
-	
+
 	private final class UserListActionMode implements ActionMode.Callback {
 
 		private final int position;
@@ -153,7 +154,7 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 		public UserListActionMode(int position) {
 			this.position = position;
 		}
-		
+
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			mode.finish();
@@ -164,100 +165,100 @@ public class RepositoriesFragment extends BaseFragment implements OnItemLongClic
 		public boolean onCreateActionMode(final ActionMode mode, Menu menu) {
 			final Repository repository = repositoriesListAdapter.getItem(position);
 			mode.setTitle(repository.getName());
-			
-			menu.add("Delete")
-				.setIcon(R.drawable.ic_actionbar_delete)
-            	.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-            	.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-					
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-						    @Override
-						    public void onClick(DialogInterface dialog, int which) {
-						        if(which == DialogInterface.BUTTON_POSITIVE) {
-						            try {
-						            	new GitRepositoryDao(getActivity()).deleteRepository(repository.getMapping());
-										getHelper().getRepositoryDao().deleteById(repository.getId());
-										updateRepositoriesList();
-									} catch (SQLException e) {
-										Log.e(TAG, "Problem while deleting repository.", e);
-									}
-						        }
-						    }
-						};
 
-						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-						confirmDialog = builder.setMessage("Delete " + repository.getName() + "?").setPositiveButton("Yes", dialogClickListener)
-						    .setNegativeButton("No", null).show();
-						
-						mode.finish();
-						return true;
-					}
-					
-				});
-			
-			if(!repository.isActive()) {
-				menu.add("Activate")
-	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-						
+			menu.add("Delete")
+					.setIcon(R.drawable.ic_actionbar_delete)
+					.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+					.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
 						@Override
 						public boolean onMenuItemClick(MenuItem item) {
-							repository.setActive(true);
-							
-							try {
-								getHelper().getRepositoryDao().update(repository);
-								updateRepositoriesList();
-							} catch (SQLException e) {
-								Log.e(TAG, "Problem while activating repository.", e);
-							}
-							
+							DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									if (which == DialogInterface.BUTTON_POSITIVE) {
+										try {
+											new GitRepositoryDao(getActivity()).deleteRepository(repository.getMapping());
+											getHelper().getRepositoryDao().deleteById(repository.getId());
+											updateRepositoriesList();
+										} catch (SQLException e) {
+											Log.e(TAG, "Problem while deleting repository.", e);
+										}
+									}
+								}
+							};
+
+							AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+							confirmDialog = builder.setMessage("Delete " + repository.getName() + "?").setPositiveButton("Yes", dialogClickListener)
+									.setNegativeButton("No", null).show();
+
 							mode.finish();
 							return true;
 						}
-						
+
 					});
+
+			if (!repository.isActive()) {
+				menu.add("Activate")
+						.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+							@Override
+							public boolean onMenuItemClick(MenuItem item) {
+								repository.setActive(true);
+
+								try {
+									getHelper().getRepositoryDao().update(repository);
+									updateRepositoriesList();
+								} catch (SQLException e) {
+									Log.e(TAG, "Problem while activating repository.", e);
+								}
+
+								mode.finish();
+								return true;
+							}
+
+						});
 			} else {
 				menu.add("Deactivate")
-	        		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-	        		.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-						
+						.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+						.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+							@Override
+							public boolean onMenuItemClick(MenuItem item) {
+								repository.setActive(false);
+
+								try {
+									getHelper().getRepositoryDao().update(repository);
+									updateRepositoriesList();
+								} catch (SQLException e) {
+									Log.e(TAG, "Problem while deactivating repository.", e);
+								}
+
+								mode.finish();
+								return true;
+							}
+
+						});
+			}
+
+			menu.add("Edit")
+					.setIcon(R.drawable.ic_actionbar_edit)
+					.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+					.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
 						@Override
 						public boolean onMenuItemClick(MenuItem item) {
-							repository.setActive(false);
-							
-							try {
-								getHelper().getRepositoryDao().update(repository);
-								updateRepositoriesList();
-							} catch (SQLException e) {
-								Log.e(TAG, "Problem while deactivating repository.", e);
-							}
-							
+							Intent intent = new Intent(C.action.START_ADD_REPOSITORY_ACTIVITY);
+							intent.putExtra("repositoryId", repository.getId());
+							startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_EDIT_REPOSITORY);
+
 							mode.finish();
 							return true;
 						}
-						
+
 					});
-			}
-			
-			menu.add("Edit")
-			.setIcon(R.drawable.ic_actionbar_edit)
-			.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-			.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-				
-				@Override
-				public boolean onMenuItemClick(MenuItem item) {
-					Intent intent = new Intent(C.action.START_ADD_REPOSITORY_ACTIVITY);
-					intent.putExtra("repositoryId", repository.getId());
-					startActivityForResult(intent, AddRepositoryActivity.REQUEST_CODE_EDIT_REPOSITORY);
-					
-					mode.finish();
-					return true;
-				}
-				
-			});
-			
+
 			return true;
 		}
 

@@ -1,13 +1,13 @@
 package net.antoniy.gidder.beta.db.entity;
 
-import java.io.Serializable;
-import java.util.Collection;
-
-import net.antoniy.gidder.beta.db.DBC;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import net.antoniy.gidder.beta.db.DBC;
+
+import java.io.Serializable;
+import java.util.Collection;
 
 @DatabaseTable(tableName = DBC.users.table_name)
 public class User implements Serializable {
@@ -28,8 +28,8 @@ public class User implements Serializable {
 	@DatabaseField(columnName = DBC.users.column_password, canBeNull = false)
 	private String password;
 
-    @DatabaseField(columnName = DBC.users.column_publickey, canBeNull = true, unique = true)
-    private String publickey;
+	@DatabaseField(columnName = DBC.users.column_publickey, canBeNull = true, unique = true)
+	private String publickey;
 
 	@DatabaseField(columnName = DBC.users.column_active, canBeNull = false, defaultValue = "false")
 	private boolean active;
@@ -43,21 +43,21 @@ public class User implements Serializable {
 	public User() {
 	}
 
-    public User(int id, String fullname, String email, String username,
-                String password, String publickey, boolean active, long createDate) {
-        this.id = id;
-        this.fullname = fullname;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.publickey = publickey;
-        this.active = active;
-        this.createDate = createDate;
-    }
-
-    // left in for compatibility
 	public User(int id, String fullname, String email, String username,
-			String password, boolean active, long createDate) {
+				String password, String publickey, boolean active, long createDate) {
+		this.id = id;
+		this.fullname = fullname;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.publickey = publickey;
+		this.active = active;
+		this.createDate = createDate;
+	}
+
+	// left in for compatibility
+	public User(int id, String fullname, String email, String username,
+				String password, boolean active, long createDate) {
 		this(id, fullname, email, username, password, null, active, createDate);
 	}
 
@@ -101,9 +101,13 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-    public String getPublickey() { return publickey; }
+	public String getPublickey() {
+		return publickey;
+	}
 
-    public void setPublickey(String publickey) { this.publickey = publickey; }
+	public void setPublickey(String publickey) {
+		this.publickey = publickey;
+	}
 
 	public Collection<Permission> getPermissions() {
 		return permissions;

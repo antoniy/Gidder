@@ -1,18 +1,18 @@
 package net.antoniy.gidder.beta.ssh;
 
-import java.io.IOException;
-
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.Constants;
 
+import java.io.IOException;
+
 public class SendMessageCommand extends BaseCommand {
-	
+
 	private String message;
 	private int exitCode = CODE_OK;
-	
+
 	public SendMessageCommand() {
 	}
-	
+
 	public SendMessageCommand(String message, int exitCode) {
 		this.message = message;
 		this.exitCode = exitCode;
@@ -31,10 +31,10 @@ public class SendMessageCommand extends BaseCommand {
 	}
 
 	private String getMessage(String user) {
-		if(message != null && !"".equals(message)) {
+		if (message != null && !"".equals(message)) {
 			return message;
 		}
-		
+
 		StringBuilder msg = new StringBuilder();
 
 		msg.append("\r\n");
@@ -60,7 +60,7 @@ public class SendMessageCommand extends BaseCommand {
 		msg.append("\r\n");
 
 		msg.append("\r\n");
-		
+
 		return msg.toString();
 	}
 

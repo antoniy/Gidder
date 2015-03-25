@@ -6,7 +6,7 @@ public class SshAuthorizationException extends Exception {
 	public SshAuthorizationException(String message) {
 		super(message);
 	}
-	
+
 	public SshAuthorizationException(String message, Throwable e) {
 		super(message, e);
 	}

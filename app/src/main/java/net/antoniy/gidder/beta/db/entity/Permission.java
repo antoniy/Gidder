@@ -1,11 +1,11 @@
 package net.antoniy.gidder.beta.db.entity;
 
-import java.io.Serializable;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import net.antoniy.gidder.beta.db.DBC;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import java.io.Serializable;
 
 @DatabaseTable(tableName = DBC.permissions.table_name)
 public class Permission implements Serializable {
@@ -13,30 +13,30 @@ public class Permission implements Serializable {
 
 	@DatabaseField(columnName = DBC.permissions.column_id, generatedId = true, canBeNull = false)
 	private int id;
-	
+
 	@DatabaseField(
-			columnName = DBC.permissions.column_user_id, 
-			foreign = true, 
-			foreignAutoRefresh = true, 
-			foreignAutoCreate = true, 
-			uniqueCombo = true,
-			canBeNull = false
-		)
-	private User user;
-	
-	@DatabaseField(
-			columnName = DBC.permissions.column_repository_id, 
-			foreign = true, 
-			foreignAutoRefresh = true, 
+			columnName = DBC.permissions.column_user_id,
+			foreign = true,
+			foreignAutoRefresh = true,
 			foreignAutoCreate = true,
 			uniqueCombo = true,
 			canBeNull = false
-		)
+	)
+	private User user;
+
+	@DatabaseField(
+			columnName = DBC.permissions.column_repository_id,
+			foreign = true,
+			foreignAutoRefresh = true,
+			foreignAutoCreate = true,
+			uniqueCombo = true,
+			canBeNull = false
+	)
 	private Repository repository;
-	
+
 	@DatabaseField(columnName = DBC.permissions.column_read_only, canBeNull = false, defaultValue = "false")
 	private boolean readOnly;
-	
+
 	public Permission() {
 	}
 
@@ -46,7 +46,7 @@ public class Permission implements Serializable {
 		this.repository = repository;
 		this.setReadOnly(readOnly);
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -78,5 +78,5 @@ public class Permission implements Serializable {
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 	}
-	
+
 }
