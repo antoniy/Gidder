@@ -20,10 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-public class NoIpStrategy extends DynamicDNS {
+public class NoIpStrategy extends BaseDynamicDNS {
 	
 	private final static String URL_TEMPLATE = "http://dynupdate.no-ip.com/nic/update?hostname=%s&myip=%s";
-	
+	private final static String URL_TEMPLATE_WITHOUT_IP = "http://dynupdate.no-ip.com/nic/update?hostname=%s";
+
 	private final static String RETURN_CODE_GOOD = "good";
 	private final static String RETURN_CODE_NOCHG = "nochg";
 	private final static String RETURN_CODE_NOHOST = "nohost";
@@ -39,77 +40,39 @@ public class NoIpStrategy extends DynamicDNS {
 		super(context);
 	}
 
-	public void update(String hostname, String address, String username, String password) {
-		HttpParams httpParams = new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
-		HttpConnectionParams.setSoTimeout(httpParams, 3000);
-		
-		DefaultHttpClient httpClient = new DefaultHttpClient(httpParams  );
-        try {
-            httpClient.getCredentialsProvider().setCredentials(AuthScope.ANY,
-                    new UsernamePasswordCredentials(username, password));
-            
-
-            String url = String.format(URL_TEMPLATE, hostname, address);
-            
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("User-Agent", "Gidder/1.0 antoniy@gmail.com");
-            
-            Log.i(TAG, "executing request " + httpGet.getRequestLine());
-            HttpResponse response = httpClient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-
-            Log.i(TAG, response.getStatusLine().toString());
-            if(entity == null) {
-            	Log.w(TAG, "Response entity is empty!");
-            }
-
-            String content = EntityUtils.toString(entity);
-            
-            if(content == null || "".equals(content.trim())) {
-            	Log.w(TAG, "Content is empty!");
-            	return;
-            }
-            
-            content = content.trim();
-            
-            Log.i(TAG, "Content: " + content);
-            
-            if(content.startsWith(RETURN_CODE_GOOD)) {
-            	makeToast("Dynamic DNS was successfully updated.");
-            } else if(content.startsWith(RETURN_CODE_NOCHG)) {
-            	makeToast("Dynamic DNS was successfully updated.");
-            } else if(content.startsWith(RETURN_CODE_NOHOST)) {
-            	makeToast("Dynamic DNS hostname is incorrect.");
-            } else if(content.startsWith(RETURN_CODE_BADAUTH)) {
-            	makeToast("Dynamic DNS authentication failed.");
-            } else if(content.startsWith(RETURN_CODE_BADAGENT)) {
-            	Log.e(TAG, "Agent information is not correct!");
-            } else if(content.startsWith(RETURN_CODE_DONATOR)) {
-            	Log.w(TAG, "Update request include feature that is not available for the user!");
-            } else if(content.startsWith(RETURN_CODE_ABUSE)) {
-            	makeToast("Dynamic DNS username abuse problem.");
-            } else if(content.startsWith(RETURN_CODE_911)) {
-            	makeToast("Dynamic DNS provider has fatal problem.");
-            }
-            	
-		} catch (ConnectTimeoutException e) {
-			Log.w(TAG, "WiFi is not yet connected! Try again in a minute.", e);
-			
-			Intent broadcastIntent = new Intent(C.action.UPDATE_DYNAMIC_DNS_ADDRESS);
-			broadcastIntent.putExtra("scheduled", true);
-			
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0);
-			
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60L * 1000L, pendingIntent);
-		} catch (Exception e) {
-			Log.e(TAG, "Problem updating dynamic DNS.", e);
-			makeToast("Problem updating dynamic DNS.");
-		} finally {
-            httpClient.getConnectionManager().shutdown();
-        }
-		return;
+	@Override
+	protected String getServiceURL(String hostname, String address) {
+		if (address == null) {
+			return String.format(URL_TEMPLATE_WITHOUT_IP, hostname);
+		} else {
+			return String.format(URL_TEMPLATE, hostname, address);
+		}
 	}
-	
+
+	@Override
+	protected void handleResponseContent(String content) {
+		if(content.startsWith(RETURN_CODE_GOOD)) {
+			makeToast("Dynamic DNS was successfully updated.");
+		} else if(content.startsWith(RETURN_CODE_NOCHG)) {
+			makeToast("Dynamic DNS was successfully updated.");
+		} else if(content.startsWith(RETURN_CODE_NOHOST)) {
+			makeToast("Dynamic DNS hostname is incorrect.");
+		} else if(content.startsWith(RETURN_CODE_BADAUTH)) {
+			makeToast("Dynamic DNS authentication failed.");
+		} else if(content.startsWith(RETURN_CODE_BADAGENT)) {
+			Log.e(TAG, "Agent information is not correct!");
+		} else if(content.startsWith(RETURN_CODE_DONATOR)) {
+			Log.w(TAG, "Update request include feature that is not available for the user!");
+		} else if(content.startsWith(RETURN_CODE_ABUSE)) {
+			makeToast("Dynamic DNS username abuse problem.");
+		} else if(content.startsWith(RETURN_CODE_911)) {
+			makeToast("Dynamic DNS provider has fatal problem.");
+		}
+	}
+
+	@Override
+	protected String getUserAgent() {
+		return "Gidder/1.0 antoniy@gmail.com";
+	}
+
 }

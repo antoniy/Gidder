@@ -33,6 +33,7 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 	private EditText passwordEditText;
 	private CheckBox activateCheckBox;
 	private CheckBox showPasswordCheckBox;
+	private CheckBox behindRouterCheckBox;
 	private LinearLayout mainContainer;
 	private SharedPreferences prefs;
 
@@ -50,6 +51,7 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 		String domain = prefs.getString(PrefsConstants.DYNDNS_DOMAIN.getKey(), "");
 		String username = prefs.getString(PrefsConstants.DYNDNS_USERNAME.getKey(), "");
 		String password = prefs.getString(PrefsConstants.DYNDNS_PASSWORD.getKey(), "");
+		boolean behindRouter = prefs.getBoolean(PrefsConstants.BEHIND_ROUTER.getKey(), false);
 		
         providerSpinner = (Spinner) findViewById(R.id.dynamicDnsProvider);
         providerSpinner.setSelection(providerIndex);
@@ -69,7 +71,11 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
         
         showPasswordCheckBox = (CheckBox) findViewById(R.id.dynamicDnsShowPassword);
         showPasswordCheckBox.setOnCheckedChangeListener(this);
-        
+
+		behindRouterCheckBox = (CheckBox) findViewById(R.id.behindRouter);
+		behindRouterCheckBox.setChecked(behindRouter);
+		behindRouterCheckBox.setOnCheckedChangeListener(this);
+
         mainContainer = (LinearLayout) findViewById(R.id.dynamicDnsMainContainer);
         if(!isActive) {
         	mainContainer.setVisibility(View.GONE);
@@ -201,6 +207,10 @@ public class DynamicDNSActivity extends BaseActivity implements OnCheckedChangeL
 			} else {
 				passwordEditText.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
 			}
+		} else if (id == R.id.behindRouter) {
+			SharedPreferences.Editor prefsEditor = prefs.edit();
+			prefsEditor.putBoolean(PrefsConstants.BEHIND_ROUTER.getKey(), isChecked);
+			prefsEditor.commit();
 		}
 	}
 	

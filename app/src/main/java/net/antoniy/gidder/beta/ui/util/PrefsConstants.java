@@ -14,7 +14,8 @@ public enum PrefsConstants {
 	DYNDNS_DOMAIN("dyndns_domain", ""),
 	DYNDNS_PASSWORD("dyndns_username", ""),
 	DYNDNS_USERNAME("dyndns_password", ""),
-	
+
+	BEHIND_ROUTER("behindRouter", "false"),
 	AUTOSTART_ON_WIFI_ON("autostart_on_wifi_on", "false"),
 	AUTOSTOP_ON_WIFI_OFF("autostop_on_wifi_off", "false"),
 	
