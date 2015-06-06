@@ -15,6 +15,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,6 +26,11 @@ import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
+
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 
 public abstract class GidderCommons {
 	private final static int SSH_STARTED_NOTIFICATION_ID = 1;
@@ -73,6 +79,17 @@ public abstract class GidderCommons {
 		} else {
 			return false;
 		}
+	}
+
+	public static boolean isNetworkReady(Context context) {
+		return isWifiReady(context) || isEthernetConnected(context);
+	}
+
+	public static boolean isEthernetConnected(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET);
+		//NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+		return info != null && info.isConnected();
 	}
 
 	public static boolean isWifiConnected(Context context) {
@@ -124,13 +141,55 @@ public abstract class GidderCommons {
 		return reversedArray;
 	}
 
+	public static String getCurrentAddress(Context context) {
+		String addr = getCurrentWifiIpAddress(context);
+		if (addr == null) {
+			return getFirstNonLoopbackAddress();
+		}
+		return addr;
+	}
+
+	public static String getFirstNonLoopbackAddress() {
+		String result = "";
+		try {
+
+			for(Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();interfaces.hasMoreElements();) {
+				NetworkInterface ni = interfaces.nextElement();
+				for (Enumeration<InetAddress> iaddress = ni.getInetAddresses(); iaddress.hasMoreElements(); ) {
+					InetAddress ia = iaddress.nextElement();
+					byte[] addr = ia.getAddress();
+					Log.i("Commons", "interface address:" + ia.toString() + " host:" + ia.getHostAddress()+ " loopback:"+ia.isLoopbackAddress()+
+							" addr:"+formatIpAddress(addr));
+					if (!ia.isLoopbackAddress() && addr != null && addr.length == 4) {
+						result = formatIpAddress(addr);
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			Log.e("Commons", "getFirstNonLoopbackAddress: '" + e.getMessage()+ "'",e);
+		}
+		return result;
+	}
+
 	public static String getCurrentWifiIpAddress(Context context) {
 		WifiManager myWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
 		WifiInfo myWifiInfo = myWifiManager.getConnectionInfo();
 		int ipAddress = myWifiInfo.getIpAddress();
+		if (ipAddress != 0) {
+			return formatIpAddress(ipAddress);
+		} else {
+			return null;
+		}
+	}
 
+	private static String formatIpAddress(int ipAddress) {
 		byte[] addr = GidderCommons.convertIntToInet4Addr(ipAddress);
+		return formatIpAddress(addr);
+	}
+
+	private static String formatIpAddress(byte[] addr) {
 		StringBuffer addressBuffer = new StringBuffer();
 		for (byte b : addr) {
 			if (!(addressBuffer.length() == 0)) {
@@ -140,6 +199,10 @@ public abstract class GidderCommons {
 		}
 
 		return addressBuffer.toString();
+	}
+
+	public static String getCurrentServerAddress(Context context,SharedPreferences prefs) {
+		return getCurrentAddress(context) + ':' + prefs.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
 	}
 
 	public static String generateSha1(String data) {
@@ -187,16 +250,14 @@ public abstract class GidderCommons {
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 1, notificationIntent, 0);
 
-		String currentIpAddress = GidderCommons.getCurrentWifiIpAddress(context);
-		String sshPort = PreferenceManager.getDefaultSharedPreferences(context)
-				.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue());
-		
+		String currentAddress = GidderCommons.getCurrentServerAddress(context, PreferenceManager.getDefaultSharedPreferences(context));
+
 		Notification notification = new NotificationCompat.Builder(context)
 				.setDefaults(Notification.DEFAULT_SOUND)
 				.setTicker("SSH server started!")
 				.setContentIntent(contentIntent)
 				.setSmallIcon(R.drawable.ic_stat_notification)
-				.setContentText(currentIpAddress + ":" + sshPort)
+				.setContentText(currentAddress)
 				.setContentTitle("SSH server is running")
 				.setOngoing(true)
 				.setWhen(System.currentTimeMillis())

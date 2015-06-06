@@ -19,9 +19,9 @@ public class ToggleSSHServerBroadcastReceiver extends BroadcastReceiver {
 			if(GidderCommons.isSshServiceRunning(context)) {
 				context.stopService(new Intent(C.action.START_SSH_SERVER));
 				Log.i(TAG, "Broadcast - stop service!");
-			} else if (!GidderCommons.isWifiReady(context)) {
-				Toast.makeText(context, "WiFi is NOT connected!", Toast.LENGTH_SHORT).show();
-				Log.i(TAG, "Broadcast failed - wifi is NOT connected!");
+			} else if (!GidderCommons.isNetworkReady(context)) {
+				Toast.makeText(context, "Network is NOT ready!", Toast.LENGTH_SHORT).show();
+				Log.i(TAG, "Broadcast failed - network is NOT ready!");
 			} else {
 				context.startService(new Intent(C.action.START_SSH_SERVER));
 				Log.i(TAG, "Broadcast - start service!");
