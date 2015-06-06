@@ -34,6 +34,7 @@ public class DynamicDNSManager {
 		final int providerIndex = prefs.getInt(PrefsConstants.DYNDNS_PROVIDER_INDEX.getKey(), -1);
 		final String username = prefs.getString(PrefsConstants.DYNDNS_USERNAME.getKey(), "");
 		final String password = prefs.getString(PrefsConstants.DYNDNS_PASSWORD.getKey(), "");
+		final boolean behindRouter = prefs.getBoolean(PrefsConstants.BEHIND_ROUTER.getKey(), false);
 		
 		if(!active) {
 			return;
@@ -43,7 +44,7 @@ public class DynamicDNSManager {
 			Toast.makeText(context, "Dynamic DNS information is NOT valid!", Toast.LENGTH_SHORT).show();
 		}
 		
-		final String address = GidderCommons.getCurrentWifiIpAddress(context);
+		final String address = behindRouter ? null : GidderCommons.getCurrentWifiIpAddress(context);
 		
 		if(providerIndex == PROVIDER_INDEX_NOIP) {
 			updateOnNewThread(DynamicDNSFactory.createNoIpStrategy(context, toastHandler), hostname, address, username, password);
@@ -60,7 +61,7 @@ public class DynamicDNSManager {
 				try {
 					strategy.update(
 							URLEncoder.encode(hostname, "UTF-8"), 
-							URLEncoder.encode(address, "UTF-8"), 
+							address != null ? URLEncoder.encode(address, "UTF-8") : null,
 							URLEncoder.encode(username, "UTF-8"),
 							URLEncoder.encode(password, "UTF-8"));
 				} catch (UnsupportedEncodingException e) {

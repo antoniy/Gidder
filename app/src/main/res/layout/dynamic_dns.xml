@@ -105,7 +105,17 @@
 			    android:textColor="@android:color/primary_text_dark"
 			    android:paddingLeft="48sp"
 			    android:checked="false"/>
-					         
+
+			<CheckBox
+				android:id="@+id/behindRouter"
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent"
+				android:text="Behind router"
+				android:textSize="16sp"
+				android:textColor="@android:color/primary_text_dark"
+				android:paddingLeft="48sp"
+				android:checked="false" />
+
 		</LinearLayout>
 
 	</LinearLayout>
