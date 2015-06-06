@@ -46,21 +46,11 @@ public class HomeActivity extends BaseActivity {
 			final String action = intent.getAction();
 
 			if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-				if (GidderCommons.isWifiReady(context)) {
-					wifiStatusTextView.setText("WiFi connected to");
-		        	wifiSSIDTextView.setText(GidderCommons.getWifiSSID(context));
-		        	wirelessImageView.setImageResource(R.drawable.ic_wireless_enabled);
-		        	startStopButton.setBackgroundResource(R.drawable.blue_btn_selector);
-				} else {
-					wifiStatusTextView.setText("WiFi is NOT connected");
-		        	wifiSSIDTextView.setText("");
-		        	wirelessImageView.setImageResource(R.drawable.ic_wireless_disabled);
-		        	startStopButton.setBackgroundResource(R.drawable.white_btn_selector);
-				}
+				showWifiStatus(context);
 			}
 		}
 	};
-	
+
 	private BroadcastReceiver sshdBroadcastReceiver = new BroadcastReceiver() {
 		
 		@Override
@@ -83,8 +73,7 @@ public class HomeActivity extends BaseActivity {
 		        animationSet.addAnimation(fadeInAnimation);
 		        animationSet.setInterpolator(AnimationUtils.loadInterpolator(HomeActivity.this, android.R.anim.overshoot_interpolator));
 				
-				homeServerInfoTextView.setText(GidderCommons.getCurrentWifiIpAddress(HomeActivity.this) + ":" + 
-	        			prefs.getString(PrefsConstants.SSH_PORT.getKey(), PrefsConstants.SSH_PORT.getDefaultValue()));
+				homeServerInfoTextView.setText(GidderCommons.getCurrentServerAddress(HomeActivity.this,prefs));
 				
 				homeServerInfoTextView.startAnimation(animationSet);
 				homeServerInfoTextView.setVisibility(View.VISIBLE);
@@ -134,19 +123,9 @@ public class HomeActivity extends BaseActivity {
         wirelessImageView = (ImageView) findViewById(R.id.homeWirelessImage);
         wifiStatusTextView = (TextView) findViewById(R.id.homeWifiStatus);
         wifiSSIDTextView = (TextView) findViewById(R.id.homeWifiSSID);
-        
-        if(GidderCommons.isWifiReady(this)) {
-        	wifiStatusTextView.setText("WiFi connected to");
-        	wifiSSIDTextView.setText(GidderCommons.getWifiSSID(this));
-        	wirelessImageView.setImageResource(R.drawable.ic_wireless_enabled);
-        	startStopButton.setBackgroundResource(R.drawable.blue_btn_selector);
-        } else {
-        	wifiStatusTextView.setText("WiFi is NOT connected");
-        	wifiSSIDTextView.setText("");
-        	wirelessImageView.setImageResource(R.drawable.ic_wireless_disabled);
-        	startStopButton.setBackgroundResource(R.drawable.white_btn_selector);
-        }
-        
+
+        showWifiStatus(this);
+
         homeServerInfoTextView = (TextView) findViewById(R.id.homeServerInfoTextView);
         
         if(isSshServiceRunning) {
@@ -250,7 +229,7 @@ public class HomeActivity extends BaseActivity {
 			
 			Intent intent = new Intent(C.action.START_SSH_SERVER);
 			if(!isSshServiceRunning) {
-				if (!GidderCommons.isWifiReady(HomeActivity.this)) {
+				if (!GidderCommons.isNetworkReady(HomeActivity.this)) {
 				    return;
 				}
 				
@@ -260,5 +239,24 @@ public class HomeActivity extends BaseActivity {
 			}
 		}
 	}
-	
+
+	private void showWifiStatus(Context context) {
+		if (GidderCommons.isWifiReady(context)) {
+			wifiStatusTextView.setText("WiFi connected to");
+			wifiSSIDTextView.setText(GidderCommons.getWifiSSID(context));
+			wirelessImageView.setImageResource(R.drawable.ic_wireless_enabled);
+			startStopButton.setBackgroundResource(R.drawable.blue_btn_selector);
+		} else if (GidderCommons.isEthernetConnected(context)) {
+			wifiStatusTextView.setText("Ethernet connected");
+			wifiSSIDTextView.setText("");
+			wirelessImageView.setImageResource(R.drawable.ic_wireless_enabled);
+			startStopButton.setBackgroundResource(R.drawable.blue_btn_selector);
+		} else {
+			wifiStatusTextView.setText("WiFi is NOT connected");
+			wifiSSIDTextView.setText("");
+			wirelessImageView.setImageResource(R.drawable.ic_wireless_disabled);
+			startStopButton.setBackgroundResource(R.drawable.white_btn_selector);
+		}
+	}
+
 }
