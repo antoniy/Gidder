@@ -20,7 +20,7 @@ import android.util.Log;
 public class GidderHostKeyProvider extends AbstractKeyPairProvider {
 	private final static String TAG = GidderHostKeyProvider.class.getSimpleName();
 	private final static String HOST_KEY_FILENAME = "hostKey.cert";
-	private final static String ALGORITHM = "DSA";
+	private final static String ALGORITHM = "RSA";
 	
 	private Context context;
 	private KeyPair keyPair;
